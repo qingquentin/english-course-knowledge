@@ -243,6 +243,11 @@ body.is-filtered .index-bar{padding-top:34px}
 .ask-badge{text-align:right;font-family:var(--mono);font-size:9px;line-height:1.9;color:var(--muted);border-left:1px solid var(--line);padding-left:20px}
 .ask-badge b{display:block;font-family:var(--serif-en);font-size:30px;font-weight:400;color:var(--red);line-height:1.1}
 
+.ask-warn{
+  margin:22px 0 0;padding:13px 16px;border-left:2px solid var(--red);
+  background:rgba(155,58,42,.06);font-size:12.5px;line-height:1.8;color:#7A2E22;
+}
+.ask-input:disabled{opacity:.55;cursor:not-allowed}
 .ask-form{margin-top:26px}
 .ask-input{
   width:100%;min-height:88px;resize:vertical;padding:16px 18px;border:1px solid var(--line);
@@ -265,6 +270,8 @@ body.is-filtered .index-bar{padding-top:34px}
   font-size:11.5px;border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;
 }
 .examples button:hover{border-color:var(--red);color:var(--red)}
+.examples[data-off] button{opacity:.45;cursor:not-allowed}
+.examples[data-off] button:hover{border-color:var(--line);color:var(--muted)}
 
 .answer{margin-top:34px;border-top:2px solid var(--ink);padding-top:22px;display:none}
 .answer.show{display:block;animation:rise .4s ease both}

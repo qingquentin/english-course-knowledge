@@ -405,6 +405,7 @@ function showAsk() {
 
 function askHTML() {
   const s = S.stats || {};
+  const ready = !!s.aiConfigured;
   return `
     <div class="ask-wrap">
       <div class="ask-head">
@@ -420,16 +421,18 @@ function askHTML() {
         </div>
       </div>
 
+      ${ready ? '' : '<p class="ask-warn">服务端还没配置模型 key，问答暂不可用。浏览、检索与相关推荐不受影响。</p>'}
+
       <form class="ask-form" id="ask-form">
-        <textarea class="ask-input" id="ask-input" maxlength="500"
+        <textarea class="ask-input" id="ask-input" maxlength="500" ${ready ? '' : 'disabled'}
           placeholder="例如：宽带中国战略的实施效果如何？库中哪些案例讨论了税收激励与财政竞争？"></textarea>
         <div class="ask-actions">
           <span class="ask-hint">Enter 提交 · Shift + Enter 换行</span>
-          <button class="ask-submit" type="submit" id="ask-submit">提问</button>
+          <button class="ask-submit" type="submit" id="ask-submit" ${ready ? '' : 'disabled'}>提问</button>
         </div>
       </form>
 
-      <div class="examples" id="examples">
+      <div class="examples" id="examples" ${ready ? '' : 'data-off'}>
         <button>宽带中国战略的实施效果如何？</button>
         <button>哪些案例讨论了税收激励与财政竞争？</button>
         <button>关于区域经济趋同，库中有哪些材料？</button>
@@ -466,7 +469,7 @@ function bindAsk() {
   });
   $('#examples').addEventListener('click', e => {
     const b = e.target.closest('button');
-    if (!b) return;
+    if (!b || !S.stats?.aiConfigured) return;
     input.value = b.textContent;
     submitAsk(b.textContent);
   });

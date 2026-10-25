@@ -70,7 +70,7 @@ async def stream_answer(question: str, sources: list[dict]):
     """异步产出 (event, data)。事件类型：delta / done / error。"""
     key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
     if not key:
-        yield "error", {"message": "未配置 DEEPSEEK_API_KEY。请在项目根目录 .env 中填入后再试。"}
+        yield "error", {"message": "服务端未配置 DEEPSEEK_API_KEY，问答功能暂不可用。浏览与检索不受影响。"}
         return
 
     payload = {
