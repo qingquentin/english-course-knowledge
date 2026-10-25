@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专业英语课程 · 文献与案例库</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%239B3A2A'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23F8F2E5' font-family='serif'%3E%E8%8B%B1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="rail">
+  <a class="brand" href="#/">
+    <span class="seal">英</span>
+    <span>
+      <strong>文献与案例库</strong>
+      <small>PROFESSIONAL ENGLISH · KNOWLEDGE BASE</small>
+    </span>
+  </a>
+
+  <div class="rail-rule"></div>
+  <p class="rail-label">浏览</p>
+  <nav class="rail-nav" id="nav-modules"></nav>
+
+  <div class="rail-rule"></div>
+  <p class="rail-label">智能</p>
+  <a class="rail-ask" href="#/ask" id="ask-link">
+    <span class="ask-mark">问</span>
+    <span>
+      <strong>库内问答</strong>
+      <small>检索正文，给出处</small>
+    </span>
+    <em>AI</em>
+  </a>
+
+  <div class="rail-foot" id="rail-foot">正在载入…</div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="crumb" id="crumb"></div>
+    <form class="search" id="search-form" autocomplete="off">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/>
+      </svg>
+      <input id="q" type="search" placeholder="搜索标题、作者、关键词、案例正文…" aria-label="搜索">
+      <button type="button" class="clear" id="clear" hidden aria-label="清空">×</button>
+    </form>
+  </header>
+
+  <section id="view-home">
+    <div class="masthead">
+      <div>
+        <p class="eyebrow">2020—2025 · 04 MODULES · 144 ENTRIES</p>
+        <h1>专业英语<br>文献与案例<span class="dot">.</span></h1>
+        <p class="lede">四模块二十一子类，文献与案例同处一处。检索落到正文，问答注明出处。</p>
+      </div>
+      <div class="issue">
+        <p class="issue-kicker">INDEX</p>
+        <dl id="facts"></dl>
+        <div class="stamp"><span>文</span><span>献</span><span>案</span><span>例</span></div>
+      </div>
+    </div>
+
+    <div class="index-bar">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="papers">文献 <em id="n-papers">—</em></button>
+        <button role="tab" aria-selected="false" data-tab="cases">案例 <em id="n-cases">—</em></button>
+      </div>
+      <span class="index-count" id="result-count" aria-live="polite"></span>
+    </div>
+
+    <div id="list"></div>
+    <div class="empty" id="empty">
+      <strong>没有匹配的条目</strong>
+      <span>换个关键词，或点左侧模块切换范围。</span>
+    </div>
+  </section>
+
+  <section id="view-detail" hidden></section>
+  <section id="view-ask" hidden></section>
+
+  <footer class="footer">
+    <span>2019—2025 · 04 MODULES · 100 PAPERS · 44 CASES</span>
+    <span id="foot-model"></span>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

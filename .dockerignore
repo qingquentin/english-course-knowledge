@@ -1,0 +1,11 @@
+.git
+.gitignore
+.vscode
+.playwright-mcp
+**/.venv
+**/venv
+**/__pycache__
+**/*.py[cod]
+.env
+*.db
+backend/knowledge.db

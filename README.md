@@ -8,6 +8,14 @@
 ```
 知识库项目/
 ├── index.html                生成的页面，双击即可打开（也可直接部署到 Cloudflare Pages）
+├── backend/                  全栈服务：检索、AI 问答、前端
+│   ├── app.py                FastAPI 路由与静态托管
+│   ├── db.py                 SQLite 建库与查询
+│   ├── retriever.py          库内检索与相关推荐
+│   ├── ai.py                 DeepSeek 问答
+│   ├── requirements.txt
+│   └── static/               前端页面
+├── .env.example              API Key 配置模板
 ├── data/
 │   ├── modules.json          四模块二十一子类
 │   ├── papers.json           100 篇文献元数据
@@ -84,6 +92,90 @@ python scripts/build.py
 各模块案例数：A 15、B 7、C 18、D 4。
 C 与 A 偏多，是因为原案例库的财政与城市政策主题本就集中于此；B 只有 7 个，
 原案例库对数字经济、遥测类主题覆盖很少，这一块目前全靠文献。
+
+## 全栈应用：检索与带出处问答
+
+`index.html` 只管离线浏览。需要按自然语言查资料、并让每条结论标出处时，用后端。
+
+### 启动
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt      # Windows；macOS/Linux 用 .venv/bin/pip
+copy ..\.env.example ..\.env                       # 填入 DEEPSEEK_API_KEY
+.venv\Scripts\python -m uvicorn app:app --reload
+```
+
+打开 <http://127.0.0.1:8000>。首次启动自动从 `data/*.json` 建 `backend/knowledge.db` 并载入检索索引，约一秒。
+
+服务起来后可以跑验收脚本，用四个真实问题检查检索、引用和拒答：
+
+```bash
+.venv\Scripts\python smoke_test.py
+```
+
+改了 `data/*.json` 后跑 `python db.py --rebuild`，再重启服务。
+
+### 接口
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | `/api/modules` | 四模块与各模块条目数 |
+| GET | `/api/papers?m=&sub=&q=` | 文献筛选，`q` 匹配题录 |
+| GET | `/api/cases?m=&sub=&q=` | 案例筛选，`q` 覆盖正文 |
+| GET | `/api/papers/{cat}` | 单篇文献 |
+| GET | `/api/cases/{id}` | 单条案例，含正文段落 |
+| GET | `/api/recommend/{id}` | 相近条目 |
+| POST | `/api/ask` | `{question}`，SSE 流式返回答案与来源 |
+
+`/api/ask` 先推一条 `sources` 事件（结构化来源），再逐段推 `delta`，最后 `done`。前端据此渲染可点的来源编号。
+
+### 检索怎么做
+
+不引 SQLite FTS，也不引向量库。语料只有 44 篇案例正文加 100 条题录，启动时内存里建一张倒排索引就够，查询在毫秒级。
+
+- 切词用拉丁词加汉字二元组，不依赖分词库。
+- 打分按字段加权：标题 8、关键词 5、子类 3、题录信息 2.5、正文 1，再乘 IDF。
+- 两道门槛挡掉凑数的来源：命中词加权覆盖率低于 0.25 的丢掉；得分低于最高分 25% 的丢掉。多词长句若最高分仍低于 40，直接判为库里没有。
+- 送进模型的正文，第一条最多 3600 字，其余 1200 字。案例正文普遍三五千字，第一条给足，模型才能读到评估结论，不只看见开头。
+
+推荐复用同一套打分：把目标条目的标题、关键词、子类，加上正文里跨文档出现的高频词拼成查询，再算相似度。
+
+### 问答怎么防编造
+
+模型只看见检索结果，看不见整个库。系统提示词要求逐条标注 `[n]` 来源编号、资料不足就直说、不得推测题录类文献的内容。来源列表由后端单独返回，模型写不出链接，也改不了出处。
+
+### 部署
+
+Cloudflare Pages 只能托管 `index.html` 这类静态页，跑不了 FastAPI。后端要一台常驻 Python 的机器。
+
+**Render（仓库里已带 `render.yaml`）**
+
+1. 代码推到 GitHub，仓库已有 `qingquentin/english-course-knowledge`。
+2. Render 控制台 → New → Blueprint，选这个仓库；或 New → Web Service，Root Directory 填 `backend`，Build Command 填 `pip install -r requirements.txt`，Start Command 填 `uvicorn app:app --host 0.0.0.0 --port $PORT`。
+3. 环境变量加 `DEEPSEEK_API_KEY`，值填自己的 key。仓库里不放 key。
+4. 健康检查路径 `/healthz`。
+
+免费实例 15 分钟无请求会休眠，下次访问冷启动约 30 秒，主要耗在拉起进程。数据库不需要持久盘，每次启动从 `data/*.json` 重建，不到一秒。
+
+**Docker（Hugging Face Spaces、Fly.io 等）**
+
+```bash
+docker build -t english-kb .
+docker run -p 8000:8000 -e DEEPSEEK_API_KEY=sk-... english-kb
+```
+
+**公网防护**
+
+`/api/ask` 按 IP 限流，默认每小时 30 次，用 `ASK_LIMIT_PER_HOUR` 调。前后端同源时不需要 CORS；把前端单独部署出去时，设置 `ALLOWED_ORIGINS=https://前端域名`。
+
+### 能力边界
+
+- **案例**有全文（约 15 万字），问答能读正文答内容。
+- **文献**只有题录，问答只能复述标题、作者、出处、DOI，答不了论文观点。页面上打开单篇文献时也会提示这一点。
+- 词面检索挡不住语义离题。问库外话题时，偶有词面重合的材料被送入模型，由提示词规则拒答。
+- 限流计数存在进程内存里，重启清零，多实例也不共享。单实例的小站够用，要更严得上 Redis。
 
 ## 已知限制
 

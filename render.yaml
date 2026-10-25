@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: english-course-knowledge
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false          # 在 Render 控制台填，不写进仓库
+      - key: ASK_LIMIT_PER_HOUR
+        value: "30"
