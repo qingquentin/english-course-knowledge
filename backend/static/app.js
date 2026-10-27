@@ -115,6 +115,19 @@ function bindGlobal() {
     }
   });
   window.addEventListener('hashchange', route);
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-pdf]');
+    if (!b || b.disabled || !pdfView.doc) return;
+    renderPdfPage(pdfView.page + (b.dataset.pdf === 'next' ? 1 : -1));
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    if (!pdfView.doc) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => renderPdfPage(pdfView.page), 220);
+  });
 }
 
 function setTab(tab) {
@@ -132,6 +145,7 @@ function setTab(tab) {
 
 function route() {
   const parts = location.hash.replace(/^#/, '').split('/').filter(Boolean);
+  if (!(parts[0] === 'paper' && parts[1])) pdfView.doc = null;   // 离开详情页时释放 PDF
   const showHome = () => {
     $('#view-home').hidden = false;
     $('#view-detail').hidden = true;
@@ -357,9 +371,14 @@ async function showDetail(kind, id) {
         ? `<div class="pdf-view">
              <div class="pdf-bar">
                <span>PDF 原文 · ${fmtSize(item.pdfSize)}</span>
-               <a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">新窗口打开 ↗</a>
+               <span class="pdf-ctrl">
+                 <button type="button" data-pdf="prev" aria-label="上一页">‹</button>
+                 <span id="pdf-page">加载中…</span>
+                 <button type="button" data-pdf="next" aria-label="下一页">›</button>
+                 <a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">新窗口打开 ↗</a>
+               </span>
              </div>
-             <iframe class="pdf-frame" src="/api/papers/${encodeURIComponent(item.id)}/pdf" title="PDF 原文"></iframe>
+             <div class="pdf-stage" id="pdf-stage"><canvas id="pdf-canvas"></canvas></div>
            </div>`
         : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。可以先点上方原文链接前往来源。</div>`}`;
   } else {
@@ -396,6 +415,69 @@ async function showDetail(kind, id) {
         </aside>
       </div>
     </div>`;
+
+  if (isPaper && item.hasPdf) mountPdf(`/api/papers/${encodeURIComponent(item.id)}/pdf`);
+}
+
+/* ---------------- PDF 阅读器 ---------------- */
+
+const pdfView = { doc: null, page: 1, seq: 0 };
+
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdfjs/pdf.worker.min.js';
+}
+
+async function mountPdf(url) {
+  const stage = $('#pdf-stage'), label = $('#pdf-page');
+  if (!stage) return;
+  pdfView.doc = null;
+  pdfView.page = 1;
+  pdfView.seq++;
+  if (!window.pdfjsLib) {
+    if (label) label.textContent = '阅读器未加载';
+    return;
+  }
+  try {
+    pdfView.doc = await pdfjsLib.getDocument({ url }).promise;
+    await renderPdfPage(1);
+  } catch (e) {
+    if (label) label.textContent = '加载失败';
+    stage.innerHTML = `<p class="pdf-err">PDF 渲染失败：${esc(e.message || e)}。可点「新窗口打开」。</p>`;
+  }
+}
+
+async function renderPdfPage(n) {
+  const doc = pdfView.doc;
+  const stage = $('#pdf-stage'), canvas = $('#pdf-canvas');
+  if (!doc || !stage || !canvas) return;
+  n = Math.min(Math.max(1, n), doc.numPages);
+  const seq = ++pdfView.seq;
+
+  const page = await doc.getPage(n);
+  const base = page.getViewport({ scale: 1 });
+  const width = Math.max(260, stage.clientWidth - 22);
+  const scale = Math.min(3, width / base.width);
+  const vp = page.getViewport({ scale });
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = Math.floor(vp.width * dpr);
+  canvas.height = Math.floor(vp.height * dpr);
+  canvas.style.width = `${vp.width}px`;
+  canvas.style.height = `${vp.height}px`;
+  await page.render({
+    canvasContext: canvas.getContext('2d'),
+    viewport: vp,
+    transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null,
+  }).promise;
+  if (seq !== pdfView.seq) return;
+
+  pdfView.page = n;
+  const label = $('#pdf-page');
+  if (label) label.textContent = `${n} / ${doc.numPages}`;
+  const prev = $('[data-pdf="prev"]'), next = $('[data-pdf="next"]');
+  if (prev) prev.disabled = n <= 1;
+  if (next) next.disabled = n >= doc.numPages;
+  stage.scrollTop = 0;
 }
 
 /* ---------------- 问答 ---------------- */

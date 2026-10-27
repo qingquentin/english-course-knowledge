@@ -84,7 +84,7 @@ python scripts/build.py
 | body | 提取的全文文本，只用于检索与问答，接口不返回 |
 | hasBody | 是否提取到文字层（不代表 PDF 是否存在） |
 
-文献 PDF 由 `/api/papers/{cat}/pdf` 提供，详情页内嵌浏览器自带的 PDF 阅读器。
+文献 PDF 由 `/api/papers/{cat}/pdf` 提供，详情页用 PDF.js 逐页渲染（`backend/static/vendor/pdfjs/`），不依赖浏览器插件。
 
 案例（cases.json）
 
@@ -176,7 +176,7 @@ Cloudflare Pages 只能托管 `index.html` 这类静态页，跑不了 FastAPI�
 
 免费实例 15 分钟无请求会休眠，下次访问冷启动约 30 秒，主要耗在拉起进程。数据库不需要持久盘，每次启动从 `data/*.json` 重建，不到一秒。
 
-**PDF 随仓库发布。** 97 篇被引用的 PDF 收在 `papers_pdf/{编目号}.pdf`，共 225.8MB，随部署一起上线，不需要对象存储。后端优先读这个目录，回退到课程资料目录（`PDF_BASE` 可指到别处）。
+**PDF 随仓库发布。** 97 篇被引用的 PDF 收在 `papers_pdf/{编目号}.pdf`，共 225.8MB，随部署一起上线，不需要对象存储。后端优先读这个目录，回退到课程资料目录（`PDF_BASE` 可指到别处）。前端阅读器是 vendored 的 PDF.js，见 `backend/static/vendor/pdfjs/`。
 
 课程原始资料目录（650MB，含学生作业与其他材料）仍未入库。需要重新提取全文时，`scripts/extract_papers.py` 会自动回退到 `papers_pdf/`。
 
