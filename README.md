@@ -84,7 +84,7 @@ python scripts/build.py
 | body | 提取的全文文本，只用于检索与问答，接口不返回 |
 | hasBody | 是否提取到文字层（不代表 PDF 是否存在） |
 
-文献 PDF 由 `/api/papers/{cat}/pdf` 提供，详情页用 PDF.js 逐页渲染（`backend/static/vendor/pdfjs/`），不依赖浏览器插件。
+文献 PDF 由 `/api/papers/{cat}/pdf` 提供，详情页用浏览器原生阅读器内嵌，可选中文字、页内搜索与缩放。浏览器若设为「总是下载 PDF」，内嵌会空白，用「新窗口打开」兜底。
 
 案例（cases.json）
 
