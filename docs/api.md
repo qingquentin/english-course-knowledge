@@ -29,6 +29,15 @@
 ### `GET /api/papers/{cat}`
 
 单篇文献，`cat` 形如 `A-001`。不存在返回 404。
+返回题录，不含正文文本；另带 `hasPdf`（服务器上是否有 PDF）与 `pdfSize`（字节）。
+
+### `GET /api/papers/{cat}/pdf`
+
+返回 PDF 原文，可直接嵌进 iframe 由浏览器阅读器渲染。
+
+- 配了 `PDF_BASE_URL`（对象存储公开地址）且清单里有该条目时，返回 307 跳转到对象地址。
+- 否则读本地文件，`Content-Type: application/pdf`，`Content-Disposition: inline`。
+- 两处都没有时返回 404。
 
 ### `GET /api/cases/{id}`
 

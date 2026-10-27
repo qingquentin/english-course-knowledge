@@ -15,6 +15,7 @@
 │   ├── ai.py                 DeepSeek 问答
 │   ├── requirements.txt
 │   └── static/               前端页面
+├── papers_pdf/               97 篇文献 PDF（225.8MB，随仓库发布，线上直接可读）
 ├── .env.example              API Key 配置模板
 ├── CONTRIBUTING.md           协作指南：本地起服务、分工、提交规范
 ├── docs/
@@ -25,11 +26,14 @@
 │   ├── modules.json          四模块二十一子类
 │   ├── papers.json           100 篇文献元数据
 │   ├── cases.json            44 个案例（已映射模块/子类，含正文段落）
-│   └── cases_raw.json        案例拆分中间产物（按原文专题，未映射）
+│   ├── cases_raw.json        案例拆分中间产物（按原文专题，未映射）
+│   └── papers_fulltext.json  文献全文（本地生成，不入库，见下）
 ├── scripts/
 │   ├── extract_site_data.py  从线上页面提取 DATA，拆成 modules/papers 与模板
+│   ├── extract_papers.py     从课程 PDF 提取文献全文（需 pymupdf）
 │   ├── split_cases.py        案例库 docx → 44 条原始案例
 │   ├── map_cases.py          案例映射模块子类、清模板字样、抽作者
+│   ├── anonymize_authors.py  案例作者匿名化（默认输出新文件）
 │   └── build.py              合并数据并渲染 index.html
 └── template/
     ├── _source.html          线上页面原件（备份，勿改）
@@ -49,10 +53,14 @@ python scripts/build.py
 ## 从原始资料重跑
 
 ```bash
-python scripts/split_cases.py   # 读 ../区域与城市经济政策案例库.docx
+python scripts/extract_papers.py   # 读 ../2020-2025年专业文献及政策案例作业/ 下的 PDF
+python scripts/split_cases.py     # 读 ../区域与城市经济政策案例库.docx
 python scripts/map_cases.py
 python scripts/build.py
 ```
+
+`extract_papers.py` 依赖 `pymupdf`，装在 backend 的 venv 里即可：
+`backend\.venv\Scripts\pip install pymupdf`。源目录变了用 `--base` 指定。
 
 `extract_site_data.py` 只在需要重新拉取线上页面时用，它会覆盖 `template/index.template.html`，
 平时不要跑。
@@ -73,6 +81,10 @@ python scripts/build.py
 | path | 原始文件相对路径 |
 | cat | 编目号 A-001 |
 | url / linkKind | 原文链接；doi 或 search |
+| body | 提取的全文文本，只用于检索与问答，接口不返回 |
+| hasBody | 是否提取到文字层（不代表 PDF 是否存在） |
+
+文献 PDF 由 `/api/papers/{cat}/pdf` 提供，详情页内嵌浏览器自带的 PDF 阅读器。
 
 案例（cases.json）
 
@@ -164,6 +176,14 @@ Cloudflare Pages 只能托管 `index.html` 这类静态页，跑不了 FastAPI�
 
 免费实例 15 分钟无请求会休眠，下次访问冷启动约 30 秒，主要耗在拉起进程。数据库不需要持久盘，每次启动从 `data/*.json` 重建，不到一秒。
 
+**PDF 随仓库发布。** 97 篇被引用的 PDF 收在 `papers_pdf/{编目号}.pdf`，共 225.8MB，随部署一起上线，不需要对象存储。后端优先读这个目录，回退到课程资料目录（`PDF_BASE` 可指到别处）。
+
+课程原始资料目录（650MB，含学生作业与其他材料）仍未入库。需要重新提取全文时，`scripts/extract_papers.py` 会自动回退到 `papers_pdf/`。
+
+若以后仓库太大不想再带 PDF，可改用对象存储：配 `PDF_BASE_URL` 与 `data/pdf_manifest.json`，`scripts/upload_pdfs_r2.py` 已备好，后端会把请求 307 跳转过去。
+
+**版权提示**：这 97 篇包含付费期刊论文，仓库公开即公开分发。
+
 **Docker（Hugging Face Spaces、Fly.io 等）**
 
 ```bash
@@ -178,7 +198,7 @@ docker run -p 8000:8000 -e DEEPSEEK_API_KEY=sk-... english-kb
 ### 能力边界
 
 - **案例**有全文（约 15 万字），问答能读正文答内容。
-- **文献**只有题录，问答只能复述标题、作者、出处、DOI，答不了论文观点。页面上打开单篇文献时也会提示这一点。
+- **文献**在页面上直接读 PDF 原文；后端另从 PDF 提取文字用于检索与问答，96 篇有文字层。剩下 4 篇（3 篇源文件缺失、1 篇是扫描件）只有题录，问答不会推测其内容。
 - 词面检索挡不住语义离题。问库外话题时，偶有词面重合的材料被送入模型，由提示词规则拒答。
 - 限流计数存在进程内存里，重启清零，多实例也不共享。单实例的小站够用，要更严得上 Redis。
 
@@ -203,4 +223,7 @@ docker run -p 8000:8000 -e DEEPSEEK_API_KEY=sk-... english-kb
 - 44 个案例中有 23 个能识别出作者，其余原文未署名。
 - 数据已脱敏，学号不写入 `cases.json`，也不出现在页面与 git 历史中。
 - 页面自包含，含全部案例正文约 516KB；新增资料后体积会继续增长。
+- 97 篇 PDF（225.8MB）已随仓库发布，仓库因此变大，且含付费论文。课程原始资料 650MB 仍不入库。
+- 从 PDF 提取的文字只用于检索与问答，公式、图表、页眉页码会混入，不在页面展示。
+- A-001 是扫描件，没有文字层；A-003、C-011、C-012 源文件缺失。
 - 2026 课程材料（第13-14次文献、前沿文献导学大纲）未纳入。

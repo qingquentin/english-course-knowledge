@@ -30,6 +30,10 @@ SINGLE_KEEP = set()  # 单字不入索引
 
 FIELD_WEIGHT = {"title": 8.0, "keywords": 5.0, "sub": 3.0, "meta": 2.5, "body": 1.0}
 
+# 文献正文平均十万字，全量入索引会吃掉几百 MB 内存（Render 免费实例只有 512MB）。
+# 只索引前部：题名、摘要、引言通常足以定位主题，正文完整内容仍可在页面阅读。
+PAPER_INDEX_CHARS = 15000
+
 
 def tokens(text):
     """拉丁词 + 汉字二元组（连写 2—8 字的整体也保留）。"""
@@ -63,7 +67,7 @@ class Retriever:
                 "meta": " ".join(filter(None, [d.get("cn"), d.get("authors"),
                                                d.get("venue"), str(d.get("year") or ""),
                                                d.get("type")])),
-                "body": "",
+                "body": d.get("body") or "",
             }
         return {
             "title": d["title"] or "",
@@ -76,8 +80,8 @@ class Retriever:
     def build(self):
         if self._built:
             return self
-        for p in db.list_papers():
-            p["body"] = ""
+        for p in db.list_papers(with_body=True):
+            p["body"] = (p.get("body") or "")[:PAPER_INDEX_CHARS]
             self.docs[p["id"]] = p
         conn = db.connect()
         try:
@@ -147,10 +151,13 @@ class Retriever:
             return []
         scores, matched, coverage = self._score(query)
         top = max(scores.values(), default=0.0)
-        if len(q_all) >= 3 and top < self.MIN_TOP_LONG:
-            return []
-        if len(q_all) == 2 and top < 20:
-            return []
+        # 绝对分门槛只对中文查询生效：中文走二元组、命中面宽，容易凑分；
+        # 英文查询是整词匹配，正文权重低，绝对分天然偏小，用门槛会误杀。
+        if CJK.search(query):
+            if len(q_all) >= 3 and top < self.MIN_TOP_LONG:
+                return []
+            if len(q_all) == 2 and top < 20:
+                return []
         floor = top * self.MIN_REL
         picks = sorted(scores.items(), key=lambda kv: -kv[1])
         out = []
@@ -196,17 +203,30 @@ class Retriever:
             out["venue"] = d.get("venue") or ""
             out["cn"] = d.get("cn") or ""
             out["url"] = d.get("url") or ""
-            out["snippet"] = _clip("；".join(filter(None, [
+            out["hasBody"] = bool(d.get("body"))
+            meta = _clip("；".join(filter(None, [
                 d.get("cn"), d.get("authors"), d.get("venue"),
                 str(d.get("year") or ""), "、".join(d.get("keywords") or []),
             ])), 220)
-            out["excerpt"] = (
-                f"题录：{d['title']}（{d.get('cn') or ''}）\n"
-                f"作者：{d.get('authors') or '未记录'}\n"
-                f"出处：{d.get('venue') or ''} {d.get('year') or ''}　类型：{d.get('type') or ''}\n"
-                f"关键词：{'、'.join(d.get('keywords') or []) or '无'}\n"
-                f"说明：本条只有题录信息，没有正文。"
-            )
+            if d.get("body"):
+                hot = self._best_paras(d, toks, n=2)
+                out["snippet"] = _clip(" … ".join(hot), 320) if hot else meta
+                out["excerpt"] = _clip(
+                    f"题录：{d['title']}（{d.get('cn') or ''}）\n"
+                    f"作者：{d.get('authors') or '未记录'}　出处：{d.get('venue') or ''} "
+                    f"{d.get('year') or ''}\n\n正文节选：\n"
+                    + "\n".join(self._best_paras(d, toks, n=8)),
+                    limit,
+                )
+            else:
+                out["snippet"] = meta
+                out["excerpt"] = (
+                    f"题录：{d['title']}（{d.get('cn') or ''}）\n"
+                    f"作者：{d.get('authors') or '未记录'}\n"
+                    f"出处：{d.get('venue') or ''} {d.get('year') or ''}　类型：{d.get('type') or ''}\n"
+                    f"关键词：{'、'.join(d.get('keywords') or []) or '无'}\n"
+                    f"说明：本条只有题录信息，没有正文。"
+                )
         else:
             out["author"] = d.get("author") or ""
             out["page"] = d.get("page")

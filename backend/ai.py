@@ -37,7 +37,7 @@ SYSTEM = """你是「专业英语课程文献与案例库」的检索助手，�
 1. 只依据给定的库内材料作答，不得补充材料以外的知识、数字、文献或作者。
 2. 每条结论后用方括号标注来源编号，如 [1]、[2][3]，编号必须对应材料序号。
 3. 材料不足以回答时，直接说明「库中没有找到足以回答这个问题的内容」，并指出库里最接近的条目是什么，不要推测。
-4. 标明为「题录」的文献只有标题作者出处，没有正文。不要根据题录推测论文的观点、数据或结论。
+4. 标明为「题录」的材料只有标题、作者、出处，没有正文，不要据此推测其观点、数据或结论；标明为「文献」或「案例」的材料有正文，可以直接引用。
 5. 用中文回答，直接说事，不复述问题，不写开场白和总结套话。
 6. 需要时按「结论—依据—出处」的顺序组织，但不要为了对称硬凑成三段。
 7. 涉及条目数量时，只采用材料说明里给出的统计，不要自行清点，也不要推断库里还有多少条未提供的材料。
@@ -53,11 +53,17 @@ SYSTEM = """你是「专业英语课程文献与案例库」的检索助手，�
 def build_materials(sources):
     n_case = sum(1 for s in sources if s["kind"] == "case")
     n_paper = len(sources) - n_case
+    n_paper_body = sum(1 for s in sources if s["kind"] == "paper" and s.get("hasBody"))
+    n_paper_meta = n_paper - n_paper_body
     header = (f"本次共检索到 {len(sources)} 条材料：案例 {n_case} 条（有正文），"
-              f"文献题录 {n_paper} 条（无正文）。这是本次提供的全部材料。\n\n")
+              f"文献 {n_paper_body} 条（有正文），文献题录 {n_paper_meta} 条（仅题录）。"
+              f"这是本次提供的全部材料。\n\n")
     blocks = []
     for i, s in enumerate(sources, 1):
-        kind = "案例" if s["kind"] == "case" else "文献题录"
+        if s["kind"] == "case":
+            kind = "案例"
+        else:
+            kind = "文献" if s.get("hasBody") else "文献题录"
         blocks.append(
             f"[{i}] {s['id']}（{kind}）《{s['title']}》\n"
             f"模块 {s['module']} · 子类 {s['sub']}\n"

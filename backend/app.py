@@ -13,7 +13,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -21,7 +21,23 @@ import ai
 import db
 import retriever
 
+ROOT = Path(__file__).resolve().parent.parent
 STATIC = Path(__file__).resolve().parent / "static"
+
+# 原始 PDF 不在仓库里，优先读项目内的课程资料目录，其次读上一级同名目录。
+# 部署到没有这些文件的机器时，详情页显示「没有可读的 PDF」，不影响题录浏览。
+_REPO_PDFS = ROOT / "papers_pdf"          # 随仓库提交的 97 篇 PDF，线上用这个
+_LOCAL_PDFS = ROOT / "2020-2025年专业文献及政策案例作业"
+_LEGACY_PDFS = ROOT.parent / "2020-2025年专业文献及政策案例作业"
+PDF_BASE = Path(os.environ.get("PDF_BASE") or
+                (_LOCAL_PDFS if _LOCAL_PDFS.exists() else _LEGACY_PDFS))
+_pdf_index: dict[str, int] = {}
+
+# 配了 R2（或任意对象存储）的公开地址后，PDF 请求直接 307 到那里；
+# 没配就读本地文件。清单由 scripts/upload_pdfs_r2.py 生成并入库。
+PDF_BASE_URL = os.environ.get("PDF_BASE_URL", "").rstrip("/")
+PDF_MANIFEST = ROOT / "data" / "pdf_manifest.json"
+_remote_pdf: dict[str, dict] = {}
 
 # 公网的 AI 接口按 IP 限流，防止 key 被刷。本地验收不受影响。
 ASK_LIMIT = int(os.environ.get("ASK_LIMIT_PER_HOUR", "30"))
@@ -50,9 +66,42 @@ def _allow(ip: str) -> bool:
     return True
 
 
+def _pdf_file(cat: str, rel: str) -> Path | None:
+    """优先仓库内的 papers_pdf/{cat}.pdf，其次课程资料目录。"""
+    repo = _REPO_PDFS / f"{cat}.pdf"
+    if repo.is_file():
+        return repo
+    if rel:
+        f = PDF_BASE / rel
+        if f.is_file():
+            return f
+    return None
+
+
+def _build_pdf_index():
+    """启动时扫本地目录，并合并对象存储清单，得到哪些文献可读及其大小。"""
+    _pdf_index.clear()
+    _remote_pdf.clear()
+    if PDF_MANIFEST.exists():
+        try:
+            _remote_pdf.update(json.loads(PDF_MANIFEST.read_text(encoding="utf-8")))
+        except json.JSONDecodeError:
+            print(f"清单解析失败：{PDF_MANIFEST}")
+
+    for p in db.list_papers():
+        f = _pdf_file(p["id"], p.get("path") or "")
+        if f and f.is_file():
+            _pdf_index[p["id"]] = f.stat().st_size
+    for cat, info in _remote_pdf.items():
+        _pdf_index.setdefault(cat, int(info.get("bytes") or 0))
+    src = f"R2 {PDF_BASE_URL}" if PDF_BASE_URL else f"本地（{_REPO_PDFS.name} 优先）"
+    print(f"可读 PDF {len(_pdf_index)} 篇（{src}）")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db.seed()
+    _build_pdf_index()
     retriever.engine()
     yield
 
@@ -85,7 +134,10 @@ def modules():
 @app.get("/api/papers")
 def papers(m: str | None = None, sub: str | None = None,
            q: str | None = Query(None, max_length=100)):
-    return db.list_papers(m=m, sub=sub, q=q)
+    items = db.list_papers(m=m, sub=sub, q=q)
+    for it in items:
+        it["hasPdf"] = it["id"] in _pdf_index
+    return items
 
 
 @app.get("/api/cases")
@@ -99,7 +151,27 @@ def paper(cat: str):
     d = db.get_paper(cat)
     if not d:
         raise HTTPException(404, "文献不存在")
+    d.pop("body", None)
+    d["hasPdf"] = cat in _pdf_index
+    d["pdfSize"] = _pdf_index.get(cat, 0)
     return d
+
+
+@app.get("/api/papers/{cat}/pdf")
+def paper_pdf(cat: str):
+    rel = db.get_paper_path(cat)
+    if rel is None:
+        raise HTTPException(404, "文献不存在")
+    info = _remote_pdf.get(cat)
+    if PDF_BASE_URL and info and info.get("key"):
+        return RedirectResponse(f"{PDF_BASE_URL}/{info['key']}", status_code=307)
+    f = _pdf_file(cat, rel)
+    if f is None:
+        raise HTTPException(404, "PDF 不可用：原文件缺失")
+    return FileResponse(f, media_type="application/pdf", headers={
+        "Content-Disposition": f'inline; filename="{cat}.pdf"',
+        "Cache-Control": "private, max-age=3600",
+    })
 
 
 @app.get("/api/cases/{cid}")

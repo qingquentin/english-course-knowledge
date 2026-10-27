@@ -10,6 +10,7 @@ COPY backend/requirements.txt /app/backend/requirements.txt
 RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
 COPY data /app/data
+COPY papers_pdf /app/papers_pdf
 COPY backend /app/backend
 
 WORKDIR /app/backend

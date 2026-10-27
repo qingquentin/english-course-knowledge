@@ -22,6 +22,8 @@ copy ..\.env.example ..\.env                      # 填入自己的 DEEPSEEK_API
 
 没有 key 也能跑：浏览、检索、推荐都正常，只有问答会提示未配置。
 
+文献 PDF 已随仓库提供，在 `papers_pdf/{编目号}.pdf`，clone 下来就能读，不需要额外下载。只有重新提取全文或处理原始资料时，才需要 650MB 的课程资料目录；`extract_papers.py` 找不到它会回退到 `papers_pdf/`。
+
 提交前跑一遍离线测试，不花额度：
 
 ```bash

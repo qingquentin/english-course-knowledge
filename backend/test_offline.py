@@ -57,6 +57,16 @@ def main():
     check("库外问题返回空（天气）", retriever.search("今天天气怎么样") == [])
     check("单字查询不抛错", isinstance(retriever.search("的"), list))
 
+    # 文献全文
+    rs = retriever.search("Vanessa Burbano", 3)   # 只出现在 A-010 致谢里，题录与关键词都没有
+    check("英文正文可检索", bool(rs) and rs[0]["id"] == "A-010", str([r["id"] for r in rs]))
+    check("来源带 hasBody 标记", bool(rs) and rs[0].get("hasBody") is True)
+
+    meta = db.list_papers()[0]
+    check("列表接口不含正文", "body" not in meta and "hasBody" in meta, str(list(meta)[:6]))
+    full = db.get_paper("A-010")
+    check("单篇接口返回正文", len(full.get("body") or "") > 1000, str(len(full.get("body") or "")))
+
     # 推荐
     recs = retriever.recommend("CASE-012", 5)
     check("推荐有结果", len(recs) >= 3, str(len(recs)))

@@ -184,6 +184,7 @@ body.is-filtered .index-bar{padding-top:34px}
 .paper-kw{margin:6px 0 0;font-size:11px;line-height:1.7;color:#928876}
 .paper-tail{display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-top:3px}
 .paper-type{border:1px solid var(--line);padding:3px 6px;border-radius:2px;font-size:9.5px;letter-spacing:.06em;color:#99907F;white-space:nowrap}
+.paper-type.ft{color:var(--red);border-color:rgba(155,58,42,.35)}
 .paper-link{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mc);border-bottom:1px solid color-mix(in srgb,var(--mc) 35%,transparent);padding-bottom:2px}
 
 .empty{display:none;margin-top:46px;padding:64px 20px;border-top:1px solid var(--line);text-align:center}
@@ -224,6 +225,12 @@ body.is-filtered .index-bar{padding-top:34px}
   margin-top:24px;padding:14px 16px;border-left:2px solid var(--line);background:rgba(255,255,255,.34);
   font-size:12.5px;line-height:1.8;color:var(--muted);
 }
+.pdf-view{margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.pdf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:10px}
+.pdf-bar span{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+.pdf-bar a{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--red);border-bottom:1px solid rgba(155,58,42,.3);padding-bottom:1px}
+.pdf-frame{display:block;width:100%;height:min(78vh,900px);border:1px solid var(--line);background:#fff}
+
 .side-title{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--muted);margin:0 0 14px}
 .rec-list{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line)}
 .rec{

@@ -30,6 +30,10 @@ async function api(path, opts) {
 const modOf = id => S.modules.find(m => m.id === id) || { name: id, color: '#8A8171' };
 const kindLabel = k => (k === 'paper' ? '文献' : '案例');
 
+const fmtSize = n => !n ? ''
+  : n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB'
+  : Math.max(1, Math.round(n / 1024)) + ' KB';
+
 /* ---------------- 初始化 ---------------- */
 
 async function init() {
@@ -259,6 +263,7 @@ function paperHTML(p, m) {
         ${kw ? `<p class="paper-kw">${esc(kw)}</p>` : ''}
       </div>
       <div class="paper-tail">
+        ${p.hasPdf ? '<span class="paper-type ft">PDF</span>' : ''}
         <span class="paper-type">${esc(p.type || '')}</span>
         ${p.url ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">${p.linkKind === 'search' ? '检索 ↗' : '原文 ↗'}</a>` : ''}
       </div>
@@ -345,9 +350,18 @@ async function showDetail(kind, id) {
         <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
         <div><dt>原文</dt><dd>${item.url ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
         <div><dt>文件</dt><dd>${esc(item.path || '')}</dd></div>
+        ${item.hasPdf ? `<div><dt>PDF</dt><dd>${fmtSize(item.pdfSize)}</dd></div>` : ''}
       </dl>
       ${(item.keywords || []).length ? `<div class="kw-row">${item.keywords.map(k => `<span class="kw">${esc(k)}</span>`).join('')}</div>` : ''}
-      <div class="note-box">本库中该文献只收题录（标题、作者、出处、DOI 或检索链接），正文未入库。问答涉及这篇时只会复述题录，不会推测论文内容。</div>`;
+      ${item.hasPdf
+        ? `<div class="pdf-view">
+             <div class="pdf-bar">
+               <span>PDF 原文 · ${fmtSize(item.pdfSize)}</span>
+               <a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">新窗口打开 ↗</a>
+             </div>
+             <iframe class="pdf-frame" src="/api/papers/${encodeURIComponent(item.id)}/pdf" title="PDF 原文"></iframe>
+           </div>`
+        : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。可以先点上方原文链接前往来源。</div>`}`;
   } else {
     main = `
       <h1 class="case-h1">${esc(item.title)}</h1>

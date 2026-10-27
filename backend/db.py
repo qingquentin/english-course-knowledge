@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
+FULLTEXT = DATA / "papers_fulltext.json"
 DB_PATH = Path(__file__).resolve().parent / "knowledge.db"
 
 SCHEMA = """
@@ -39,7 +40,9 @@ CREATE TABLE IF NOT EXISTS papers (
     path        TEXT,
     url         TEXT,
     link_kind   TEXT,
-    note        TEXT
+    note        TEXT,
+    body        TEXT,          -- 文献全文，由 scripts/extract_papers.py 提取
+    has_body    INTEGER DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS cases (
     id          TEXT PRIMARY KEY,
@@ -64,13 +67,14 @@ def connect():
     return conn
 
 
-def _row_paper(p):
+def _row_paper(p, fulltext):
+    body = fulltext.get(p["cat"], {}).get("body") or ""
     return (
         p["cat"], p.get("n"), p["m"], p.get("sub"), p.get("title"), p.get("cn"),
         p.get("authors"), p.get("year"), p.get("venue"), p.get("type"),
         json.dumps(p.get("keywords") or [], ensure_ascii=False),
         p.get("archive"), p.get("path"), p.get("url"), p.get("linkKind"),
-        p.get("note") or "",
+        p.get("note") or "", body, 1 if body else 0,
     )
 
 
@@ -88,8 +92,9 @@ def _schema_ok():
         return False
     conn = connect()
     try:
-        cols = {r[1] for r in conn.execute("PRAGMA table_info(modules)")}
-        return "subs" in cols
+        mcols = {r[1] for r in conn.execute("PRAGMA table_info(modules)")}
+        pcols = {r[1] for r in conn.execute("PRAGMA table_info(papers)")}
+        return "subs" in mcols and "body" in pcols
     except sqlite3.DatabaseError:
         return False
     finally:
@@ -106,6 +111,9 @@ def seed(force: bool = False):
     modules = json.loads((DATA / "modules.json").read_text(encoding="utf-8"))
     papers = json.loads((DATA / "papers.json").read_text(encoding="utf-8"))
     cases = json.loads((DATA / "cases.json").read_text(encoding="utf-8"))
+    fulltext = {}
+    if FULLTEXT.exists():
+        fulltext = json.loads(FULLTEXT.read_text(encoding="utf-8"))
 
     conn = connect()
     try:
@@ -121,30 +129,39 @@ def seed(force: bool = False):
              for i, m in enumerate(modules)],
         )
         conn.executemany(
-            "INSERT OR REPLACE INTO papers VALUES (" + ",".join("?" * 16) + ")",
-            [_row_paper(p) for p in papers],
+            "INSERT OR REPLACE INTO papers VALUES (" + ",".join("?" * 18) + ")",
+            [_row_paper(p, fulltext) for p in papers],
         )
         conn.executemany(
             "INSERT OR REPLACE INTO cases VALUES (" + ",".join("?" * 10) + ")",
             [_row_case(c) for c in cases],
         )
         conn.commit()
-        print(f"已导入 {len(modules)} 模块 / {len(papers)} 文献 / {len(cases)} 案例 → {DB_PATH}")
+        n_body = sum(1 for p in papers if fulltext.get(p["cat"], {}).get("body"))
+        print(f"已导入 {len(modules)} 模块 / {len(papers)} 文献（全文 {n_body} 篇）/ "
+              f"{len(cases)} 案例 → {DB_PATH}")
     finally:
         conn.close()
 
 
 # ---------- 查询 ----------
 
-def _paper_dict(r):
-    return {
+PAPER_COLS = ("cat,n,module_id,sub,title,cn,authors,year,venue,type,"
+              "keywords,archive,path,url,link_kind,note,has_body")
+
+
+def _paper_dict(r, with_body=False):
+    d = {
         "id": r["cat"], "kind": "paper", "n": r["n"], "m": r["module_id"],
         "sub": r["sub"], "title": r["title"], "cn": r["cn"], "authors": r["authors"],
         "year": r["year"], "venue": r["venue"], "type": r["type"],
         "keywords": json.loads(r["keywords"] or "[]"), "archive": r["archive"],
         "path": r["path"], "url": r["url"], "linkKind": r["link_kind"],
-        "note": r["note"],
+        "note": r["note"], "hasBody": bool(r["has_body"]),
     }
+    if with_body:
+        d["body"] = r["body"] or ""
+    return d
 
 
 def _case_dict(r, with_body=False):
@@ -174,8 +191,9 @@ def list_modules():
         conn.close()
 
 
-def list_papers(m=None, sub=None, q=None):
-    sql = "SELECT * FROM papers WHERE 1=1"
+def list_papers(m=None, sub=None, q=None, with_body=False):
+    cols = "*" if with_body else PAPER_COLS
+    sql = f"SELECT {cols} FROM papers WHERE 1=1"
     args = []
     if m:
         sql += " AND module_id=?"
@@ -190,7 +208,7 @@ def list_papers(m=None, sub=None, q=None):
     sql += " ORDER BY cat"
     conn = connect()
     try:
-        return [_paper_dict(r) for r in conn.execute(sql, args)]
+        return [_paper_dict(r, with_body) for r in conn.execute(sql, args)]
     finally:
         conn.close()
 
@@ -220,7 +238,17 @@ def get_paper(cat):
     conn = connect()
     try:
         r = conn.execute("SELECT * FROM papers WHERE cat=?", (cat,)).fetchone()
-        return _paper_dict(r) if r else None
+        return _paper_dict(r, with_body=True) if r else None
+    finally:
+        conn.close()
+
+
+def get_paper_path(cat):
+    """只取原文路径，供 PDF 路由用，避免把整篇正文读出来。"""
+    conn = connect()
+    try:
+        r = conn.execute("SELECT path FROM papers WHERE cat=?", (cat,)).fetchone()
+        return r["path"] if r else None
     finally:
         conn.close()
 

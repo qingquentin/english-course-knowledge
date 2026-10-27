@@ -2,6 +2,11 @@ __pycache__/
 *.py[cod]
 .env
 *.db
+# 文献全文派生物：体积大且含付费论文，由 scripts/extract_papers.py 本地生成
+data/papers_fulltext.json
+
+# 课程原始资料：650MB，含付费论文与学生作业，不入库
+2020-2025年专业文献及政策案例作业/
 .venv/
 venv/
 ~$*
