@@ -16,6 +16,11 @@
 │   ├── requirements.txt
 │   └── static/               前端页面
 ├── .env.example              API Key 配置模板
+├── CONTRIBUTING.md           协作指南：本地起服务、分工、提交规范
+├── docs/
+│   ├── api.md                接口契约
+│   └── decisions.md          设计取舍记录
+├── .github/                  CI、PR 模板与 Issue 模板
 ├── data/
 │   ├── modules.json          四模块二十一子类
 │   ├── papers.json           100 篇文献元数据
@@ -176,6 +181,20 @@ docker run -p 8000:8000 -e DEEPSEEK_API_KEY=sk-... english-kb
 - **文献**只有题录，问答只能复述标题、作者、出处、DOI，答不了论文观点。页面上打开单篇文献时也会提示这一点。
 - 词面检索挡不住语义离题。问库外话题时，偶有词面重合的材料被送入模型，由提示词规则拒答。
 - 限流计数存在进程内存里，重启清零，多实例也不共享。单实例的小站够用，要更严得上 Redis。
+
+## 协作
+
+多人协作的规则见 [CONTRIBUTING.md](CONTRIBUTING.md)，接口契约见 [docs/api.md](docs/api.md)，做过的取舍见 [docs/decisions.md](docs/decisions.md)。
+
+三条硬规则：
+
+- **前端只维护 `backend/static/`。** 根目录 `index.html` 是离线入口，由 `scripts/build.py` 生成，冻结，不手改。
+- **`data/*.json` 只由一个人写。** 其余人只读。改完跑 `scripts/build.py`，后端重启自动重建数据库。
+- **`main` 禁止直推。** 走 feature 分支加 PR，CI 绿、有人看过再合。分支保护在 GitHub 仓库 Settings → Branches 里开，所需检查选 `CI / test`。
+
+提交前本地跑 `backend/test_offline.py`，不调模型、不花钱。CI 跑同一套，外加 Python 与 JS 语法检查。
+
+案例作者的公开范围未定。脱敏脚本在 `scripts/anonymize_authors.py`，默认输出到 `data/cases.anon.json`，不覆盖原文件。用不用先问任课老师。
 
 ## 已知限制
 

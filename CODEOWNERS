@@ -1,0 +1,10 @@
+# 默认负责人。引入协作者后，把对应行的用户名换成实际负责人。
+# 格式：路径  @GitHub用户名
+
+*                       @qingquentin
+
+/data/                  @qingquentin
+/scripts/               @qingquentin
+/backend/               @qingquentin
+/backend/static/        @qingquentin
+/docs/                  @qingquentin

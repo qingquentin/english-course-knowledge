@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: pip install -r backend/requirements.txt
+
+      - name: Python 语法检查
+        run: python -m py_compile backend/*.py scripts/*.py
+
+      - name: 离线检索测试（不调模型）
+        working-directory: backend
+        run: python test_offline.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 前端语法检查
+        run: node --check backend/static/app.js
