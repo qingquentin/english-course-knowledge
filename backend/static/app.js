@@ -119,7 +119,10 @@ function bindGlobal() {
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-pdf]');
     if (!b || b.disabled || !pdfView.doc) return;
-    renderPdfPage(pdfView.page + (b.dataset.pdf === 'next' ? 1 : -1));
+    const act = b.dataset.pdf;
+    if (act === 'zoom-in') return stepZoom(1);
+    if (act === 'zoom-out') return stepZoom(-1);
+    renderPdfPage(pdfView.page + (act === 'next' ? 1 : -1));
   });
 
   let resizeTimer;
@@ -375,6 +378,11 @@ async function showDetail(kind, id) {
                  <button type="button" data-pdf="prev" aria-label="上一页">‹</button>
                  <span id="pdf-page">加载中…</span>
                  <button type="button" data-pdf="next" aria-label="下一页">›</button>
+                 <span class="pdf-zoom">
+                   <button type="button" data-pdf="zoom-out" aria-label="缩小">−</button>
+                   <span id="pdf-zoom">100%</span>
+                   <button type="button" data-pdf="zoom-in" aria-label="放大">+</button>
+                 </span>
                  <a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">新窗口打开 ↗</a>
                </span>
              </div>
@@ -421,7 +429,8 @@ async function showDetail(kind, id) {
 
 /* ---------------- PDF 阅读器 ---------------- */
 
-const pdfView = { doc: null, page: 1, seq: 0 };
+const pdfView = { doc: null, page: 1, seq: 0, zoom: 1 };
+const ZOOM_STEPS = [0.75, 1, 1.25, 1.5, 2, 2.5, 3];
 
 if (window.pdfjsLib) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdfjs/pdf.worker.min.js';
@@ -432,6 +441,7 @@ async function mountPdf(url) {
   if (!stage) return;
   pdfView.doc = null;
   pdfView.page = 1;
+  pdfView.zoom = 1;
   pdfView.seq++;
   if (!window.pdfjsLib) {
     if (label) label.textContent = '阅读器未加载';
@@ -455,29 +465,38 @@ async function renderPdfPage(n) {
 
   const page = await doc.getPage(n);
   const base = page.getViewport({ scale: 1 });
-  const width = Math.max(260, stage.clientWidth - 22);
-  const scale = Math.min(3, width / base.width);
-  const vp = page.getViewport({ scale });
-  const dpr = window.devicePixelRatio || 1;
+  // 以适配宽度为 100%，再乘用户缩放
+  const fit = Math.max(260, stage.clientWidth - 22) / base.width;
+  const cssScale = Math.min(6, fit * pdfView.zoom);
+  // 超采样：按 2 倍（或屏幕像素比）渲染再缩回，文字不发虚
+  const quality = Math.max(2, window.devicePixelRatio || 1);
+  const vp = page.getViewport({ scale: cssScale * quality });
 
-  canvas.width = Math.floor(vp.width * dpr);
-  canvas.height = Math.floor(vp.height * dpr);
-  canvas.style.width = `${vp.width}px`;
-  canvas.style.height = `${vp.height}px`;
-  await page.render({
-    canvasContext: canvas.getContext('2d'),
-    viewport: vp,
-    transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null,
-  }).promise;
+  canvas.width = Math.floor(vp.width);
+  canvas.height = Math.floor(vp.height);
+  canvas.style.width = `${vp.width / quality}px`;
+  canvas.style.height = `${vp.height / quality}px`;
+  await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
   if (seq !== pdfView.seq) return;
 
   pdfView.page = n;
   const label = $('#pdf-page');
   if (label) label.textContent = `${n} / ${doc.numPages}`;
+  const zoomLabel = $('#pdf-zoom');
+  if (zoomLabel) zoomLabel.textContent = `${Math.round(pdfView.zoom * 100)}%`;
   const prev = $('[data-pdf="prev"]'), next = $('[data-pdf="next"]');
   if (prev) prev.disabled = n <= 1;
   if (next) next.disabled = n >= doc.numPages;
   stage.scrollTop = 0;
+}
+
+function stepZoom(dir) {
+  const i = ZOOM_STEPS.findIndex(z => Math.abs(z - pdfView.zoom) < 0.001);
+  const next = ZOOM_STEPS[Math.min(ZOOM_STEPS.length - 1,
+    Math.max(0, (i < 0 ? 1 : i) + dir))];
+  if (next === pdfView.zoom) return;
+  pdfView.zoom = next;
+  renderPdfPage(pdfView.page);
 }
 
 /* ---------------- 问答 ---------------- */

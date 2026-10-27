@@ -119,6 +119,16 @@ if _origins:
     )
 
 
+@app.middleware("http")
+async def revalidate_static(request: Request, call_next):
+    """前端脚本每次都要回源校验，避免浏览器拿旧版 app.js 继续跑旧逻辑。"""
+    resp = await call_next(request)
+    path = request.url.path
+    if path == "/" or path.endswith((".html", ".js", ".css")):
+        resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+
 @app.get("/healthz")
 def health():
     return {"ok": True, "model": ai.MODEL, "aiConfigured": bool(os.environ.get("DEEPSEEK_API_KEY", "").strip())}
