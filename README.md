@@ -27,7 +27,7 @@
 │   ├── papers.json           100 篇文献元数据
 │   ├── cases.json            44 个案例（已映射模块/子类，含正文段落）
 │   ├── cases_raw.json        案例拆分中间产物（按原文专题，未映射）
-│   └── papers_fulltext.json  文献全文（本地生成，不入库，见下）
+│   └── papers_fulltext.json  文献全文（从 PDF 提取，随仓库发布）
 ├── scripts/
 │   ├── extract_site_data.py  从线上页面提取 DATA，拆成 modules/papers 与模板
 │   ├── extract_papers.py     从课程 PDF 提取文献全文（需 pymupdf）
