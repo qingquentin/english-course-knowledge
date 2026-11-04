@@ -265,7 +265,7 @@ function paperHTML(p, m) {
       <div class="paper-tail">
         ${p.hasPdf ? '<span class="paper-type ft">PDF</span>' : ''}
         <span class="paper-type">${esc(p.type || '')}</span>
-        ${p.url ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">${p.linkKind === 'search' ? '检索 ↗' : '原文 ↗'}</a>` : ''}
+        ${p.url && p.linkKind !== 'search' ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">原文 ↗</a>` : ''}
       </div>
     </article>`;
 }
@@ -348,7 +348,7 @@ async function showDetail(kind, id) {
         <div><dt>年份</dt><dd>${esc(item.year || '')}</dd></div>
         <div><dt>届别</dt><dd>${esc(item.archive || '')} 届</dd></div>
         <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
-        <div><dt>原文</dt><dd>${item.url ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
+        <div><dt>原文</dt><dd>${item.url && item.linkKind !== 'search' ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
         <div><dt>文件</dt><dd>${esc(item.path || '')}</dd></div>
         ${item.hasPdf ? `<div><dt>PDF</dt><dd>${fmtSize(item.pdfSize)}</dd></div>` : ''}
       </dl>
@@ -363,7 +363,7 @@ async function showDetail(kind, id) {
                <iframe class="pdf-native" src="/api/papers/${encodeURIComponent(item.id)}/pdf" title="PDF 原文"></iframe>
              </div>
            </div>`
-        : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。可以先点上方原文链接前往来源。</div>`}`;
+        : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。${item.url && item.linkKind !== 'search' ? '可以先点上方原文链接前往来源。' : ''}</div>`}`;
   } else {
     main = `
       <h1 class="case-h1">${esc(item.title)}</h1>

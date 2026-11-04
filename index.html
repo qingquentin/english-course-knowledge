@@ -574,7 +574,7 @@ html.js .module.in{opacity:1;transform:none}
   <footer class="footer">
     <p>专业英语课程 · 文献与案例库</p>
     <p>2019—2025 · 04 MODULES · 100 PAPERS · 44 CASES</p>
-    <p>文献链接指向 DOI / 出版社 / 学术检索页；案例取自《区域与城市经济政策案例库》</p>
+    <p>文献链接指向 DOI / 出版社；案例取自《区域与城市经济政策案例库》</p>
   </footer>
 </main>
 
@@ -599,8 +599,7 @@ const moduleIndex = Object.fromEntries(DATA.modules.map((m, i) => [m.id, i + 1])
 
 function paperHTML(p, idx) {
   const kw = p.keywords && p.keywords.length ? p.keywords.join(' · ') : '';
-  const href = p.url || '#';
-  const linkLabel = p.linkKind === 'search' ? '检索 ↗' : '原文 ↗';
+  const href = p.linkKind === 'search' ? '' : (p.url || '');
   const mod = DATA.modules.find(m => m.id === p.m);
   const search = [p.title, p.cn, p.authors, p.venue, p.year, p.cat, p.sub, p.type, kw,
     mod ? mod.name : '', mod ? mod.en : '']
@@ -620,8 +619,8 @@ function paperHTML(p, idx) {
     </div>
     <div class="paper-tail">
       <span class="paper-type">${esc(p.type)}</span>
-      <a class="paper-link" href="${esc(href)}" target="_blank" rel="noopener"
-         title="${p.linkKind === 'search' ? '在学术搜索中查找' : '在线打开原文'}：${esc(href)}">${linkLabel}</a>
+      ${href ? `<a class="paper-link" href="${esc(href)}" target="_blank" rel="noopener"
+         title="在线打开原文：${esc(href)}">原文 ↗</a>` : ''}
     </div>
   </article>`;
 }
