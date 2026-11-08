@@ -156,6 +156,15 @@ def cases(m: str | None = None, sub: str | None = None,
     return db.list_cases(m=m, sub=sub, q=q)
 
 
+@app.get("/api/daodu")
+def daodu():
+    """学生文献导读卡片：摘要、关键词、阅读问题。数据由 scripts/build.py 同源维护。"""
+    path = ROOT / "data" / "daodu.json"
+    if not path.exists():
+        return []
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 @app.get("/api/papers/{cat}")
 def paper(cat: str):
     d = db.get_paper(cat)
@@ -202,10 +211,13 @@ def recommend(item_id: str, k: int = Query(5, ge=1, le=10)):
 @app.get("/api/stats")
 def stats():
     mods = db.list_modules()
+    daodu_path = ROOT / "data" / "daodu.json"
+    daodu_n = len(json.loads(daodu_path.read_text(encoding="utf-8"))) if daodu_path.exists() else 0
     return {
         "modules": len(mods),
         "papers": sum(m["paperCount"] for m in mods),
         "cases": sum(m["caseCount"] for m in mods),
+        "daodu": daodu_n,
         "aiConfigured": bool(os.environ.get("DEEPSEEK_API_KEY", "").strip()),
         "model": ai.MODEL,
     }

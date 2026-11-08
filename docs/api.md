@@ -26,6 +26,12 @@
 
 同上。`q` 覆盖案例正文。列表不含正文段落。
 
+### `GET /api/daodu`
+
+学生文献导读卡片。每项含 `id`（D-001 起）、`paperId`（关联文献编目号，未匹配为空）、
+`year`、`student`、`kind`（精读/泛读/导读）、`title`、`titleEn`、`summary`、`keywords`、`prompts`。
+前端按 `paperId` 把导读展开在对应文献卡片内。
+
 ### `GET /api/papers/{cat}`
 
 单篇文献，`cat` 形如 `A-001`。不存在返回 404。

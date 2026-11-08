@@ -4,6 +4,8 @@ const API = '/api';
 const S = {
   modules: [],
   stats: null,
+  guides: [],
+  guideMap: {},
   tab: 'papers',
   mod: '',
   q: '',
@@ -38,9 +40,15 @@ const fmtSize = n => !n ? ''
 
 async function init() {
   try {
-    const [mods, stats] = await Promise.all([api('/modules'), api('/stats')]);
+    const [mods, stats, guides] = await Promise.all([
+      api('/modules'), api('/stats'), api('/daodu').catch(() => []),
+    ]);
     S.modules = mods;
     S.stats = stats;
+    S.guides = guides;
+    guides.forEach(g => {
+      if (g.paperId) (S.guideMap[g.paperId] = S.guideMap[g.paperId] || []).push(g);
+    });
     renderRail();
     renderFacts();
   } catch (e) {
@@ -119,6 +127,7 @@ function bindGlobal() {
 
 function setTab(tab) {
   S.tab = tab;
+  S.mod = '';
   $$('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
   renderRail();
   if (location.hash && !location.hash.startsWith('#/m/') && location.hash !== '#/') {
@@ -217,6 +226,20 @@ async function renderHome() {
   bindModuleEvents(root);
 }
 
+function guidePanelHTML(guides) {
+  return `<div class="guide-panel" hidden>
+    ${guides.map(g => `<div class="guide-block">
+      <span class="guide-src">${esc(g.id)} · ${esc(g.year)} · ${esc(g.student)} · ${esc(g.kind)}</span>
+      <p class="guide-summary">${esc(g.summary)}</p>
+      ${(g.keywords || []).length ? `<p class="paper-kw">${g.keywords.map(esc).join(' · ')}</p>` : ''}
+      ${(g.prompts || []).length ? `<div class="guide-prompts">
+        <b>READING PROMPTS / 导读问题</b>
+        <ol>${g.prompts.map(q => `<li>${esc(q)}</li>`).join('')}</ol>
+      </div>` : ''}
+    </div>`).join('')}
+  </div>`;
+}
+
 function moduleHTML(m, items, isCases) {
   const subs = m.subs.map(sub => ({ sub, items: items.filter(x => x.sub === sub) }))
     .filter(g => g.items.length);
@@ -253,6 +276,8 @@ function moduleHTML(m, items, isCases) {
 function paperHTML(p, m) {
   const meta = [p.authors, p.venue, p.year, p.sub].filter(Boolean);
   const kw = (p.keywords || []).join(' · ');
+  const guides = S.guideMap[p.id] || [];
+  const guideLabel = `导读${guides.length > 1 ? ' ' + guides.length : ''}`;
   return `
     <article class="paper" data-kind="paper" data-id="${esc(p.id)}" style="--mc:${m.color}">
       <div class="paper-no">${esc(p.id)}</div>
@@ -266,7 +291,11 @@ function paperHTML(p, m) {
         ${p.hasPdf ? '<span class="paper-type ft">PDF</span>' : ''}
         <span class="paper-type">${esc(p.type || '')}</span>
         ${p.url && p.linkKind !== 'search' ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">原文 ↗</a>` : ''}
+        ${p.hasPdf ? `<a class="paper-link" href="/api/papers/${encodeURIComponent(p.id)}/pdf" target="_blank" rel="noopener">PDF ↗</a>` : ''}
+        ${guides.length ? `<button class="guide-toggle" type="button" aria-expanded="false"
+           data-label="${guideLabel}">${guideLabel}</button>` : ''}
       </div>
+      ${guides.length ? guidePanelHTML(guides) : ''}
     </article>`;
 }
 
@@ -291,7 +320,16 @@ function caseHTML(c, m) {
 function bindModuleEvents(root) {
   $$('.paper', root).forEach(el => {
     el.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
+      if (e.target.closest('a, .guide-panel')) return;
+      const gbtn = e.target.closest('.guide-toggle');
+      if (gbtn) {
+        const panel = el.querySelector('.guide-panel');
+        const open = panel.hidden;
+        panel.hidden = !open;
+        gbtn.textContent = open ? '收起导读' : gbtn.dataset.label;
+        gbtn.setAttribute('aria-expanded', String(open));
+        return;
+      }
       location.hash = `#/${el.dataset.kind}/${encodeURIComponent(el.dataset.id)}`;
     });
   });
