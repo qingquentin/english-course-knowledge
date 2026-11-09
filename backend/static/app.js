@@ -68,7 +68,6 @@ async function init() {
   }
   bindTop();
   bindGlobal();
-  bindPromptCopy();
   route();
 }
 
@@ -137,26 +136,6 @@ function bindGlobal() {
   window.addEventListener('hashchange', route);
 }
 
-let promptCopyBound = false;
-function bindPromptCopy() {
-  if (promptCopyBound) return;
-  const btn = $('#copy-prompt');
-  if (!btn) return;
-  promptCopyBound = true;
-  btn.addEventListener('click', async () => {
-    const base = $('#guide-prompt').textContent;
-    const info = ($('#paper-input')?.value || '').trim();
-    const text = info ? base + '\n\n' + info : base;
-    try {
-      await navigator.clipboard.writeText(text);
-      btn.textContent = info ? '已复制（含文献信息）' : '已复制';
-    } catch {
-      btn.textContent = '请手动选择复制';
-    }
-    setTimeout(() => { btn.textContent = '复制完整提示词'; }, 1800);
-  });
-}
-
 function setTab(tab) {
   S.tab = tab;
   S.mod = '';
@@ -179,16 +158,10 @@ function route() {
     $('#view-ask').hidden = true;
     $('#view-literature').hidden = true;
     $('#view-lit-detail').hidden = true;
-    $('#view-prompt').hidden = true;
     $('#ask-link').classList.remove('is-active');
     $('#lit-link').classList.remove('is-active');
-    $('#prompt-link').classList.remove('is-active');
   };
 
-  if (parts[0] === 'prompt') {
-    showPrompt();
-    return;
-  }
   if (parts[0] === 'ask') {
     showAsk();
     return;
@@ -369,10 +342,8 @@ async function showDetail(kind, id) {
   $('#view-ask').hidden = true;
   $('#view-literature').hidden = true;
   $('#view-lit-detail').hidden = true;
-  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
   $('#lit-link').classList.remove('is-active');
-  $('#prompt-link').classList.remove('is-active');
   const view = $('#view-detail');
   view.hidden = false;
   view.innerHTML = '<div class="loading">LOADING</div>';
@@ -557,9 +528,7 @@ async function showLiterature() {
   $('#view-detail').hidden = true;
   $('#view-ask').hidden = true;
   $('#view-lit-detail').hidden = true;
-  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
-  $('#prompt-link').classList.remove('is-active');
   $('#lit-link').classList.add('is-active');
   const view = $('#view-literature');
   view.hidden = false;
@@ -720,9 +689,7 @@ async function showLitDetail(cat) {
   $('#view-detail').hidden = true;
   $('#view-ask').hidden = true;
   $('#view-literature').hidden = true;
-  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
-  $('#prompt-link').classList.remove('is-active');
   $('#lit-link').classList.add('is-active');
   const view = $('#view-lit-detail');
   view.hidden = false;
@@ -837,30 +804,13 @@ function bindLitDetail(cat) {
 
 /* ---------------- 问答 ---------------- */
 
-function showPrompt() {
-  $('#view-home').hidden = true;
-  $('#view-detail').hidden = true;
-  $('#view-ask').hidden = true;
-  $('#view-literature').hidden = true;
-  $('#view-lit-detail').hidden = true;
-  $('#view-prompt').hidden = false;
-  $('#ask-link').classList.remove('is-active');
-  $('#lit-link').classList.remove('is-active');
-  $('#prompt-link').classList.add('is-active');
-  $('#crumb').innerHTML = `<a href="#/">全部材料</a><span class="slash">/</span><b>导读提示词</b>`;
-  window.scrollTo({ top: 0 });
-  bindPromptCopy();
-}
-
 function showAsk() {
   $('#view-home').hidden = true;
   $('#view-detail').hidden = true;
   $('#view-literature').hidden = true;
   $('#view-lit-detail').hidden = true;
-  $('#view-prompt').hidden = true;
   $('#ask-link').classList.add('is-active');
   $('#lit-link').classList.remove('is-active');
-  $('#prompt-link').classList.remove('is-active');
   const view = $('#view-ask');
   view.hidden = false;
   $('#ask-link').classList.add('is-active');
@@ -898,7 +848,7 @@ function askHTML() {
 
       <form class="ask-form" id="ask-form">
         <textarea class="ask-input" id="ask-input" maxlength="4000" ${ready ? '' : 'disabled'}
-          placeholder="例如：宽带中国战略的实施效果如何？也可以把「导读 prompt」整段粘进来，生成某篇文献的阅读卡片。"></textarea>
+          placeholder="例如：宽带中国战略的实施效果如何？库中哪些案例讨论了税收激励与财政竞争？"></textarea>
         <div class="ask-actions">
           <span class="ask-hint">Enter 提交 · Shift + Enter 换行 · 最多 4000 字</span>
           <button class="ask-submit" type="submit" id="ask-submit" ${ready ? '' : 'disabled'}>提问</button>
