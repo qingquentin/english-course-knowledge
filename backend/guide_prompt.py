@@ -222,7 +222,7 @@ def digest_paper(text, budget=DEFAULT_BUDGET):
 
     # 结构章节太少、实际用上的正文不足，说明分块没覆盖论文主体。
     # 与其给模型一点碎片，不如给全文（上限 3 万字），并如实标 partial。
-    if len(assembled) < 12000 and len(whole) > 30000:
+    if len(assembled) < 15000 and len(whole) > 30000:
         return whole_text()
 
     included = sorted(c for c in seen if c not in ("front", "other"))
