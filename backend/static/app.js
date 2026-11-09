@@ -672,37 +672,8 @@ function renderLitCards() {
   bindLitCards(grid);
 }
 
-function provBadges(it) {
-  if (!it.hasGuide) return '';
-  const st = it.reviewStatus || 'draft';
-  const kind = st === 'reviewed'
-    ? '<span class="lit-badge is-reviewed">已复核</span>'
-    : st === 'draft'
-      ? '<span class="lit-badge is-draft">AI 草稿</span>'
-      : '<span class="lit-badge">待复核</span>';
-  const comp = it.completeness === 'partial'
-    ? '<span class="lit-badge is-partial">资料不全</span>' : '';
-  return kind + comp;
-}
-
-function provLabel(g) {
-  const st = (g.review && g.review.status) || 'draft';
-  if (!g.generation) return { cls: 'tag-ok', text: '人工整理' };
-  if (st === 'reviewed') return { cls: 'tag-ok', text: '已人工复核' };
-  return { cls: 'tag-ai', text: 'AI 生成草稿' };
-}
-
 function litProvNote(g) {
-  const gen = g.generation;
-  const reviewed = g.review && g.review.status === 'reviewed';
-  if (!gen) {
-    return `<p class="lit-prov-note">本导读为人工整理${reviewed ? '，已经复核' : ''}。评述栏为编写者判断。</p>`;
-  }
-  const date = gen.generated_at ? String(gen.generated_at).slice(0, 10) : '';
-  const parts = [`本导读由 ${gen.model || 'AI'} 生成${date ? '（' + date + '）' : ''}`,
-    reviewed ? '已经人工复核' : '尚未经人工复核'];
-  if (gen.completeness === 'partial') parts.push('原文部分章节无法确认，内容可能不完整');
-  return `<p class="lit-prov-note">${esc(parts.join('，'))}。引用前请核对原文；评述栏为 AI 分析。</p>`;
+  return `<p class="lit-prov-note">${g.generation ? '本导读由 AI 生成。' : '本导读为人工整理。'}</p>`;
 }
 
 function litCard(it) {
@@ -719,7 +690,6 @@ function litCard(it) {
       ${it.cn ? `<p class="lit-cn">${esc(it.cn)}</p>` : ''}
       <p class="lit-meta">${[it.authors, it.year, it.venue].filter(Boolean).map(esc).join(' · ')}</p>
       <p class="lit-field">${esc(it.sub || '')}</p>
-      ${it.hasGuide ? `<div class="lit-prov">${provBadges(it)}</div>` : ''}
       ${kw ? `<p class="lit-kw">${esc(kw)}</p>` : ''}
       <p class="lit-overview">${it.hasGuide ? esc(it.overview) : '导读尚未生成，可先阅读原文。'}</p>
       <div class="lit-card-foot">
@@ -775,7 +745,6 @@ async function showLitDetail(cat) {
 
   const m = modOf(item.m);
   const g = item.guide;
-  const prov = g ? provLabel(g) : null;
   const bookmarked = LS.bookmarks().includes(cat);
   const status = LS.status(cat);
   $('#crumb').innerHTML = `<a href="#/literature">文献导读</a><span class="slash">/</span><b>${esc(cat)}</b>`;
@@ -788,7 +757,6 @@ async function showLitDetail(cat) {
         <span class="tag solid">${m.id} · ${esc(m.name)}</span>
         <span class="tag">${esc(item.sub || '')}</span>
         <span class="tag">${esc(item.type || '')}</span>
-        ${prov ? `<span class="tag ${prov.cls}">${prov.text}</span>` : ''}
         ${g && g.generation && g.generation.completeness === 'partial' ? '<span class="tag tag-warn">资料不全</span>' : ''}
       </div>
       <h1>${esc(item.title)}</h1>
