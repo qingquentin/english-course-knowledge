@@ -52,6 +52,22 @@ SYSTEM = """你是「专业英语课程文献与案例库」的检索助手，�
 """
 
 
+CARD_SYSTEM = """你是区域与城市经济学专业的文献导读助手。用户会把导读提示词和一篇文献的题录、摘要或正文发给你；系统会另外附上从库内检索到的该文献正文节选。
+
+规则：
+1. 严格按用户要求的五部分（研究问题、数据与方法、主要结论、关键词、阅读问题）输出。
+2. 只使用用户提供的文献信息和库内材料，不补充材料以外的文献、数据、作者或结论；材料不足时直接说明缺什么，不要猜测。
+3. 引用库内材料中的具体事实时，在句末用方括号标注来源编号，如 [1]。
+4. 用中文，语言简洁，不用“本文”开头的套话。
+
+---
+
+库内材料：
+
+{materials}
+"""
+
+
 def build_materials(sources):
     n_case = sum(1 for s in sources if s["kind"] == "case")
     n_paper = len(sources) - n_case
@@ -74,17 +90,21 @@ def build_materials(sources):
     return header + "\n\n".join(blocks)
 
 
-async def stream_answer(question: str, sources: list[dict]):
-    """异步产出 (event, data)。事件类型：delta / done / error。"""
+async def stream_answer(question: str, sources: list[dict], mode: str = "qa"):
+    """异步产出 (event, data)。事件类型：delta / done / error。
+
+    mode="card" 时按用户粘贴的导读提示词生成阅读卡片。
+    """
     key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
     if not key:
         yield "error", {"message": "服务端未配置 DEEPSEEK_API_KEY，问答功能暂不可用。浏览与检索不受影响。"}
         return
 
+    system = CARD_SYSTEM if mode == "card" else SYSTEM
     payload = {
         "model": MODEL,
         "messages": [
-            {"role": "system", "content": SYSTEM.format(materials=build_materials(sources))},
+            {"role": "system", "content": system.format(materials=build_materials(sources))},
             {"role": "user", "content": question},
         ],
         "temperature": 0.2,

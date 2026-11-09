@@ -22,6 +22,10 @@ def main():
         m["count"] = sum(1 for p in papers if p["m"] == m["id"])
         m["caseCount"] = sum(1 for c in cases if c["m"] == m["id"])
 
+    pdf_dir = ROOT / "papers_pdf"
+    for p in papers:
+        p["hasPdf"] = (pdf_dir / f"{p['cat']}.pdf").is_file()
+
     payload = {"modules": modules, "papers": papers, "cases": cases}
 
     tpl = TPL.read_text(encoding="utf-8")

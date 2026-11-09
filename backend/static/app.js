@@ -64,6 +64,7 @@ async function init() {
   }
   bindTop();
   bindGlobal();
+  bindPromptCopy();
   route();
 }
 
@@ -132,8 +133,29 @@ function bindGlobal() {
   window.addEventListener('hashchange', route);
 }
 
+let promptCopyBound = false;
+function bindPromptCopy() {
+  if (promptCopyBound) return;
+  const btn = $('#copy-prompt');
+  if (!btn) return;
+  promptCopyBound = true;
+  btn.addEventListener('click', async () => {
+    const base = $('#guide-prompt').textContent;
+    const info = ($('#paper-input')?.value || '').trim();
+    const text = info ? base + '\n\n' + info : base;
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = info ? '已复制（含文献信息）' : '已复制';
+    } catch {
+      btn.textContent = '请手动选择复制';
+    }
+    setTimeout(() => { btn.textContent = '复制完整提示词'; }, 1800);
+  });
+}
+
 function setTab(tab) {
   S.tab = tab;
+  S.mod = '';
   $$('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
   renderRail();
   if (location.hash && !location.hash.startsWith('#/m/') && location.hash !== '#/') {
@@ -153,10 +175,16 @@ function route() {
     $('#view-ask').hidden = true;
     $('#view-literature').hidden = true;
     $('#view-lit-detail').hidden = true;
+    $('#view-prompt').hidden = true;
     $('#ask-link').classList.remove('is-active');
     $('#lit-link').classList.remove('is-active');
+    $('#prompt-link').classList.remove('is-active');
   };
 
+  if (parts[0] === 'prompt') {
+    showPrompt();
+    return;
+  }
   if (parts[0] === 'ask') {
     showAsk();
     return;
@@ -291,7 +319,8 @@ function paperHTML(p, m) {
       <div class="paper-tail">
         ${p.hasPdf ? '<span class="paper-type ft">PDF</span>' : ''}
         <span class="paper-type">${esc(p.type || '')}</span>
-        ${p.url ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">${p.linkKind === 'search' ? '检索 ↗' : '原文 ↗'}</a>` : ''}
+        ${p.url && p.linkKind !== 'search' ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">原文 ↗</a>` : ''}
+        ${p.hasPdf ? `<a class="paper-link" href="/api/papers/${encodeURIComponent(p.id)}/pdf" target="_blank" rel="noopener">PDF ↗</a>` : ''}
       </div>
     </article>`;
 }
@@ -337,8 +366,10 @@ async function showDetail(kind, id) {
   $('#view-ask').hidden = true;
   $('#view-literature').hidden = true;
   $('#view-lit-detail').hidden = true;
+  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
   $('#lit-link').classList.remove('is-active');
+  $('#prompt-link').classList.remove('is-active');
   const view = $('#view-detail');
   view.hidden = false;
   view.innerHTML = '<div class="loading">LOADING</div>';
@@ -377,7 +408,7 @@ async function showDetail(kind, id) {
         <div><dt>年份</dt><dd>${esc(item.year || '')}</dd></div>
         <div><dt>届别</dt><dd>${esc(item.archive || '')} 届</dd></div>
         <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
-        <div><dt>原文</dt><dd>${item.url ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
+        <div><dt>原文</dt><dd>${item.url && item.linkKind !== 'search' ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
         <div><dt>文件</dt><dd>${esc(item.path || '')}</dd></div>
         ${item.hasPdf ? `<div><dt>PDF</dt><dd>${fmtSize(item.pdfSize)}</dd></div>` : ''}
       </dl>
@@ -392,7 +423,7 @@ async function showDetail(kind, id) {
                <iframe class="pdf-native" src="/api/papers/${encodeURIComponent(item.id)}/pdf" title="PDF 原文"></iframe>
              </div>
            </div>`
-        : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。可以先点上方原文链接前往来源。</div>`}`;
+        : `<div class="note-box">这篇没有可读的 PDF：原文件缺失、是扫描件，或未随服务部署。${item.url && item.linkKind !== 'search' ? '可以先点上方原文链接前往来源。' : ''}</div>`}`;
   } else {
     main = `
       <h1 class="case-h1">${esc(item.title)}</h1>
@@ -523,7 +554,9 @@ async function showLiterature() {
   $('#view-detail').hidden = true;
   $('#view-ask').hidden = true;
   $('#view-lit-detail').hidden = true;
+  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
+  $('#prompt-link').classList.remove('is-active');
   $('#lit-link').classList.add('is-active');
   const view = $('#view-literature');
   view.hidden = false;
@@ -719,7 +752,9 @@ async function showLitDetail(cat) {
   $('#view-detail').hidden = true;
   $('#view-ask').hidden = true;
   $('#view-literature').hidden = true;
+  $('#view-prompt').hidden = true;
   $('#ask-link').classList.remove('is-active');
+  $('#prompt-link').classList.remove('is-active');
   $('#lit-link').classList.add('is-active');
   const view = $('#view-lit-detail');
   view.hidden = false;
@@ -836,11 +871,30 @@ function bindLitDetail(cat) {
 
 /* ---------------- 问答 ---------------- */
 
+function showPrompt() {
+  $('#view-home').hidden = true;
+  $('#view-detail').hidden = true;
+  $('#view-ask').hidden = true;
+  $('#view-literature').hidden = true;
+  $('#view-lit-detail').hidden = true;
+  $('#view-prompt').hidden = false;
+  $('#ask-link').classList.remove('is-active');
+  $('#lit-link').classList.remove('is-active');
+  $('#prompt-link').classList.add('is-active');
+  $('#crumb').innerHTML = `<a href="#/">全部材料</a><span class="slash">/</span><b>导读提示词</b>`;
+  window.scrollTo({ top: 0 });
+  bindPromptCopy();
+}
+
 function showAsk() {
   $('#view-home').hidden = true;
   $('#view-detail').hidden = true;
   $('#view-literature').hidden = true;
   $('#view-lit-detail').hidden = true;
+  $('#view-prompt').hidden = true;
+  $('#ask-link').classList.add('is-active');
+  $('#lit-link').classList.remove('is-active');
+  $('#prompt-link').classList.remove('is-active');
   const view = $('#view-ask');
   view.hidden = false;
   $('#ask-link').classList.add('is-active');
@@ -877,10 +931,10 @@ function askHTML() {
       ${ready ? '' : '<p class="ask-warn">服务端还没配置模型 key，问答暂不可用。浏览、检索与相关推荐不受影响。</p>'}
 
       <form class="ask-form" id="ask-form">
-        <textarea class="ask-input" id="ask-input" maxlength="500" ${ready ? '' : 'disabled'}
-          placeholder="例如：宽带中国战略的实施效果如何？库中哪些案例讨论了税收激励与财政竞争？"></textarea>
+        <textarea class="ask-input" id="ask-input" maxlength="4000" ${ready ? '' : 'disabled'}
+          placeholder="例如：宽带中国战略的实施效果如何？也可以把「导读 prompt」整段粘进来，生成某篇文献的阅读卡片。"></textarea>
         <div class="ask-actions">
-          <span class="ask-hint">Enter 提交 · Shift + Enter 换行</span>
+          <span class="ask-hint">Enter 提交 · Shift + Enter 换行 · 最多 4000 字</span>
           <button class="ask-submit" type="submit" id="ask-submit" ${ready ? '' : 'disabled'}>提问</button>
         </div>
       </form>

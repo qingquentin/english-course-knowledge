@@ -6,6 +6,7 @@
 """
 import json
 import os
+import re
 import time
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
@@ -157,6 +158,15 @@ def cases(m: str | None = None, sub: str | None = None,
     return db.list_cases(m=m, sub=sub, q=q)
 
 
+@app.get("/api/daodu")
+def daodu():
+    """学生文献导读卡片：摘要、关键词、阅读问题。数据由 scripts/build.py 同源维护。"""
+    path = ROOT / "data" / "daodu.json"
+    if not path.exists():
+        return []
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 @app.get("/api/papers/{cat}")
 def paper(cat: str):
     d = db.get_paper(cat)
@@ -203,10 +213,13 @@ def recommend(item_id: str, k: int = Query(5, ge=1, le=10)):
 @app.get("/api/stats")
 def stats():
     mods = db.list_modules()
+    daodu_path = ROOT / "data" / "daodu.json"
+    daodu_n = len(json.loads(daodu_path.read_text(encoding="utf-8"))) if daodu_path.exists() else 0
     return {
         "modules": len(mods),
         "papers": sum(m["paperCount"] for m in mods),
         "cases": sum(m["caseCount"] for m in mods),
+        "daodu": daodu_n,
         "aiConfigured": bool(os.environ.get("DEEPSEEK_API_KEY", "").strip()),
         "model": ai.MODEL,
     }
@@ -261,8 +274,16 @@ def literature_guide(cat: str):
 # ---------- 问答 ----------
 
 class Ask(BaseModel):
-    question: str = Field(min_length=1, max_length=500)
+    question: str = Field(min_length=1, max_length=4000)
     k: int = Field(6, ge=1, le=10)
+
+
+TITLE_LINE = re.compile(r"^\s*标题\s*[:：]\s*(.+)$", re.M)
+
+
+def _is_card_request(question: str) -> bool:
+    """判断用户是否把「导读 prompt」整段粘了进来。"""
+    return "【研究问题】" in question and "【阅读问题】" in question
 
 
 @app.post("/api/ask")
@@ -270,7 +291,16 @@ async def ask(body: Ask, request: Request):
     if not _allow(_client_ip(request)):
         raise HTTPException(429, f"提问过于频繁，每小时最多 {ASK_LIMIT} 次，请稍后再试。")
     question = body.question.strip()
-    sources = retriever.search(question, k=body.k)
+    card = _is_card_request(question)
+    # 导读模式下问题里混着整段提示词，只用「标题：」那一行去检索，避免套话稀释查询
+    match = TITLE_LINE.search(question) if card else None
+    query = match.group(1).strip() if match and match.group(1).strip() else question
+    sources = retriever.search(query, k=min(body.k, 3) if card else body.k,
+                               limit=9000 if card else None)
+    if card and sources:
+        rich = retriever.card_excerpt(sources[0]["id"])
+        if rich:
+            sources[0]["excerpt"] = rich
 
     def sse(event, data):
         return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
@@ -282,7 +312,7 @@ async def ask(body: Ask, request: Request):
         if not sources:
             yield sse("done", {"answer": "库中没有找到与这个问题相关的材料。可以换一个说法，或先浏览模块找找相近主题。", "empty": True})
             return
-        async for event, data in ai.stream_answer(question, sources):
+        async for event, data in ai.stream_answer(question, sources, mode="card" if card else "qa"):
             yield sse(event, data)
 
     return StreamingResponse(gen(), media_type="text/event-stream", headers={

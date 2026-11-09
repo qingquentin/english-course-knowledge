@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<!-- 冻结：本页由 scripts/build.py 生成，勿手改；UI 改动请去 backend/static/ -->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>专业英语课程 · 文献与案例库</title>
+<title>区域与城市经济学知识库</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%239B3A2A'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23F8F2E5' font-family='serif'%3E%E8%8B%B1%3C/text%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js');</script>
 <style>
@@ -313,6 +314,55 @@ html.js .module.in{opacity:1;transform:none}
 }
 .paper-link:hover{opacity:.65;border-color:var(--mc)}
 
+/* ---------- guide prompt ---------- */
+.prompt-page{max-width:860px;margin-top:52px}
+.prompt-page h2{
+  margin:0;font-family:var(--serif);font-size:clamp(28px,3.4vw,42px);
+  font-weight:500;line-height:1.2;letter-spacing:.01em;
+}
+.prompt-intro{
+  margin:18px 0 0;max-width:700px;font-size:13.5px;line-height:1.95;color:var(--muted);
+}
+.prompt-steps{
+  margin:18px 0 0;padding-left:20px;font-size:12.5px;line-height:1.9;color:var(--muted);
+}
+.prompt-steps li+li{margin-top:4px}
+.prompt-box{
+  position:relative;margin-top:30px;padding:22px;
+  border:1px solid var(--line);border-left:2px solid var(--red);
+  background:var(--paper-2);
+}
+.prompt-copy{
+  position:absolute;top:12px;right:12px;z-index:2;
+  border:1px solid color-mix(in srgb,var(--red) 45%,var(--line));
+  background:var(--paper-2);color:var(--red);cursor:pointer;border-radius:2px;
+  padding:5px 10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  transition:background .2s,color .2s;
+}
+.prompt-copy:hover{background:var(--red);color:#fff}
+.prompt-box pre{
+  margin:0;padding-top:22px;white-space:pre-wrap;word-break:break-word;
+  font-family:var(--mono);font-size:12px;line-height:1.95;color:var(--ink);
+}
+.prompt-input{margin-top:18px}
+.prompt-input label{
+  display:block;margin-bottom:7px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);
+}
+.prompt-input textarea{
+  display:block;width:100%;min-height:150px;resize:vertical;
+  padding:14px;border:1px solid var(--line);background:var(--paper-2);
+  font-family:var(--mono);font-size:12px;line-height:1.8;color:var(--ink);
+}
+.prompt-input textarea:focus{outline:none;border-color:var(--red)}
+.prompt-input textarea::placeholder{color:var(--muted);opacity:.75}
+@media (max-width:560px){
+  .prompt-page{margin-top:36px}
+  .prompt-box{padding:16px}
+  .prompt-box pre{font-size:11.5px}
+}
+
 .empty{
   display:none;margin-top:52px;padding:72px 20px;border-top:1px solid var(--line);
   text-align:center;
@@ -344,7 +394,7 @@ html.js .module.in{opacity:1;transform:none}
   .main{padding:0 38px 72px}
   .topbar{margin:0 -38px;padding:0 38px}
 }
-@media(max-width:980px){
+@media(max-width:1100px){
   .rail{width:252px;padding:26px 20px 22px}
   .main{margin-left:252px;padding:0 30px 60px}
   .topbar{margin:0 -30px;padding:0 30px}
@@ -521,9 +571,9 @@ html.js .module.in{opacity:1;transform:none}
 
   <section class="masthead">
     <div>
-      <p class="eyebrow">PROFESSIONAL ENGLISH · COURSE READER</p>
-      <h1>文献与案例库<span class="dot">.</span></h1>
-      <p class="lede">四大研究模块，__N_PAPERS__ 篇英文文献，__N_CASES__ 个政策案例。<br>按主题编目，循着问题阅读。</p>
+      <p class="eyebrow">REGIONAL AND URBAN ECONOMICS KNOWLEDGE HUB</p>
+      <h1>区域与城市<br>经济学知识库<span class="dot">.</span></h1>
+      <p class="lede">面向区域与城市经济学学科建设和学术研究，系统整合国内外经典文献、前沿学术成果、政策研究资料与典型实践案例，构建集知识积累、文献研读、案例教学、学术研究和智能知识服务于一体的专业知识基础设施。</p>
     </div>
     <aside class="issue" aria-label="课程编目信息">
       <div>
@@ -545,13 +595,15 @@ html.js .module.in{opacity:1;transform:none}
               aria-selected="true" aria-controls="view-papers" data-tab="papers">文献 <em>__N_PAPERS__</em></button>
       <button class="tab" id="tab-cases" role="tab" type="button"
               aria-selected="false" aria-controls="view-cases" data-tab="cases">案例 <em>__N_CASES__</em></button>
+      <button class="tab" id="tab-prompt" role="tab" type="button"
+              aria-selected="false" aria-controls="view-prompt" data-tab="prompt">导读 prompt</button>
     </div>
     <span class="tab-hint" id="tab-hint">READINGS</span>
   </div>
 
   <div class="view" id="view-papers">
     <div class="index-bar" id="index">
-      <span class="index-label">INDEX / 文献索引 · 点击「原文」在线查看</span>
+      <span class="index-label">INDEX / 文献索引 · 点击「PDF」或「原文」查看</span>
       <span class="index-count" id="result-count" aria-live="polite">__N_PAPERS__ 篇文献</span>
     </div>
     <div id="modules"></div>
@@ -565,6 +617,55 @@ html.js .module.in{opacity:1;transform:none}
     <div id="caseModules"></div>
   </div>
 
+  <div class="view" id="view-prompt" hidden>
+    <div class="index-bar">
+      <span class="index-label">PROMPT / 文献导读提示词</span>
+      <span class="index-count">复制到「库内问答」使用</span>
+    </div>
+    <div class="prompt-page">
+      <h2>让「库内问答」生成一张阅读卡片</h2>
+      <p class="prompt-intro">先在下方的文本框里粘贴文献信息，再点「复制完整提示词」，整段粘到全栈版的「库内问答」，它会自动检索该文献正文，按统一结构输出研究问题、数据与方法、主要结论、关键词和阅读问题。网页不展示学生写好的导读，统一用这段提示词生成。</p>
+      <ol class="prompt-steps">
+        <li>在下方文本框粘贴文献的标题、作者、期刊年份，以及摘要或正文。</li>
+        <li>点「复制完整提示词」。</li>
+        <li>粘到「库内问答」生成卡片，会自动检索该文献正文并标注出处。</li>
+      </ol>
+      <div class="prompt-box">
+        <button class="prompt-copy" id="copy-prompt" type="button">复制完整提示词</button>
+        <pre id="guide-prompt">你是区域与城市经济学专业的文献导读助手。请根据我提供的文献信息，生成一张中文阅读卡片，严格按以下五部分输出：
+
+【研究问题】
+用 1—2 句话说明文章要回答的核心问题，以及这个问题为什么重要。
+
+【数据与方法】
+说明数据来源、样本范围、识别策略或理论模型。若是综述或理论文章，说明其论证路径。不要编造材料中没有的方法。
+
+【主要结论】
+用 2—3 条说明核心发现、机制或政策含义。每条都要能追溯到材料中的证据。
+
+【关键词】
+3—5 个中文关键词，用顿号分隔。
+
+【阅读问题】
+给出 3 个引导阅读的问题，分别关注：
+1. 识别策略或理论机制是否可信；
+2. 结论的外部有效性或适用边界；
+3. 对区域与城市经济政策的启示。
+问题要具体到这篇文献，不要写成通用套话。
+
+写作要求：
+- 只使用我提供的材料，不补充材料以外的文献、数据、作者或结论。
+- 材料不足时直接说明缺什么，不要猜测。
+- 用中文，语言简洁，不用“本文”开头的套话。
+- 如果我只给了题录、没有摘要或正文，请注明“仅凭题录无法判断内容”，并只生成基于题录的阅读问题。</pre>
+      </div>
+      <div class="prompt-input">
+        <label for="paper-input">文献信息 · 直接粘贴到这里</label>
+        <textarea id="paper-input" rows="7" placeholder="标题：&#10;作者：&#10;期刊/年份：&#10;摘要或正文："></textarea>
+      </div>
+    </div>
+  </div>
+
   <div class="empty" id="empty">
     <strong id="empty-title">没有找到匹配的文献</strong>
     <span>试试标题、作者或关键词，也可以切换上方的主题筛选。</span>
@@ -573,7 +674,7 @@ html.js .module.in{opacity:1;transform:none}
   <footer class="footer">
     <p>专业英语课程 · 文献与案例库</p>
     <p>2019—2025 · 04 MODULES · __N_PAPERS__ PAPERS · __N_CASES__ CASES</p>
-    <p>文献链接指向 DOI / 出版社 / 学术检索页；案例取自《区域与城市经济政策案例库》</p>
+    <p>文献链接指向 DOI / 出版社；案例取自《区域与城市经济政策案例库》</p>
   </footer>
 </main>
 
@@ -598,8 +699,7 @@ const moduleIndex = Object.fromEntries(DATA.modules.map((m, i) => [m.id, i + 1])
 
 function paperHTML(p, idx) {
   const kw = p.keywords && p.keywords.length ? p.keywords.join(' · ') : '';
-  const href = p.url || '#';
-  const linkLabel = p.linkKind === 'search' ? '检索 ↗' : '原文 ↗';
+  const href = p.linkKind === 'search' ? '' : (p.url || '');
   const mod = DATA.modules.find(m => m.id === p.m);
   const search = [p.title, p.cn, p.authors, p.venue, p.year, p.cat, p.sub, p.type, kw,
     mod ? mod.name : '', mod ? mod.en : '']
@@ -619,8 +719,10 @@ function paperHTML(p, idx) {
     </div>
     <div class="paper-tail">
       <span class="paper-type">${esc(p.type)}</span>
-      <a class="paper-link" href="${esc(href)}" target="_blank" rel="noopener"
-         title="${p.linkKind === 'search' ? '在学术搜索中查找' : '在线打开原文'}：${esc(href)}">${linkLabel}</a>
+      ${href ? `<a class="paper-link" href="${esc(href)}" target="_blank" rel="noopener"
+         title="在线打开原文：${esc(href)}">原文 ↗</a>` : ''}
+      ${p.hasPdf ? `<a class="paper-link" href="papers_pdf/${encodeURIComponent(p.cat)}.pdf" target="_blank"
+         rel="noopener" title="打开库内 PDF">PDF ↗</a>` : ''}
     </div>
   </article>`;
 }
@@ -723,7 +825,8 @@ document.getElementById('caseModules').innerHTML = DATA.modules.map(caseModuleHT
 
 const views = {
   papers: document.getElementById('view-papers'),
-  cases: document.getElementById('view-cases')
+  cases: document.getElementById('view-cases'),
+  prompt: document.getElementById('view-prompt')
 };
 const counters = {
   papers: document.getElementById('result-count'),
@@ -747,6 +850,11 @@ function toggleModule(sec, collapse) {
 
 function apply() {
   const tab = state.tab;
+  if (tab === 'prompt') {
+    empty.classList.remove('show');
+    searchStatus.classList.remove('show');
+    return;
+  }
   const root = views[tab];
   const q = state.q.trim().toLowerCase();
   let total = 0;
@@ -806,6 +914,11 @@ function bindModule(sec) {
 document.querySelectorAll('.module').forEach(bindModule);
 
 function syncNav() {
+  document.querySelector('.rail-nav').hidden = state.tab === 'prompt';
+  if (state.tab === 'prompt') {
+    document.getElementById('rail-label').textContent = 'PROMPT / 导读提示词';
+    return;
+  }
   const isCases = state.tab === 'cases';
   const set = isCases ? DATA.cases : DATA.papers;
   document.getElementById('nav-all-label').textContent = isCases ? '全部案例' : '全部文献';
@@ -833,13 +946,28 @@ function setTab(tab) {
     b.classList.toggle('is-active', on);
     b.setAttribute('aria-selected', String(on));
   });
-  document.getElementById('tab-hint').textContent = tab === 'cases' ? 'POLICY CASES' : 'READINGS';
+  document.getElementById('tab-hint').textContent = tab === 'cases' ? 'POLICY CASES'
+    : tab === 'prompt' ? 'GUIDE PROMPT' : 'READINGS';
   syncNav();
   apply();
 }
 
 document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => setTab(btn.dataset.tab));
+});
+
+const promptCopy = document.getElementById('copy-prompt');
+promptCopy.addEventListener('click', async () => {
+  const base = document.getElementById('guide-prompt').textContent;
+  const info = (document.getElementById('paper-input')?.value || '').trim();
+  const text = info ? base + '\n\n' + info : base;
+  try {
+    await navigator.clipboard.writeText(text);
+    promptCopy.textContent = info ? '已复制（含文献信息）' : '已复制';
+  } catch {
+    promptCopy.textContent = '请手动选择复制';
+  }
+  setTimeout(() => { promptCopy.textContent = '复制完整提示词'; }, 1800);
 });
 
 document.addEventListener('click', e => {
