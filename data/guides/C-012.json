@@ -1,0 +1,169 @@
+{
+  "cat": "C-012",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "区域科学",
+      "经济思想史",
+      "区域政策"
+    ],
+    "keywords": [
+      "区域科学",
+      "区域政策",
+      "新区域经济学",
+      "创新环境",
+      "集聚经济",
+      "内生增长理论",
+      "欧洲一体化",
+      "主流经济学"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "20世纪90年代初区域科学界出现关于学科性质与意义的自我反思（Isserman 1993, 1995；Bailly and Coffey 1993），作者基于自身参与区域科学近四十年的经历，认为没有证据表明研究质量下降或领域迷失，试图从历史视角审视区域科学、区域政策与'新'区域经济学的关系并展望未来可能。",
+      "research_question": "区域科学是否陷入危机？区域科学、区域政策与'新'区域经济学之间应形成何种关系，未来研究议程应如何拓展？",
+      "hypotheses": [
+        "原文未说明（本文为评论性/思想史性质文章，未提出正式可检验假说）"
+      ],
+      "main_findings": [
+        "作者认为没有证据表明区域科学研究质量下降或领域变得迷失或无关紧要；理论阵营与应用阵营之间的持续争论不可避免且不应引起恐慌。",
+        "1965年美国国会通过《阿巴拉契亚区域发展法》和《公共工程与经济发展法》，带来前所未有的区域研究支持，促使主要大学经济系活跃于区域与城市经济学；1970年《区域科学杂志》按前五年发表文章篇均引用量在经济学杂志中排名第五。",
+        "1970年代联邦层面对区域政策的兴趣下降且此后未积极恢复；联邦区域政策在很大程度上是失败的，因为它大多忽视区域分析而偏向政治决定的（猪肉桶式）资源配置。",
+        "西欧国家层面对区域政策的兴趣也在减弱，但欧洲一体化带来的区域问题为区域科学研究创造了持续需求；关于一体化影响存在分歧：一方认为核心区因集聚经济、大市场、人力资本、先进生产者服务和规模范围经济而受益，另一方认为历史上边缘地区将因低劳动成本、资本流入、交通通信改善、向宜居地区迁移以及创新环境和中小企业创新网络而受益；落后地区问题的持续存在表明劣势的累积效应而非市场开放不足是缺乏竞争力的主因（Begg and Mayes 1993）。",
+        "过去二十年区域经济学家对区域科学作出重要贡献，尽管区域经济学在学术经济学中处于边缘；经济地理学等其他学科持续产出高质量研究；主流经济学家几乎完全忽视所有城市与区域研究，即便是符合最高经济学理论与数学正确性标准的研究。",
+        "作者认为区域科学的科学声誉很大程度上取决于其在主流学术经济学中的受尊重程度。",
+        "'新'区域经济学（如Krugman 1991）重新发现了运输成本、地方化经济和集聚经济使国民经济发展更多是区域的而非国家的，并以初步方式展示了系统建模的可能；内生增长理论（Romer 1986；Gould and Ruffin 1993）重新发现了累积因果，而区域科学早已认识到这一点；关于区域层面递增报酬来源存在争议：Krugman强调区域专业化，Glaeser等（1992）依循Jacobs（1969, 1984）强调产业间知识溢出，但Glaeser等的发现基于非常成熟的城市数据，在早期快速增长阶段区域专业化的外部性可能比产业间知识溢出更重要（Garofoli 1990的阶段理论）。",
+        "作者建议拓宽研究议程：区域科学在美国常常忽视经济主体、人力资源以及社会、文化、历史因素在区域发展中的重要性（Bailly and Coffey 1994）；欧洲大陆研究强调创新、信息扩散、适应性、小企业文化和区域认同；GREMI围绕创新环境概念发展共同理论与方法并影响了地方、国家和超国家当局的区域政策；应认真考虑建立类似GREMI的北美研究组并鼓励区域科学家与新区域经济学家共同参与。"
+      ],
+      "contributions": [
+        "从历史视角梳理区域科学四十年的发展轨迹及其与区域政策、主流经济学的关系。",
+        "指出'新'区域经济学与内生增长理论所'重新发现'的运输成本、集聚经济、累积因果等概念在区域科学中早有认识，并梳理递增报酬来源的争论。",
+        "提出拓宽区域科学研究议程的建议，强调经济主体、人力资源与社会文化历史因素，并倡议建立北美版的创新环境研究组织（类似GREMI）。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "以历史叙述与学科评论为基础，涉及区域科学、区域经济学、经济地理学与主流经济学的学科关系；理论参照包括集聚经济与地方化经济、累积因果、内生增长理论、区域专业化与知识溢出之争、创新环境（milieu innovateur）理论以及区域发展阶段理论。",
+      "key_assumptions": [
+        "理论阵营与应用阵营之间的张力不可避免（'阴阳'皆必要）。",
+        "区域科学的科学声誉很大程度上取决于其在主流学术经济学中的受尊重程度。",
+        "落后地区问题的持续存在主要源于劣势的累积效应，而非市场开放不足。",
+        "地方条件在区域发展过程中可能起决定性作用，且发展过程受多重因素影响难以准确预测。"
+      ],
+      "mechanisms": [
+        "集聚经济、大市场、人力资本、先进生产者服务、规模与范围经济 → 核心区从一体化中受益。",
+        "低劳动成本、资本流入、交通通信可达性改善、向宜居地区迁移、创新环境与中小企业创新网络 → 边缘地区可能从一体化中受益。",
+        "劣势累积效应 → 落后地区竞争力不足 → 需要将社会与经济凝聚政策作为一体化的重要组成部分（Begg and Mayes 1993）。",
+        "区域专业化外部性与产业间知识溢出的相对重要性随发展阶段变化：早期快速增长阶段专业化外部性更重要，成熟城市中知识溢出更重要（Garofoli 1990；Glaeser et al. 1992）。",
+        "创新环境与创新网络 → 动态的、创新的区域发展（GREMI研究传统）。"
+      ],
+      "variable_relationships": "原文为评论性文章，未设定可估计的变量关系；主要讨论的是概念性关联：一体化 → 核心区/边缘区差异化影响；递增报酬来源（专业化 vs. 知识溢出）→ 区域增长；创新环境 → 区域发展。",
+      "flow": [
+        "欧洲一体化 → 核心区集聚优势与边缘区成本/可达性优势并存 → 区域经济格局呈复杂拼图",
+        "劣势累积 → 落后地区缺乏竞争力 → 凝聚政策应成为一体化核心内容",
+        "创新环境与创新网络 → 动态创新的区域发展 → 政策启示（GREMI经验 → 北美研究组倡议）"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "不适用（理论/评论性文章）；文中引用的经验证据来自所引文献（如Glaeser et al. 1992基于成熟城市数据；Laband and Piette 1994的期刊引用排名），非本文原创数据。",
+      "sample_period": "不适用（理论/评论性文章）；历史叙述涉及1965年立法、1970年期刊排名、1970年代政策变化及1990年代初的学科讨论。",
+      "variables": [
+        "不适用（理论/评论性文章）"
+      ],
+      "econometric_models": "不适用（理论/评论性文章）",
+      "identification_strategy": "不适用（理论/评论性文章）",
+      "endogeneity_treatments": "不适用（理论/评论性文章）",
+      "robustness_checks": "不适用（理论/评论性文章）",
+      "key_tables_figures": [
+        "原文未说明（节选文本中未出现图表）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "文章属学科反思与思想史性质，其价值在于梳理区域科学、区域政策与'新'区域经济学之间的谱系关系，指出主流经济学'重新发现'的集聚、累积因果等概念在区域科学中早有传统，并引入欧洲创新环境研究传统作为拓宽议程的方向。",
+      "methodological_strengths": "以历史视角与文献对照展开论证，兼顾美国与西欧经验，对一体化影响呈现了核心区受益论与边缘区受益论两种对立观点，避免单一叙事。",
+      "limitations": [
+        "本文为评论性/思想史文章，未提出可检验的理论模型或经验识别策略，核心论断（如'没有证据表明研究质量下降'）主要基于作者个人判断与零散引证。",
+        "给定文本为partial，缺失abstract、intro、theory、data、methods、results、robustness、conclusion等章节，本导读只能依据节选内容填写，部分论证的完整逻辑无法确认。",
+        "对'新'区域经济学的评价（如'产出甚少'）带有论战色彩，缺乏系统文献计量或比较证据支撑。",
+        "关于欧洲一体化影响的两派观点仅作转述，未给出判别标准或证据权衡。"
+      ],
+      "identification_problems": "不适用（非实证论文）；但文中若干因果性论断（如联邦区域政策'在很大程度上失败'、劣势累积是落后地区缺乏竞争力的主因）缺乏系统证据与反事实比较，属于基于文献与经验的判断。",
+      "alternative_explanations": "对联邦区域政策失败的判断，除'忽视区域分析、政治决定资源配置'外，也可能与联邦财政能力、政策工具设计或地方执行能力有关，原文未讨论。对落后地区竞争力不足，除劣势累积效应外，市场开放不足、制度质量等因素原文仅提及而未系统排除。",
+      "unresolved_questions": [
+        "区域科学的科学声誉是否真的取决于其在主流经济学中的地位，原文以相对薪资等间接论据支持，未提供系统检验。",
+        "区域层面递增报酬的来源（专业化 vs. 产业间知识溢出）在不同发展阶段如何转换，原文仅转述Garofoli的阶段理论，未给出统一框架。",
+        "建立类似GREMI的北美研究组是否可行、如何组织，原文仅提出倡议。",
+        "政治-经济钟摆的30年周期假说（Hansen, Higgins, and Savoie 1990）是否成立，原文仅作转述。"
+      ],
+      "follow_up_topics": [
+        "区域科学与主流经济学（新经济地理、内生增长理论）之间的概念融合与边界划分。",
+        "区域专业化外部性与知识溢出在不同发展阶段和城市规模下的相对重要性。",
+        "创新环境与创新网络理论在北美情境下的适用性与经验检验。",
+        "欧洲一体化凝聚政策对落后地区的效果评估。",
+        "区域政策的政治经济学：资源配置中的政治因素与区域分析的相对作用。"
+      ]
+    },
+    "key_concepts": [
+      "区域科学",
+      "区域政策",
+      "新区域经济学",
+      "集聚经济",
+      "地方化经济",
+      "累积因果",
+      "内生增长理论",
+      "区域专业化",
+      "知识溢出",
+      "创新环境（innovative milieu）",
+      "GREMI",
+      "欧洲一体化与凝聚政策"
+    ],
+    "reading_recommendations": [
+      "Isserman, A. M. 1993. Lost in space? On the history, status, and future of regional science. Review of Regional Studies 23: 1-50.",
+      "Isserman, A. M. 1995. The history, status, and future of regional science: An American perspective. International Regional Science Review 17: 249-96.",
+      "Bailly, A. S., and W. J. Coffey. 1994. Regional science in crisis: A plea for a more open and relevant approach. Papers in Regional Science 73: 3-14.",
+      "Krugman, P. 1991. Geography and Trade. Cambridge: MIT Press.",
+      "Glaeser, E. L., H. D. Kallal, J. A. Scheinkman, and A. Shleifer. 1992. Growth in cities. Journal of Political Economy 100: 1126-52.",
+      "Romer, P. M. 1986. Increasing returns and long-run growth. Journal of Political Economy 94: 1002-37.",
+      "Camagni, R., ed. 1991. Innovation Networks. London: Belhaven Press.",
+      "Begg, I., and D. Mayes. 1993. Cohesion in the European Community. Regional Science and Urban Economics 23: 421-48."
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T06:34:52.373894+00:00",
+    "source_chars": 16633,
+    "processed_chars": 16633,
+    "completeness": "partial",
+    "included_sections": [],
+    "missing_sections": [
+      "abstract",
+      "intro",
+      "theory",
+      "data",
+      "methods",
+      "results",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 4504,
+    "output_tokens": 2498,
+    "duration_seconds": 20.7
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "cat": "C-011",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "区域规划与政策",
+      "区域科学思想史"
+    ],
+    "keywords": [
+      "区域规划",
+      "区域政策",
+      "William Alonso",
+      "区域科学",
+      "去工业化",
+      "大都市规划",
+      "区域重构"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "区域科学长期受到批评，认为它缺乏区域政策与规划方面的处方；很少有区域科学家积极把自身洞见运用于现实的不均衡区域发展过程。作者以William Alonso为例，考察一位区域科学理论家如何持续介入其时代的重要政策议题。",
+      "research_question": "原文未说明（正文缺失摘要与引言，无法确认明确的研究问题表述）。从可见文本推断，本文关注的问题是：区域规划与政策领域经历了哪些延续与变迁，以及Alonso风格的研究如何回应这些变化。",
+      "hypotheses": [
+        "原文未说明（本文为思想评述性文章，未见明确研究假说）。"
+      ],
+      "main_findings": [
+        "区域政策制定经历了若干阶段性高点：发展经济学的兴起及其对落后地区的关注、对发展经济学的幻灭、去工业化成为区域挑战、分权与国族建构的相反趋势、环境议题的兴起，以及大都市规划兴趣的复兴。",
+        "Alonso从Walter Isard的学生起步，早期构建了大都市土地利用理论（Alonso 1964），这是对冯·杜能农业土地利用模型的杰出应用。",
+        "Alonso“被政策 bug 咬中”，其职业生涯持续写作并建言于当时的重大区域政策议题，从区域政策到迁移政策。",
+        "Alonso理解战后新古典经济学对区域科学的深刻挑战，并在《From Alfred Weber to Max Weber》（Alonso 1990）中加以讨论；他还评论1970年代大都市增长模式的新发展，思考1980年代去工业化对区域政策的影响，并在晚年深入参与1990年代欧洲区域重构的辩论（Alonso 1989b, 1991, 1992, 1993）。",
+        "与Friedmann和Alonso旧文集相比，新文集的重点会有所不同：空间几何让位于制度主义与政治经济学路径；区域规划与政策已下放到更低层级的政府，更接近普通公民、更具冲突性、资金更少但无疑更具创新性；从首都办公室决定增长极与基础设施支出的远程专家规划师已不复存在。",
+        "延续性同样存在：对公平与效率的双重关注处于“metropolitics”运动的核心（Orfield 1997）；自然环境仍是焦点，只是形式新颖；经济发展的空间与区域维度持续吸引政策制定者与公民的关注。"
+      ],
+      "contributions": [
+        "以William Alonso为线索，梳理区域规划与政策领域从战后到1990年代的延续与变迁。",
+        "记录了Alonso在区域科学理论（大都市土地利用理论）与区域政策实践两方面的贡献，展示理论家如何介入时代政策议题。",
+        "指出区域规划与政策的研究重心从空间几何转向制度主义与政治经济学，从中央专家规划转向地方分权与创新实验。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "区域科学（Walter Isard传统）、冯·杜能农业土地利用模型、新古典经济学对区域科学的挑战，以及制度主义与政治经济学路径。",
+      "key_assumptions": [
+        "原文未说明（正文缺失理论章节，无法确认系统假设）。"
+      ],
+      "mechanisms": [
+        "区域科学长期缺乏政策处方，区域科学家较少参与现实不均衡发展过程，这构成Alonso式政策介入的背景。",
+        "区域政策议题随时代更替：发展经济学与落后地区 → 去工业化 → 分权与国族建构 → 环境关切 → 大都市规划复兴。",
+        "规划权力下放使区域规划更接近公民、更具冲突性、资金更少但更具创新性，取代了首都远程专家决定增长极的模式。"
+      ],
+      "variable_relationships": "原文未说明（本文为思想评述，未设定可检验的变量关系）。",
+      "flow": [
+        "区域科学缺乏政策处方 → Alonso“被政策 bug 咬中” → 持续介入时代政策议题（区域政策、迁移政策、去工业化、欧洲区域重构）→ 空间几何让位于制度主义与政治经济学 → 规划权力下放与地方创新实验 → 公平与效率并重的“metropolitics”延续"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "不适用（理论/评述性文章）",
+      "sample_period": "不适用（理论/评述性文章）",
+      "variables": [
+        "不适用（理论/评述性文章）"
+      ],
+      "econometric_models": "不适用（理论/评述性文章）",
+      "identification_strategy": "不适用（理论/评述性文章）",
+      "endogeneity_treatments": "不适用（理论/评述性文章）",
+      "robustness_checks": "不适用（理论/评述性文章）",
+      "key_tables_figures": [
+        "原文未说明（节选文本中未见图表）。"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文属于思想评述与学术史梳理，而非构建新理论；其价值在于以Alonso为个案，勾勒区域规划与政策从空间几何到制度主义与政治经济学的范式转移，并强调公平与效率并重的规范关切。",
+      "methodological_strengths": "以人物学术生涯为线索串联领域变迁，叙事具体、有历史纵深感；引用Alonso多篇代表作，展示理论与政策实践的互动。",
+      "limitations": [
+        "正文严重不完整（缺失摘要、引言、理论、数据、方法、结果、稳健性），无法确认研究设计、论证结构与系统证据。",
+        "本文为评述性文章，未提供可检验的假说或系统实证证据，结论主要依赖作者对学术史的叙述与判断。",
+        "对“延续与变迁”的论证以举例为主，未说明选择Alonso作为个案的方法论依据。"
+      ],
+      "identification_problems": "不适用（非实证论文）；但作为学术史论证，其因果性叙述（如议题更替的驱动力）缺乏系统识别。",
+      "alternative_explanations": "原文未说明（节选文本未讨论替代解释）。",
+      "unresolved_questions": [
+        "区域科学为何长期缺乏政策处方，这一状况是否以及如何改变，原文未系统回答。",
+        "分权化规划在公平与效率上的实际效果如何，原文未说明。",
+        "Alonso式政策介入对区域政策实际产出的影响，原文未说明。"
+      ],
+      "follow_up_topics": [
+        "区域规划与政策从空间几何向制度主义与政治经济学转向的系统性文献梳理。",
+        "分权化地方经济开发实验的效果评估。",
+        "区域科学家的政策参与度及其对区域发展结果的影响。",
+        "“metropolitics”运动中的公平与效率议题。"
+      ]
+    },
+    "key_concepts": [
+      "区域科学",
+      "区域规划",
+      "区域政策",
+      "大都市土地利用理论",
+      "去工业化",
+      "分权（devolution）",
+      "增长极",
+      "metropolitics",
+      "制度主义与政治经济学路径"
+    ],
+    "reading_recommendations": [
+      "Alonso (1964)：大都市土地利用理论。",
+      "Alonso (1990)：From Alfred Weber to Max Weber。",
+      "Alonso (1989b)：新整合欧盟中区域政策的未来。",
+      "Alonso (1991, 1992)：欧洲城市体系的震荡。",
+      "Alonso (1993)：后苏联东欧实验。",
+      "Orfield (1997)：metropolitics 运动。",
+      "原文未说明（节选文本未提供其他延伸阅读）。"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T06:34:31.633447+00:00",
+    "source_chars": 26591,
+    "processed_chars": 5234,
+    "completeness": "partial",
+    "included_sections": [
+      "conclusion"
+    ],
+    "missing_sections": [
+      "abstract",
+      "intro",
+      "theory",
+      "data",
+      "methods",
+      "results",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 1946,
+    "output_tokens": 1548,
+    "duration_seconds": 13.7
+  }
+}
