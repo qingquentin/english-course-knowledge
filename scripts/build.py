@@ -17,7 +17,6 @@ def main():
     modules = load("modules.json")
     papers = load("papers.json")
     cases = load("cases.json")
-    daodu = load("daodu.json")
 
     for m in modules:
         m["count"] = sum(1 for p in papers if p["m"] == m["id"])
@@ -27,7 +26,7 @@ def main():
     for p in papers:
         p["hasPdf"] = (pdf_dir / f"{p['cat']}.pdf").is_file()
 
-    payload = {"modules": modules, "papers": papers, "cases": cases, "daodu": daodu}
+    payload = {"modules": modules, "papers": papers, "cases": cases}
 
     tpl = TPL.read_text(encoding="utf-8")
 
@@ -38,7 +37,6 @@ def main():
 
     tpl = tpl.replace("__N_PAPERS__", str(len(papers)))
     tpl = tpl.replace("__N_CASES__", str(len(cases)))
-    tpl = tpl.replace("__N_DAODU__", str(len(daodu)))
 
     if "__DATA__" not in tpl:
         raise SystemExit("模板缺少 __DATA__ 占位符")
@@ -51,7 +49,7 @@ def main():
     OUT.write_text(tpl, encoding="utf-8")
 
     print(f"已生成 {OUT}")
-    print(f"  文献 {len(papers)} 篇，案例 {len(cases)} 个，导读 {len(daodu)} 篇，文件 {OUT.stat().st_size/1024:.0f} KB")
+    print(f"  文献 {len(papers)} 篇，案例 {len(cases)} 个，文件 {OUT.stat().st_size/1024:.0f} KB")
     for m in modules:
         print(f"  {m['id']} {m['name']}: {m['count']} 篇 + {m['caseCount']} 例")
 

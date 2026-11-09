@@ -6,6 +6,7 @@
 """
 import json
 import os
+import re
 import time
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
@@ -226,8 +227,16 @@ def stats():
 # ---------- 问答 ----------
 
 class Ask(BaseModel):
-    question: str = Field(min_length=1, max_length=500)
+    question: str = Field(min_length=1, max_length=4000)
     k: int = Field(6, ge=1, le=10)
+
+
+TITLE_LINE = re.compile(r"^\s*标题\s*[:：]\s*(.+)$", re.M)
+
+
+def _is_card_request(question: str) -> bool:
+    """判断用户是否把「导读 prompt」整段粘了进来。"""
+    return "【研究问题】" in question and "【阅读问题】" in question
 
 
 @app.post("/api/ask")
@@ -235,7 +244,16 @@ async def ask(body: Ask, request: Request):
     if not _allow(_client_ip(request)):
         raise HTTPException(429, f"提问过于频繁，每小时最多 {ASK_LIMIT} 次，请稍后再试。")
     question = body.question.strip()
-    sources = retriever.search(question, k=body.k)
+    card = _is_card_request(question)
+    # 导读模式下问题里混着整段提示词，只用「标题：」那一行去检索，避免套话稀释查询
+    match = TITLE_LINE.search(question) if card else None
+    query = match.group(1).strip() if match and match.group(1).strip() else question
+    sources = retriever.search(query, k=min(body.k, 3) if card else body.k,
+                               limit=9000 if card else None)
+    if card and sources:
+        rich = retriever.card_excerpt(sources[0]["id"])
+        if rich:
+            sources[0]["excerpt"] = rich
 
     def sse(event, data):
         return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
@@ -247,7 +265,7 @@ async def ask(body: Ask, request: Request):
         if not sources:
             yield sse("done", {"answer": "库中没有找到与这个问题相关的材料。可以换一个说法，或先浏览模块找找相近主题。", "empty": True})
             return
-        async for event, data in ai.stream_answer(question, sources):
+        async for event, data in ai.stream_answer(question, sources, mode="card" if card else "qa"):
             yield sse(event, data)
 
     return StreamingResponse(gen(), media_type="text/event-stream", headers={

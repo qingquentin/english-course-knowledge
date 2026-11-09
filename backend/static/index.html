@@ -32,6 +32,14 @@
     </span>
     <em>AI</em>
   </a>
+  <a class="rail-ask" href="#/prompt" id="prompt-link" style="margin-top:8px">
+    <span class="ask-mark">导</span>
+    <span>
+      <strong>导读提示词</strong>
+      <small>复制到 DeepSeek 生成卡片</small>
+    </span>
+    <em>PROMPT</em>
+  </a>
 
   <div class="rail-foot" id="rail-foot">正在载入…</div>
 </aside>
@@ -80,8 +88,54 @@
   <section id="view-detail" hidden></section>
   <section id="view-ask" hidden></section>
 
+  <section id="view-prompt" hidden>
+    <div class="prompt-page">
+      <p class="eyebrow">GUIDE PROMPT / 导读提示词</p>
+      <h1>让 DeepSeek 生成一张阅读卡片<span class="dot">.</span></h1>
+      <p class="prompt-intro">先在下方的文本框里粘贴文献信息，再点「复制完整提示词」，整段粘到「库内问答」或 DeepSeek，它会按统一结构输出研究问题、数据与方法、主要结论、关键词和阅读问题。</p>
+      <ol class="prompt-steps">
+        <li>在下方文本框粘贴文献的标题、作者、期刊年份，以及摘要或正文。</li>
+        <li>点「复制完整提示词」。</li>
+        <li>粘到「库内问答」生成卡片，会自动检索该文献正文并标注出处；也可以粘到外部 DeepSeek。</li>
+      </ol>
+      <div class="prompt-box">
+        <button class="prompt-copy" id="copy-prompt" type="button">复制完整提示词</button>
+        <pre id="guide-prompt">你是区域与城市经济学专业的文献导读助手。请根据我提供的文献信息，生成一张中文阅读卡片，严格按以下五部分输出：
+
+【研究问题】
+用 1—2 句话说明文章要回答的核心问题，以及这个问题为什么重要。
+
+【数据与方法】
+说明数据来源、样本范围、识别策略或理论模型。若是综述或理论文章，说明其论证路径。不要编造材料中没有的方法。
+
+【主要结论】
+用 2—3 条说明核心发现、机制或政策含义。每条都要能追溯到材料中的证据。
+
+【关键词】
+3—5 个中文关键词，用顿号分隔。
+
+【阅读问题】
+给出 3 个引导阅读的问题，分别关注：
+1. 识别策略或理论机制是否可信；
+2. 结论的外部有效性或适用边界；
+3. 对区域与城市经济政策的启示。
+问题要具体到这篇文献，不要写成通用套话。
+
+写作要求：
+- 只使用我提供的材料，不补充材料以外的文献、数据、作者或结论。
+- 材料不足时直接说明缺什么，不要猜测。
+- 用中文，语言简洁，不用“本文”开头的套话。
+- 如果我只给了题录、没有摘要或正文，请注明“仅凭题录无法判断内容”，并只生成基于题录的阅读问题。</pre>
+      </div>
+      <div class="prompt-input">
+        <label for="paper-input">文献信息 · 直接粘贴到这里</label>
+        <textarea id="paper-input" rows="7" placeholder="标题：&#10;作者：&#10;期刊/年份：&#10;摘要或正文："></textarea>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
-    <span>2019—2025 · 04 MODULES · 100 PAPERS · 44 CASES · 67 GUIDES</span>
+    <span>2019—2025 · 04 MODULES · 100 PAPERS · 44 CASES</span>
     <span id="foot-model"></span>
   </footer>
 </main>

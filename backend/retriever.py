@@ -144,7 +144,7 @@ class Retriever:
     MIN_REL = 0.25
     MIN_TOP_LONG = 40.0
 
-    def search(self, query, k=6, kinds=None):
+    def search(self, query, k=6, kinds=None, limit=None):
         self.build()
         q_all = {t for t in tokens(query) if t in self.index}
         if not q_all:
@@ -167,7 +167,8 @@ class Retriever:
                 continue
             if score < floor or coverage.get(key, 0) < self.MIN_COVERAGE:
                 continue
-            out.append(self._present(d, score, matched[key], limit=3600 if not out else 1200))
+            out.append(self._present(d, score, matched[key],
+                                     limit=limit or (3600 if not out else 1200)))
             if len(out) >= k:
                 break
         return out
@@ -211,11 +212,12 @@ class Retriever:
             if d.get("body"):
                 hot = self._best_paras(d, toks, n=2)
                 out["snippet"] = _clip(" … ".join(hot), 320) if hot else meta
+                # 导读模式下 limit 会调大，正文多取几段，免得「数据与方法」一节缺料
                 out["excerpt"] = _clip(
                     f"题录：{d['title']}（{d.get('cn') or ''}）\n"
                     f"作者：{d.get('authors') or '未记录'}　出处：{d.get('venue') or ''} "
                     f"{d.get('year') or ''}\n\n正文节选：\n"
-                    + "\n".join(self._best_paras(d, toks, n=8)),
+                    + "\n".join(self._best_paras(d, toks, n=8 if limit <= 3600 else 20)),
                     limit,
                 )
             else:
@@ -257,6 +259,21 @@ def _clip(s, n):
     return s if len(s) <= n else s[:n].rstrip() + "…"
 
 
+def card_excerpt(cat, limit=60000):
+    """导读模式专用：回表取该文献全文（截到参考文献前），让卡片能写到数据与方法。"""
+    p = db.get_paper(cat)
+    body = (p or {}).get("body") or ""
+    if not body:
+        return None
+    cut = body.rfind("\nReferences")
+    if cut > 10000:
+        body = body[:cut]
+    text = _clip(body, limit)
+    return (f"题录：{p['title']}（{p.get('cn') or ''}）\n"
+            f"作者：{p.get('authors') or '未记录'}　出处：{p.get('venue') or ''} "
+            f"{p.get('year') or ''}\n\n正文节选：\n{text}")
+
+
 _engine = Retriever()
 
 
@@ -264,8 +281,8 @@ def engine():
     return _engine.build()
 
 
-def search(query, k=6, kinds=None):
-    return engine().search(query, k=k, kinds=kinds)
+def search(query, k=6, kinds=None, limit=None):
+    return engine().search(query, k=k, kinds=kinds, limit=limit)
 
 
 def recommend(item_id, k=5):
