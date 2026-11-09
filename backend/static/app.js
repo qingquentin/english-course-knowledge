@@ -30,7 +30,7 @@ async function api(path, opts) {
 const modOf = id => S.modules.find(m => m.id === id) || { name: id, color: '#8A8171' };
 const kindLabel = k => (k === 'paper' ? '文献' : '案例');
 
-const L = { items: [], q: '', field: '', year: '', journal: '', sort: 'cat' };
+const L = { items: [], q: '', field: '', year: '', sort: 'cat' };
 const LS = {
   status: cat => localStorage.getItem('lit:status:' + cat) || 'unread',
   setStatus: (cat, s) => localStorage.setItem('lit:status:' + cat, s),
@@ -48,6 +48,10 @@ const LS = {
 const fmtSize = n => !n ? ''
   : n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB'
   : Math.max(1, Math.round(n / 1024)) + ' KB';
+
+// 外部链接只显示短标签，完整地址放 title，避免长 URL 撑破元信息栏
+const extLink = it => !it.url ? '无链接'
+  : `<a href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(it.url)}">${it.linkKind === 'doi' ? 'DOI ↗' : '检索 ↗'}</a>`;
 
 /* ---------------- 初始化 ---------------- */
 
@@ -317,7 +321,6 @@ function paperHTML(p, m) {
         ${kw ? `<p class="paper-kw">${esc(kw)}</p>` : ''}
       </div>
       <div class="paper-tail">
-        ${p.hasPdf ? '<span class="paper-type ft">PDF</span>' : ''}
         <span class="paper-type">${esc(p.type || '')}</span>
         ${p.url && p.linkKind !== 'search' ? `<a class="paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">原文 ↗</a>` : ''}
         ${p.hasPdf ? `<a class="paper-link" href="/api/papers/${encodeURIComponent(p.id)}/pdf" target="_blank" rel="noopener">PDF ↗</a>` : ''}
@@ -408,8 +411,8 @@ async function showDetail(kind, id) {
         <div><dt>年份</dt><dd>${esc(item.year || '')}</dd></div>
         <div><dt>届别</dt><dd>${esc(item.archive || '')} 届</dd></div>
         <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
-        <div><dt>原文</dt><dd>${item.url && item.linkKind !== 'search' ? `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : '无链接'}</dd></div>
-        <div><dt>文件</dt><dd>${esc(item.path || '')}</dd></div>
+        <div><dt>原文</dt><dd>${item.url && item.linkKind !== 'search' ? extLink(item) : '无链接'}</dd></div>
+        <div><dt>文件</dt><dd class="ellipsis" title="${esc(item.path || '')}">${esc(item.path || '')}</dd></div>
         ${item.hasPdf ? `<div><dt>PDF</dt><dd>${fmtSize(item.pdfSize)}</dd></div>` : ''}
       </dl>
       ${(item.keywords || []).length ? `<div class="kw-row">${item.keywords.map(k => `<span class="kw">${esc(k)}</span>`).join('')}</div>` : ''}
@@ -591,7 +594,6 @@ function litHTML() {
         </div>
         <select id="lit-field" aria-label="研究领域"></select>
         <select id="lit-year" aria-label="年份"></select>
-        <input id="lit-journal" type="text" placeholder="期刊筛选" aria-label="期刊筛选">
         <select id="lit-sort" aria-label="排序">
           <option value="cat">默认排序</option>
           <option value="year_desc">年份 新→旧</option>
@@ -613,8 +615,6 @@ function bindLit() {
   q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { L.q = q.value.trim(); renderLitCards(); }, 180); });
   $('#lit-field').addEventListener('change', e => { L.field = e.target.value; renderLitCards(); });
   $('#lit-year').addEventListener('change', e => { L.year = e.target.value; renderLitCards(); });
-  const j = $('#lit-journal');
-  j.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { L.journal = j.value.trim(); renderLitCards(); }, 180); });
   $('#lit-sort').addEventListener('change', e => { L.sort = e.target.value; renderLitCards(); });
 }
 
@@ -638,7 +638,6 @@ function populateLitFilters() {
     years.map(y => `<option value="${y}">${y}</option>`).join('');
   $('#lit-field').value = L.field;
   $('#lit-year').value = L.year;
-  $('#lit-journal').value = L.journal;
   $('#lit-sort').value = L.sort;
 }
 
@@ -648,7 +647,6 @@ function renderLitCards() {
   let items = L.items.filter(it => {
     if (L.field && it.sub !== L.field) return false;
     if (L.year && String(it.year) !== L.year) return false;
-    if (L.journal && !(it.venue || '').toLowerCase().includes(L.journal.toLowerCase())) return false;
     if (L.q) {
       const q = L.q.toLowerCase();
       const hay = [it.title, it.cn, it.authors, it.venue,
@@ -768,7 +766,7 @@ async function showLitDetail(cat) {
         <div><dt>年份</dt><dd>${esc(item.year || '')}</dd></div>
         <div><dt>届别</dt><dd>${esc(item.archive || '')} 届</dd></div>
         <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
-        ${item.url ? `<div><dt>原文</dt><dd><a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a></dd></div>` : ''}
+        ${item.url ? `<div><dt>原文</dt><dd>${extLink(item)}</dd></div>` : ''}
         ${item.hasPdf ? `<div><dt>PDF</dt><dd><a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">阅读原文 ↗</a></dd></div>` : ''}
       </dl>
       ${(item.keywords || []).length ? `<div class="kw-row">${item.keywords.map(k => `<span class="kw">${esc(k)}</span>`).join('')}</div>` : ''}
