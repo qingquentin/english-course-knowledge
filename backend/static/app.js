@@ -30,6 +30,21 @@ async function api(path, opts) {
 const modOf = id => S.modules.find(m => m.id === id) || { name: id, color: '#8A8171' };
 const kindLabel = k => (k === 'paper' ? '文献' : '案例');
 
+const L = { items: [], q: '', field: '', year: '', journal: '', sort: 'cat' };
+const LS = {
+  status: cat => localStorage.getItem('lit:status:' + cat) || 'unread',
+  setStatus: (cat, s) => localStorage.setItem('lit:status:' + cat, s),
+  bookmarks: () => { try { return JSON.parse(localStorage.getItem('lit:bookmarks') || '[]'); } catch { return []; } },
+  toggleBookmark: cat => {
+    const b = LS.bookmarks();
+    const on = !b.includes(cat);
+    localStorage.setItem('lit:bookmarks', JSON.stringify(on ? [...b, cat] : b.filter(x => x !== cat)));
+    return on;
+  },
+  note: cat => localStorage.getItem('lit:note:' + cat) || '',
+  setNote: (cat, t) => localStorage.setItem('lit:note:' + cat, t),
+};
+
 const fmtSize = n => !n ? ''
   : n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB'
   : Math.max(1, Math.round(n / 1024)) + ' KB';
@@ -136,7 +151,10 @@ function route() {
     $('#view-home').hidden = false;
     $('#view-detail').hidden = true;
     $('#view-ask').hidden = true;
+    $('#view-literature').hidden = true;
+    $('#view-lit-detail').hidden = true;
     $('#ask-link').classList.remove('is-active');
+    $('#lit-link').classList.remove('is-active');
   };
 
   if (parts[0] === 'ask') {
@@ -149,6 +167,14 @@ function route() {
   }
   if (parts[0] === 'case' && parts[1]) {
     showDetail('case', decodeURIComponent(parts[1]));
+    return;
+  }
+  if (parts[0] === 'literature') {
+    showLiterature();
+    return;
+  }
+  if (parts[0] === 'lit' && parts[1]) {
+    showLitDetail(decodeURIComponent(parts[1]));
     return;
   }
   if (parts[0] === 'm' && parts[1]) S.mod = parts[1].toUpperCase();
@@ -309,7 +335,10 @@ function bindModuleEvents(root) {
 async function showDetail(kind, id) {
   $('#view-home').hidden = true;
   $('#view-ask').hidden = true;
+  $('#view-literature').hidden = true;
+  $('#view-lit-detail').hidden = true;
   $('#ask-link').classList.remove('is-active');
+  $('#lit-link').classList.remove('is-active');
   const view = $('#view-detail');
   view.hidden = false;
   view.innerHTML = '<div class="loading">LOADING</div>';
@@ -400,14 +429,422 @@ async function showDetail(kind, id) {
     </div>`;
 }
 
+/* ---------------- 文献导读 ---------------- */
+
+const STATUS_LABEL = { unread: '未读', reading: '在读', completed: '已读' };
+
+const litBlock = (label, inner) => inner
+  ? `<div class="lit-block"><h4>${label}</h4>${inner}</div>` : '';
+const litP = (label, text) => litBlock(label, text ? `<p class="lit-text">${esc(text)}</p>` : '');
+const litUL = (label, arr) => litBlock(label, arr && arr.length
+  ? `<ul class="lit-list">${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '');
+const litTags = (label, arr) => litBlock(label, arr && arr.length
+  ? `<div class="kw-row">${arr.map(k => `<span class="kw">${esc(k)}</span>`).join('')}</div>` : '');
+
+function litFlow(flow) {
+  if (!flow || !flow.length) return '';
+  return `<div class="lit-flow">${flow
+    .map((s, i) => `<div class="lit-flow-step">${esc(s)}</div>${i < flow.length - 1 ? '<div class="lit-flow-arrow">↓</div>' : ''}`)
+    .join('')}</div>`;
+}
+
+function litOverviewHTML(gu) {
+  const ov = gu.overview || {};
+  return [
+    litP('研究动机', ov.research_motivation),
+    litP('核心研究问题', ov.research_question),
+    litUL('研究假设', ov.hypotheses),
+    litUL('主要发现', ov.main_findings),
+    litUL('学术贡献', ov.contributions),
+    litTags('核心概念', gu.key_concepts),
+    litUL('延伸阅读', gu.reading_recommendations),
+  ].join('');
+}
+
+function litMechanismHTML(gu) {
+  const me = gu.mechanism || {};
+  return [
+    litP('理论基础', me.theoretical_foundations),
+    litUL('关键经济假设', me.key_assumptions),
+    litUL('核心机制', me.mechanisms),
+    litP('变量间关系', me.variable_relationships),
+    litBlock('机制图示', litFlow(me.flow)),
+  ].join('');
+}
+
+function litMethodsHTML(gu) {
+  const mt = gu.methods || {};
+  const kind = mt.paper_type === 'theoretical' ? '理论论文' : '实证论文';
+  return [
+    litBlock('论文类型', `<p class="lit-text"><span class="tag">${kind}</span></p>`),
+    litP('数据来源', mt.data_sources),
+    litP('样本区间', mt.sample_period),
+    litUL('变量定义', mt.variables),
+    litP('计量模型', mt.econometric_models),
+    litP('识别策略', mt.identification_strategy),
+    litP('内生性处理', mt.endogeneity_treatments),
+    litP('稳健性检验', mt.robustness_checks),
+    litUL('重要图表', mt.key_tables_figures),
+  ].join('');
+}
+
+function litCritiqueHTML(gu) {
+  const cr = gu.critique || {};
+  return [
+    litP('理论贡献', cr.theoretical_contributions),
+    litP('方法优点', cr.methodological_strengths),
+    litUL('研究局限', cr.limitations),
+    litP('识别问题', cr.identification_problems),
+    litP('替代解释', cr.alternative_explanations),
+    litUL('未解问题', cr.unresolved_questions),
+    litUL('后续方向', cr.follow_up_topics),
+  ].join('');
+}
+
+function litTabsHTML(g) {
+  const gu = g.guide || {};
+  return `
+    <div class="lit-tabs" id="lit-tabs">
+      <div class="lit-tab-nav" role="tablist">
+        <button role="tab" data-tab="overview" class="is-active">概览 <span>Overview</span></button>
+        <button role="tab" data-tab="mechanism">机制 <span>Mechanism</span></button>
+        <button role="tab" data-tab="methods">方法 <span>Methods</span></button>
+        <button role="tab" data-tab="critique">评述 <span>Critique</span></button>
+      </div>
+      <div class="lit-tab-panel" data-panel="overview">${litOverviewHTML(gu)}</div>
+      <div class="lit-tab-panel" data-panel="mechanism" hidden>${litMechanismHTML(gu)}</div>
+      <div class="lit-tab-panel" data-panel="methods" hidden>${litMethodsHTML(gu)}</div>
+      <div class="lit-tab-panel" data-panel="critique" hidden>${litCritiqueHTML(gu)}</div>
+    </div>`;
+}
+
+async function showLiterature() {
+  $('#view-home').hidden = true;
+  $('#view-detail').hidden = true;
+  $('#view-ask').hidden = true;
+  $('#view-lit-detail').hidden = true;
+  $('#ask-link').classList.remove('is-active');
+  $('#lit-link').classList.add('is-active');
+  const view = $('#view-literature');
+  view.hidden = false;
+  $('#crumb').innerHTML = `<a href="#/">全部材料</a><span class="slash">/</span><b>文献导读</b>`;
+  window.scrollTo({ top: 0 });
+
+  if (!view.dataset.ready) {
+    view.innerHTML = litHTML();
+    bindLit();
+    view.dataset.ready = '1';
+  }
+  if (!L.items.length) await loadLit();
+  renderLitCards();
+}
+
+function litHTML() {
+  return `
+    <div class="lit-wrap">
+      <div class="lit-head">
+        <div>
+          <p class="eyebrow">LITERATURE GUIDE · 100 PAPERS</p>
+          <h1>文献导读</h1>
+          <p class="lede">按主题发现文献，逐篇精读研究问题、机制、方法与评述。有导读的文献可进入四栏精读，其余可直接读原文。</p>
+        </div>
+        <div class="lit-count" id="lit-count"></div>
+      </div>
+
+      <div class="lit-filter">
+        <div class="lit-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          <input id="lit-q" type="search" placeholder="搜索标题、作者、关键词、期刊…" aria-label="搜索文献">
+        </div>
+        <select id="lit-field" aria-label="研究领域"></select>
+        <select id="lit-year" aria-label="年份"></select>
+        <input id="lit-journal" type="text" placeholder="期刊筛选" aria-label="期刊筛选">
+        <select id="lit-sort" aria-label="排序">
+          <option value="cat">默认排序</option>
+          <option value="year_desc">年份 新→旧</option>
+          <option value="year_asc">年份 旧→新</option>
+        </select>
+      </div>
+
+      <div class="lit-grid" id="lit-grid"></div>
+      <div class="empty" id="lit-empty">
+        <strong>没有匹配的文献</strong>
+        <span>换个关键词或筛选条件。</span>
+      </div>
+    </div>`;
+}
+
+function bindLit() {
+  const q = $('#lit-q');
+  let t;
+  q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { L.q = q.value.trim(); renderLitCards(); }, 180); });
+  $('#lit-field').addEventListener('change', e => { L.field = e.target.value; renderLitCards(); });
+  $('#lit-year').addEventListener('change', e => { L.year = e.target.value; renderLitCards(); });
+  const j = $('#lit-journal');
+  j.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { L.journal = j.value.trim(); renderLitCards(); }, 180); });
+  $('#lit-sort').addEventListener('change', e => { L.sort = e.target.value; renderLitCards(); });
+}
+
+async function loadLit() {
+  try {
+    L.items = await api('/literature');
+  } catch (e) {
+    $('#lit-grid').innerHTML = `<div class="answer-err">载入失败：${esc(e.message)}</div>`;
+    return;
+  }
+  populateLitFilters();
+}
+
+function populateLitFilters() {
+  const fields = new Set();
+  (S.modules || []).forEach(m => (m.subs || []).forEach(s => fields.add(s)));
+  $('#lit-field').innerHTML = `<option value="">全部领域</option>` +
+    [...fields].sort().map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  const years = [...new Set(L.items.map(i => i.year).filter(Boolean))].sort((a, b) => b - a);
+  $('#lit-year').innerHTML = `<option value="">全部年份</option>` +
+    years.map(y => `<option value="${y}">${y}</option>`).join('');
+  $('#lit-field').value = L.field;
+  $('#lit-year').value = L.year;
+  $('#lit-journal').value = L.journal;
+  $('#lit-sort').value = L.sort;
+}
+
+function renderLitCards() {
+  const grid = $('#lit-grid');
+  const empty = $('#lit-empty');
+  let items = L.items.filter(it => {
+    if (L.field && it.sub !== L.field) return false;
+    if (L.year && String(it.year) !== L.year) return false;
+    if (L.journal && !(it.venue || '').toLowerCase().includes(L.journal.toLowerCase())) return false;
+    if (L.q) {
+      const q = L.q.toLowerCase();
+      const hay = [it.title, it.cn, it.authors, it.venue,
+        (it.keywords || []).join(' '), it.sub, it.id].filter(Boolean).join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if (L.sort === 'year_desc') items.sort((a, b) => (b.year || 0) - (a.year || 0) || (a.id < b.id ? -1 : 1));
+  else if (L.sort === 'year_asc') items.sort((a, b) => (a.year || 0) - (b.year || 0) || (a.id < b.id ? -1 : 1));
+  else items.sort((a, b) => (a.id < b.id ? -1 : 1));
+
+  $('#lit-count').textContent = `${items.length} 篇 · 有导读 ${items.filter(i => i.hasGuide).length} 篇`;
+  if (!items.length) {
+    grid.innerHTML = '';
+    empty.classList.add('show');
+    return;
+  }
+  empty.classList.remove('show');
+  grid.innerHTML = items.map(litCard).join('');
+  bindLitCards(grid);
+}
+
+function provBadges(it) {
+  if (!it.hasGuide) return '';
+  const st = it.reviewStatus || 'draft';
+  const kind = st === 'reviewed'
+    ? '<span class="lit-badge is-reviewed">已复核</span>'
+    : st === 'draft'
+      ? '<span class="lit-badge is-draft">AI 草稿</span>'
+      : '<span class="lit-badge">待复核</span>';
+  const comp = it.completeness === 'partial'
+    ? '<span class="lit-badge is-partial">资料不全</span>' : '';
+  return kind + comp;
+}
+
+function provLabel(g) {
+  const st = (g.review && g.review.status) || 'draft';
+  if (!g.generation) return { cls: 'tag-ok', text: '人工整理' };
+  if (st === 'reviewed') return { cls: 'tag-ok', text: '已人工复核' };
+  return { cls: 'tag-ai', text: 'AI 生成草稿' };
+}
+
+function litProvNote(g) {
+  const gen = g.generation;
+  const reviewed = g.review && g.review.status === 'reviewed';
+  if (!gen) {
+    return `<p class="lit-prov-note">本导读为人工整理${reviewed ? '，已经复核' : ''}。评述栏为编写者判断。</p>`;
+  }
+  const date = gen.generated_at ? String(gen.generated_at).slice(0, 10) : '';
+  const parts = [`本导读由 ${gen.model || 'AI'} 生成${date ? '（' + date + '）' : ''}`,
+    reviewed ? '已经人工复核' : '尚未经人工复核'];
+  if (gen.completeness === 'partial') parts.push('原文部分章节无法确认，内容可能不完整');
+  return `<p class="lit-prov-note">${esc(parts.join('，'))}。引用前请核对原文；评述栏为 AI 分析。</p>`;
+}
+
+function litCard(it) {
+  const status = LS.status(it.id);
+  const bookmarked = LS.bookmarks().includes(it.id);
+  const kw = (it.keywords || []).slice(0, 5).join(' · ');
+  return `
+    <article class="lit-card" data-id="${esc(it.id)}">
+      <div class="lit-card-top">
+        <span class="lit-id">${esc(it.id)}</span>
+        <span class="lit-status" data-status="${status}">${STATUS_LABEL[status] || '未读'}</span>
+      </div>
+      <h3 class="lit-title">${esc(it.title)}</h3>
+      ${it.cn ? `<p class="lit-cn">${esc(it.cn)}</p>` : ''}
+      <p class="lit-meta">${[it.authors, it.year, it.venue].filter(Boolean).map(esc).join(' · ')}</p>
+      <p class="lit-field">${esc(it.sub || '')}</p>
+      ${it.hasGuide ? `<div class="lit-prov">${provBadges(it)}</div>` : ''}
+      ${kw ? `<p class="lit-kw">${esc(kw)}</p>` : ''}
+      <p class="lit-overview">${it.hasGuide ? esc(it.overview) : '导读尚未生成，可先阅读原文。'}</p>
+      <div class="lit-card-foot">
+        <button class="lit-bookmark ${bookmarked ? 'is-on' : ''}" data-act="bookmark">${bookmarked ? '★ 已收藏' : '☆ 收藏'}</button>
+        ${it.hasGuide
+          ? `<span class="lit-open">打开导读 →</span>`
+          : (it.hasPdf ? `<a class="lit-open" href="/api/papers/${encodeURIComponent(it.id)}/pdf" target="_blank" rel="noopener">读原文 ↗</a>` : '')}
+      </div>
+    </article>`;
+}
+
+function bindLitCards(root) {
+  $$('.lit-card', root).forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('[data-act]') || e.target.closest('a')) return;
+      location.hash = `#/lit/${encodeURIComponent(card.dataset.id)}`;
+    });
+    const bm = $('[data-act="bookmark"]', card);
+    if (bm) bm.addEventListener('click', e => {
+      e.stopPropagation();
+      const on = LS.toggleBookmark(card.dataset.id);
+      bm.classList.toggle('is-on', on);
+      bm.textContent = on ? '★ 已收藏' : '☆ 收藏';
+    });
+  });
+}
+
+async function showLitDetail(cat) {
+  $('#view-home').hidden = true;
+  $('#view-detail').hidden = true;
+  $('#view-ask').hidden = true;
+  $('#view-literature').hidden = true;
+  $('#ask-link').classList.remove('is-active');
+  $('#lit-link').classList.add('is-active');
+  const view = $('#view-lit-detail');
+  view.hidden = false;
+  view.innerHTML = '<div class="loading">LOADING</div>';
+  window.scrollTo({ top: 0 });
+
+  let item, recs;
+  try {
+    [item, recs] = await Promise.all([
+      api(`/literature/${encodeURIComponent(cat)}`),
+      api(`/recommend/${encodeURIComponent(cat)}`).catch(() => []),
+    ]);
+  } catch (e) {
+    view.innerHTML = `<div class="detail"><a class="back" href="#/literature">← 返回导读</a>
+      <div class="answer-err">读取失败：${esc(e.message)}</div></div>`;
+    return;
+  }
+
+  const m = modOf(item.m);
+  const g = item.guide;
+  const prov = g ? provLabel(g) : null;
+  const bookmarked = LS.bookmarks().includes(cat);
+  const status = LS.status(cat);
+  $('#crumb').innerHTML = `<a href="#/literature">文献导读</a><span class="slash">/</span><b>${esc(cat)}</b>`;
+
+  view.innerHTML = `
+    <div class="lit-detail" style="--mc:${m.color}">
+      <a class="back" href="#/literature">← 返回导读</a>
+
+      <div class="detail-kicker">
+        <span class="tag solid">${m.id} · ${esc(m.name)}</span>
+        <span class="tag">${esc(item.sub || '')}</span>
+        <span class="tag">${esc(item.type || '')}</span>
+        ${prov ? `<span class="tag ${prov.cls}">${prov.text}</span>` : ''}
+        ${g && g.generation && g.generation.completeness === 'partial' ? '<span class="tag tag-warn">资料不全</span>' : ''}
+      </div>
+      <h1>${esc(item.title)}</h1>
+      ${item.cn ? `<p class="cn-title">${esc(item.cn)}</p>` : ''}
+      <dl class="detail-meta">
+        <div><dt>编目号</dt><dd>${esc(item.id)}</dd></div>
+        <div><dt>作者</dt><dd>${esc(item.authors || '未记录')}</dd></div>
+        <div><dt>出处</dt><dd>${esc(item.venue || '未记录')}</dd></div>
+        <div><dt>年份</dt><dd>${esc(item.year || '')}</dd></div>
+        <div><dt>届别</dt><dd>${esc(item.archive || '')} 届</dd></div>
+        <div><dt>类型</dt><dd>${esc(item.type || '')}</dd></div>
+        ${item.url ? `<div><dt>原文</dt><dd><a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.url)}</a></dd></div>` : ''}
+        ${item.hasPdf ? `<div><dt>PDF</dt><dd><a href="/api/papers/${encodeURIComponent(item.id)}/pdf" target="_blank" rel="noopener">阅读原文 ↗</a></dd></div>` : ''}
+      </dl>
+      ${(item.keywords || []).length ? `<div class="kw-row">${item.keywords.map(k => `<span class="kw">${esc(k)}</span>`).join('')}</div>` : ''}
+
+      <div class="lit-tools">
+        <div class="lit-tool">
+          <span class="lit-tool-label">阅读状态</span>
+          <div class="lit-status-switch">
+            ${['unread', 'reading', 'completed'].map(s =>
+              `<button data-status="${s}" class="${status === s ? 'is-on' : ''}">${STATUS_LABEL[s]}</button>`).join('')}
+          </div>
+        </div>
+        <button class="lit-bookmark ${bookmarked ? 'is-on' : ''}" id="lit-detail-bookmark">${bookmarked ? '★ 已收藏' : '☆ 收藏'}</button>
+      </div>
+
+      ${g ? litProvNote(g) + litTabsHTML(g) : `<div class="note-box">这篇文献的导读尚未生成。可读上方 PDF 原文，也可先收藏、标记阅读状态、写笔记。</div>`}
+
+      <div class="lit-notes">
+        <p class="lit-tool-label">阅读笔记（保存在本机浏览器）</p>
+        <textarea id="lit-note" placeholder="记录想法、疑问、待查文献…">${esc(LS.note(cat))}</textarea>
+      </div>
+
+      <aside class="lit-rec">
+        <p class="side-title">相关材料</p>
+        <div class="rec-list">
+          ${recs.length ? recs.map(r => `
+            <a class="rec" href="#/${r.kind}/${encodeURIComponent(r.id)}">
+              <span class="rec-id">${esc(r.id)} · ${kindLabel(r.kind)}</span>
+              <p class="rec-title">${esc(r.title)}</p>
+              <p class="rec-sub">${esc(r.sub || '')}</p>
+            </a>`).join('') : '<p class="rec-sub">暂无相近条目</p>'}
+        </div>
+      </aside>
+    </div>`;
+
+  bindLitDetail(cat);
+}
+
+function bindLitDetail(cat) {
+  const tabs = $('#lit-tabs');
+  if (tabs) tabs.addEventListener('click', e => {
+    const btn = e.target.closest('[data-tab]');
+    if (!btn) return;
+    $$('[data-tab]', tabs).forEach(b => b.classList.toggle('is-active', b === btn));
+    $$('[data-panel]', tabs).forEach(p => { p.hidden = (p.dataset.panel !== btn.dataset.tab); });
+  });
+
+  $$('.lit-status-switch button').forEach(b => {
+    b.addEventListener('click', () => {
+      LS.setStatus(cat, b.dataset.status);
+      $$('.lit-status-switch button').forEach(x => x.classList.toggle('is-on', x === b));
+    });
+  });
+
+  const bm = $('#lit-detail-bookmark');
+  if (bm) bm.addEventListener('click', () => {
+    const on = LS.toggleBookmark(cat);
+    bm.classList.toggle('is-on', on);
+    bm.textContent = on ? '★ 已收藏' : '☆ 收藏';
+  });
+
+  const note = $('#lit-note');
+  if (note) {
+    let t;
+    note.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => LS.setNote(cat, note.value), 300); });
+  }
+}
+
 /* ---------------- 问答 ---------------- */
 
 function showAsk() {
   $('#view-home').hidden = true;
   $('#view-detail').hidden = true;
+  $('#view-literature').hidden = true;
+  $('#view-lit-detail').hidden = true;
   const view = $('#view-ask');
   view.hidden = false;
   $('#ask-link').classList.add('is-active');
+  $('#lit-link').classList.remove('is-active');
   $('#crumb').innerHTML = `<a href="#/">全部材料</a><span class="slash">/</span><b>库内问答</b>`;
   window.scrollTo({ top: 0 });
 

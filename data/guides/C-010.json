@@ -1,0 +1,178 @@
+{
+  "cat": "C-010",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "城市经济学",
+      "公共经济学",
+      "福利经济学"
+    ],
+    "keywords": [
+      "place-based policies",
+      "spatial equilibrium",
+      "taxes",
+      "subsidies",
+      "enterprise zones",
+      "agglomeration economies",
+      "welfare economics"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "大多数国家在工资、收入与失业率上存在巨大且持续的地理差异，一类不断增长的place-based政策试图通过针对落后社区、城市或地区的公共投资与补贴来应对这些差异；这类项目在美国和全球广泛存在，但经济学家直到最近才开始深入研究。",
+      "research_question": "谁从place-based干预中获益？全国层面的收益是否超过成本？何种干预最可能有效？",
+      "hypotheses": [
+        "原文未说明（本文为综述与理论分析，未以假说形式列出可检验命题）"
+      ],
+      "main_findings": [
+        "在完全市场且无外部性的基准情形下，分散均衡最大化全经济福利（工人效用与房东利润之和），对城市a的工资补贴会扭曲价格、使均衡偏离社会最优配置，产生类似税收的deadweight loss。",
+        "place-based政策在带来deadweight loss的同时，可能产生社会合意的分配效应，但补贴未必能准确到达目标人群（incidence问题）。",
+        "结论在很大程度上取决于worker mobility程度与housing supply弹性。",
+        "存在局部化市场失灵（local public goods、agglomeration economies、labor market frictions、missing insurance/credit constraints、pre-existing distortions）时，空间定向干预有可能改善效率，但可能把资源从其他地区转移走，导致总生产率净损失，equity-efficiency trade-off依然存在（形式有所改变）。",
+        "amenity-building策略若amenities不可拥挤且无维护成本，可避免工资补贴式的deadweight loss，因为worker mobility不会直接给纳税人带来成本。",
+        "enterprise zones的实证文献主要聚焦于评估补贴对job creation的影响。"
+      ],
+      "contributions": [
+        "构建一个简单的spatial equilibrium模型，用于刻画place-based政策对地方与全国经济的福利效应。",
+        "用该模型批判性评估place-based政策的经济学理由，并评估关于其效应的最新证据。",
+        "系统梳理五类市场失灵如何改变equity-efficiency trade-off，并给出政策启示与未来研究方向。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "空间均衡（spatial equilibrium）框架与福利经济学；基准情形下完全市场、无外部性，依据第一福利定理，分散均衡最大化总福利；分析中引入worker heterogeneity与housing supply的作用。",
+      "key_assumptions": [
+        "两城市（a与b）示例，工人可自由在任一城市居住和工作。",
+        "工人连续统，测度为1，每人不弹性供给一单位劳动并租住一单位住房。",
+        "由于闲暇与住房需求不弹性，采用线性效用设定。",
+        "工人i在城市c的间接效用为 Uic = wc − rc + Ac − t + eic = vc + eic，其中wc为名义工资、rc为住房成本、Ac为地方amenities、t为一次性税。",
+        "eic为个体对地点的异质性偏好，均值为零，独立同分布服从type I extreme value分布（尺度参数s、均值零），从而两地偏好之差服从logistic分布。",
+        "两城市为相互独立的劳动力市场，工人不能在一个市场居住而在另一个市场工作。",
+        "基准模型中政策形式为对目标城市企业工资总额的补贴（如许多州enterprise zones），定性结果可推广至其他提高本地劳动需求的补贴（包括对私人资本成本的补贴）。"
+      ],
+      "mechanisms": [
+        "工资补贴改变两地相对吸引力，引发工人跨城市流动，进而改变住房需求与住房价格。",
+        "住房供给弹性决定住房成本上升幅度，从而决定补贴收益在工人与房东之间的分配。",
+        "worker heterogeneity（eic）决定工人对地点的黏性，影响政策引致的迁移规模与incidence。",
+        "在完全市场基准下，补贴扭曲区位配置，产生deadweight loss，同时通过房东利润与工人效用的再分配产生分配效应。",
+        "局部化市场失灵（agglomeration economies、local public goods、labor market frictions、credit constraints/missing insurance、pre-existing distortions）为空间定向干预提供潜在效率理由，但资源跨区转移可能带来净效率损失。"
+      ],
+      "variable_relationships": "间接效用Uic由名义工资wc、住房成本rc、地方amenities Ac、一次性税t与个体偏好eic共同决定；政策（工资补贴）改变目标城市的劳动需求与工资，经由工人流动影响两城市人口份额、住房价格与房东利润，最终决定工人效用与总社会福利的分布。",
+      "flow": [
+        "对城市a企业的工资补贴 → 城市a劳动需求上升、相对工资上升",
+        "相对工资上升 → 工人从城市b流向城市a（流动程度取决于eic异质性与worker mobility）",
+        "城市a人口增加 → 住房需求上升 → 住房成本rc上升（幅度取决于housing supply弹性）",
+        "工资与住房成本变化 → 工人效用与房东利润重新分配 → 全国福利变化（deadweight loss与分配效应）"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "不适用（理论论文）；第2.6节对enterprise zones与Empower Zones的实证文献进行叙述性评述，未使用自有数据。",
+      "sample_period": "不适用（理论论文）",
+      "variables": [
+        "wc：城市c的名义工资",
+        "rc：城市c的住房成本",
+        "Ac：城市c的地方amenities",
+        "t：一次性税",
+        "eic：工人i对城市c的异质性偏好（type I extreme value，尺度参数s、均值零）",
+        "vc = wc − rc + Ac − t：城市c的系统性效用成分",
+        "Na：城市a的人口份额（图2横轴）",
+        "Na*、Na**：图2中标注的配置点（原文未在节选文本中给出精确定义）"
+      ],
+      "econometric_models": "不适用（理论论文）；使用两城市spatial equilibrium模型与图形化福利分析（图2：landlord profits、average worker utility、social welfare作为城市a份额的函数）。",
+      "identification_strategy": "不适用（理论论文）",
+      "endogeneity_treatments": "不适用（理论论文）",
+      "robustness_checks": "不适用（理论论文）；作者指出工资补贴的定性结果可推广至其他提高本地劳动需求的补贴（包括对私人资本成本的补贴），但资本与劳动不完全替代时每美元对劳动需求的影响在数量上更小。",
+      "key_tables_figures": [
+        "Figure 1：两城市示例（原文未给出图1的具体内容描述）",
+        "Figure 2：Welfare as a function of city a’s share in the two-city example，含landlord profits、average worker utility、social welfare三条曲线及Na*、Na**标注"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文提供一个简洁的两城市spatial equilibrium福利框架，把worker heterogeneity与housing supply置于place-based政策incidence与效率分析的核心，并系统地把五类市场失灵纳入同一equity-efficiency权衡的分析结构，为后续实证研究提供统一的福利经济学语言。",
+      "methodological_strengths": "模型设定简洁、可解析，图形化展示（图2）直观呈现deadweight loss与分配效应的权衡；明确讨论结论对worker mobility与housing supply弹性的依赖，便于将理论预测映射到实证可估计的参数。",
+      "limitations": [
+        "本文为综述与理论分析，未提供新的实证估计；对enterprise zones与Empower Zones证据的评述在节选文本中不完整。",
+        "基准模型为两城市、线性效用、住房与闲暇需求不弹性的简化设定，作者自述为‘simple’框架，可能牺牲了对更丰富异质性与一般均衡渠道的刻画。",
+        "节选文本缺失intro、data、results、robustness等章节，本导读只能依据已给出文本填写，部分细节（如图1内容、Na*与Na**的精确定义、实证证据的具体结论）无法从现有文本确认。"
+      ],
+      "identification_problems": "不适用（理论论文）；但需注意，将模型福利结论用于评估现实政策时，关键参数（worker mobility、housing supply弹性、agglomeration外部性大小）的识别与估计在实证上具有挑战性，原文未在节选文本中给出这些参数的识别策略。",
+      "alternative_explanations": "原文在讨论补贴吸引新企业（尤其是总部）时提到一种替代性理由：慈善捐赠——Card et al. (2010b) 记录吸引上市公司总部每年为本地非营利组织带来300万至1000万美元捐赠，且大部分增长似乎与城市中高收入个体数量相关，而非企业直接捐赠。",
+      "unresolved_questions": [
+        "在存在局部化市场失灵时，place-based政策与person-based政策（如mobility vouchers）的相对优劣如何？原文提到mobility vouchers在某些情形下并非正确的政策回应，但未给出一般性结论。",
+        "如何从实证上区分agglomeration外部性与其他机制，并量化其大小以指导补贴设计？",
+        "补贴的incidence在多大程度上取决于housing supply弹性与worker mobility，现有证据是否足以校准模型？"
+      ],
+      "follow_up_topics": [
+        "对place-based政策福利效应进行结构化估计（结合worker mobility与housing supply弹性的实证估计）。",
+        "比较place-based干预与person-based干预（如mobility vouchers、工资保险、home equity insurance）的成本有效性。",
+        "针对agglomeration economies与local public goods的定向投资的政策设计与评估。",
+        "信贷约束与缺失保险对空间配置效率的影响及相应政策工具。"
+      ]
+    },
+    "key_concepts": [
+      "place-based policies",
+      "spatial equilibrium",
+      "worker mobility",
+      "housing supply elasticity",
+      "incidence",
+      "deadweight loss",
+      "equity-efficiency trade-off",
+      "agglomeration economies",
+      "local public goods",
+      "enterprise zones",
+      "Empowerment Zones",
+      "labor market frictions",
+      "credit constraints/missing insurance",
+      "pre-existing distortions"
+    ],
+    "reading_recommendations": [
+      "Bartik (1990, 1991, 2002)、Papke (1993, 1994)、Glaeser (2001)、Glaeser & Gottlieb (2008)：美国20世纪主要place-based政策的制度细节与经济学讨论（原文引用）。",
+      "Busso et al. (2013)：关于居住与工作跨市场通勤的讨论（原文引用）。",
+      "Greenstone et al. (2010)：关于吸引新企业产生生产率溢出的证据（原文引用）。",
+      "Card et al. (2010b)：吸引上市公司总部与本地慈善捐赠（原文引用）。",
+      "Blanchard & Katz (1992)：信贷约束与本地冲击调整（原文引用）。",
+      "LaLonde (2007)、Shiller & Weiss (1999)、Goetzmann et al. (2003)：工资损失保险与home equity insurance市场（原文引用）。",
+      "Glaeser (2013)：地方政府提供核心公共服务的作用综述（原文引用）。",
+      "Lucas (1988)、Marshall (1890)：agglomeration economies与知识溢出的经典论述（原文引用）。"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:47:45.215688+00:00",
+    "source_chars": 131781,
+    "processed_chars": 28183,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "methods",
+      "theory"
+    ],
+    "missing_sections": [
+      "intro",
+      "data",
+      "results",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 7231,
+    "output_tokens": 2426,
+    "duration_seconds": 20.4
+  }
+}

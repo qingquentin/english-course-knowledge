@@ -1,0 +1,155 @@
+{
+  "cat": "C-029",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "政治经济学",
+      "发展经济学"
+    ],
+    "keywords": [
+      "经济特区",
+      "非洲",
+      "政治经济学",
+      "稳健政治经济学",
+      "制度",
+      "激励扭曲",
+      "知识不足"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "非洲国家试图通过实施经济特区（SEZ）复制东亚出口导向型增长的成功，但大多数SEZ项目远低于预期，尤其是在撒哈拉以南非洲地区。尽管国际社会已有数十年的SEZ经验，但为何非洲SEZ仍难以成功？本文试图从政治经济学角度解释这一现象。",
+      "research_question": "为什么非洲国家难以成功复制东亚经济特区的成功？政治经济学因素如何导致非洲SEZ项目的失败？",
+      "hypotheses": [
+        "非洲SEZ的失败主要归因于SEZ计划中的政治经济学缺陷，包括激励扭曲和知识不足。",
+        "政治经济学问题具有情境特异性，限制了‘最佳实践’在SEZ开发和管理中的复制。",
+        "一个‘稳健政治经济学’框架可以帮助识别和缓解SEZ中的政治经济学问题。"
+      ],
+      "main_findings": [
+        "非洲SEZ在投资、就业和出口方面未能产生显著改善，相对于内部目标和国际比较均表现不佳。",
+        "SEZ失败的原因不仅在于全球环境变化（如‘亚洲工厂’的崛起、多纤维协定终止等），更在于区域规划和实施中的政治经济学问题。",
+        "政治经济学问题主要表现为两类：激励扭曲（如政治家追求可见政绩、土地掠夺、政治分肥）和知识不足（如错误预测比较优势、忽视长期规划、设计不当的财政激励）。",
+        "协调失败源于机构激励不一致，导致多重SEZ制度并存、政策混乱和资源分散。",
+        "通过透明度、公众辩论和制度设计等程序性解决方案，可以缓解政治经济学挑战。"
+      ],
+      "contributions": [
+        "提出了一个‘稳健政治经济学’框架，将政治经济学问题分为知识不足和激励扭曲两类，为分析SEZ成败提供了新视角。",
+        "系统梳理了非洲SEZ的经验，将常见失败原因追溯到政治经济学根源。",
+        "为政策制定者提供了在SEZ规划和实施中考虑政治经济学因素的思路和解决方案。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "公共选择理论（Buchanan and Tullock, 1962; Niskanen, 1971）、奥地利学派关于知识分散和计算 debate 的论述（Hayek, 1935; Lavoie, 1985; Boettke, 1998）、稳健政治经济学（Leeson and Subrick, 2006; Pennington, 2011）。",
+      "key_assumptions": [
+        "政府并非仁慈且全知全能，政策制定者和官员是理性自利的，且面临信息不对称。",
+        "政策是内生的，源于政治机构中 actors 的互动，且具有情境特异性。",
+        "政治经济学问题可分为两类：激励扭曲（缺乏仁慈）和知识不足（缺乏全知）。",
+        "稳健政治经济学制度环境可以对齐官员自利与公共利益，并在不完全信息下做出正确决策。"
+      ],
+      "mechanisms": [
+        "激励扭曲：政治家追求可测量的、可见的政绩（如基础设施硬件），忽视难以测量的软环境建设；利用SEZ特权进行土地掠夺和腐败；将SEZ作为政治分肥工具，导致资源分散和错误选址；降低SEZ许可标准以吸引企业，忽视财政成本。",
+        "知识不足：政府难以预测比较优势，错误选择目标产业；忽视长期规划（如多纤维协定终止的影响）；无法准确评估财政激励的成本收益；选择缺乏经验的私人开发商。",
+        "协调失败：机构间激励不一致导致多重SEZ制度并存、政策混乱和资源浪费。"
+      ],
+      "variable_relationships": "政治经济学问题（激励扭曲和知识不足）→ SEZ政策设计缺陷（如硬件偏向、错误选址、财政激励过度、多重制度）→ SEZ实施效果不佳（投资、就业、出口低于预期）。",
+      "flow": [
+        "政治经济学缺陷（激励扭曲/知识不足）→ SEZ战略规划和政策设计偏离最优 → 实施中的协调失败和资源错配 → SEZ表现低于预期"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "不适用（理论论文）",
+      "sample_period": "不适用（理论论文）",
+      "variables": [
+        "不适用（理论论文）"
+      ],
+      "econometric_models": "不适用（理论论文）",
+      "identification_strategy": "不适用（理论论文）",
+      "endogeneity_treatments": "不适用（理论论文）",
+      "robustness_checks": "不适用（理论论文）",
+      "key_tables_figures": [
+        "Figure A1（稳健政治经济学框架图，原文未提供具体内容）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文将公共选择理论和奥地利学派知识论整合为‘稳健政治经济学’框架，并应用于SEZ分析，为理解SEZ成败提供了新的理论视角。",
+      "methodological_strengths": "采用案例分析和理论推演相结合的方法，通过多个非洲国家的实例（如塞内加尔、坦桑尼亚、尼日利亚、南非等）具体阐释政治经济学机制，增强了论证的说服力。",
+      "limitations": [
+        "本文为理论性工作论文，缺乏系统的实证检验，结论主要基于案例描述和逻辑推演。",
+        "案例选择可能具有选择性，未能全面覆盖所有非洲SEZ经验。",
+        "未提供具体的政策效果量化评估，难以判断政治经济学因素相对于其他因素（如全球经济环境）的相对重要性。",
+        "原文未说明稳健政治经济学框架的操作化指标，难以直接用于实证研究。"
+      ],
+      "identification_problems": "不适用（理论论文），但案例分析的因果推断主要依赖叙事，未能排除其他潜在解释。",
+      "alternative_explanations": "非洲SEZ失败也可能源于全球经济环境变化（如亚洲竞争、多纤维协定终止）、初始条件不足（如基础设施落后、人力资本缺乏）等非政治经济学因素，本文虽提及但未系统比较其相对重要性。",
+      "unresolved_questions": [
+        "如何量化政治经济学因素对SEZ绩效的影响？",
+        "稳健政治经济学框架在不同制度环境下的适用性如何？",
+        "提出的解决方案（如透明度、公众辩论）在非洲具体情境中如何有效实施？",
+        "政治经济学问题与其他因素（如地理位置、市场规模）的交互作用如何？"
+      ],
+      "follow_up_topics": [
+        "对非洲SEZ绩效进行跨国的实证研究，检验政治经济学变量的解释力。",
+        "比较不同非洲国家SEZ政治经济学特征的差异及其对绩效的影响。",
+        "研究如何设计制度机制以缓解SEZ中的激励扭曲和知识不足。",
+        "将稳健政治经济学框架应用于其他发展政策领域（如产业政策、基础设施投资）的评估。"
+      ]
+    },
+    "key_concepts": [
+      "经济特区（SEZ）",
+      "稳健政治经济学（robust political economy）",
+      "激励扭曲（distorted incentives）",
+      "知识不足（inadequate knowledge）",
+      "公共选择理论",
+      "协调失败",
+      "寻租",
+      "土地掠夺"
+    ],
+    "reading_recommendations": [
+      "Farole, T. (2011). Special Economic Zones in Africa: Comparing Performance and Learning from Global Experience. World Bank.",
+      "Buchanan, J.M. and G. Tullock (1962). The Calculus of Consent.",
+      "Hayek, F.A. (1935). Collectivist Economic Planning.",
+      "Leeson, P.T. and J.R. Subrick (2006). Robust Political Economy.",
+      "Pennington, M. (2011). Robust Political Economy: Classical Liberalism and the Future of Public Policy."
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:53:18.866525+00:00",
+    "source_chars": 75358,
+    "processed_chars": 34585,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "theory"
+    ],
+    "missing_sections": [
+      "methods",
+      "results",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 7405,
+    "output_tokens": 1746,
+    "duration_seconds": 12.4
+  }
+}

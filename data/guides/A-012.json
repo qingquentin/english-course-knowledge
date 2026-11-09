@@ -1,0 +1,172 @@
+{
+  "cat": "A-012",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "创业研究",
+      "经济地理"
+    ],
+    "keywords": [
+      "创业生态系统",
+      "时空分析",
+      "NUTS-3",
+      "Theil指数",
+      "分布动态",
+      "空间自相关",
+      "MAUP"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "现有创业生态系统（EE）文献主要采取静态视角，并在国家或NUTS-2区域层面进行分析，缺乏在更细粒度（NUTS-3省级）层面结合空间与动态视角的定量研究。",
+      "research_question": "如何在更细粒度的分析层面（NUTS-3省级）测量创业生态系统，并考察其时空动态、空间格局及空间单元选择的影响？",
+      "hypotheses": [
+        "EE指数在各省之间存在异质性，且随时间变化。",
+        "EE指数的空间分布存在空间相关性，且空间相关性在更小的地理单元（NUTS-3）上更强。",
+        "EE集群的出现依赖于行政空间尺度（MAUP效应）。"
+      ],
+      "main_findings": [
+        "EE指数均值在2000年至2008年金融危机前上升，之后逐渐下降，省际离散度也下降。",
+        "存在两个空间相关的集群：意大利北部发达省份EE指数高，南部省份EE指数低且被低值省份包围。",
+        "随时间推移，最穷省份的EE指数向最富省份的均值移动，存在收敛过程。",
+        "省际EE变异性下降，但区域内部（within regions）变异性上升。",
+        "空间溢出效应在NUTS-3省级层面略大于NUTS-2区域层面。"
+      ],
+      "contributions": [
+        "提供了在NUTS-3省级层面测量EE的方法，构建了包含11个变量的综合指数。",
+        "将空间维度和动态维度结合，分析了EE指数的时空演变。",
+        "实证检验了空间单元选择（MAUP）对EE集群识别的影响。",
+        "为政策制定者提供了在更细粒度层面干预EE的依据。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "创业生态系统理论（Stam, 2018框架），强调要素组合与交互产生共享的创新和文化价值，支持区域内创业活动；同时结合经济地理学中的空间自相关和MAUP理论。",
+      "key_assumptions": [
+        "EE由11个可测量的要素构成，包括社会资本、创业文化、物质基础设施、增加值、金融、新知识、商业服务、企业存活率、人力资本、迁移流和人口结构。",
+        "各要素对EE的贡献相等（等权重）。",
+        "EE指数在0-10范围内可比较。",
+        "空间单元的选择会影响EE集群的识别。"
+      ],
+      "mechanisms": [
+        "EE要素的空间集聚与交互促进创业活动。",
+        "地理邻近性导致空间溢出效应，影响邻近省份的EE水平。",
+        "随时间推移，落后省份通过要素改善向发达省份收敛。",
+        "空间聚合尺度变化（MAUP）会改变EE集群的显现。"
+      ],
+      "variable_relationships": "EE指数是11个变量的等权平均值；EE指数与空间滞后项（W*EE）相关；EE指数影响企业存活率、高增长企业数量等结果变量。",
+      "flow": [
+        "11个EE要素 → 综合EE指数 → 时空分布动态 → 空间相关性 → 空间单元敏感性"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "ISTAT、Movimprese、Messina (2007)等；具体变量来源见Table 1。",
+      "sample_period": "2000–2018年",
+      "variables": [
+        "社会资本：原文未说明具体测量方式（见附录）",
+        "创业文化：每千名活跃人口新注册企业数（Movimprese）",
+        "物质基础设施：高速公路和铁路潜在可达性指数（Messina, 2007）",
+        "增加值：人均增加值（原文未说明具体来源）",
+        "金融：原文未说明具体测量方式（见附录）",
+        "新知识：原文未说明具体测量方式（见附录）",
+        "商业服务：商业服务部门活跃企业占比（Movimprese）",
+        "企业存活率：3年后存活率（ISTAT）",
+        "人力资本：基于Mincer方程估计（ISTAT数据）",
+        "迁移流：净迁移率（ISTAT）",
+        "人口结构：24-39岁人口占比（ISTAT）"
+      ],
+      "econometric_models": "空间自回归模型（SAR）和空间误差模型（SEM）；增长回归模型；核密度估计和随机核（stochastic kernel）分布动态方法；Theil指数分解；Moran's I统计量。",
+      "identification_strategy": "利用NUTS-3省级面板数据，通过空间计量模型识别空间溢出效应；通过比较NUTS-3和NUTS-2层面的结果检验MAUP效应；通过分布动态方法分析跨期演变。",
+      "endogeneity_treatments": "原文未说明",
+      "robustness_checks": "替换标准化方法（z-score）、替换聚合方法（几何平均）、逐一剔除变量、与REDI指数比较（相关系数0.93）、使用高增长企业数作为替代因变量。",
+      "key_tables_figures": [
+        "Table 1：变量定义与数据来源",
+        "Fig. 1：EE指数均值与标准差（2000-2018）",
+        "Fig. 2：EE指数空间分布图",
+        "Fig. 3：Theil指数及区域内部变异占比",
+        "Fig. 8：空间条件化分布图（初始、最终、长期分布）",
+        "Fig. 9：Moran's I散点图（NUTS-3和NUTS-2）",
+        "Table 7：2000和2018年省级EE指数值"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将EE的测量从静态、宏观层面推进到动态、细粒度省级层面，并整合了空间维度和分布动态方法，为EE的定量研究提供了可操作框架。",
+      "methodological_strengths": "综合运用Theil指数、核密度估计、随机核、Moran's I和空间计量模型，多角度刻画EE的时空演变；进行了多种稳健性检验（标准化、聚合方法、变量剔除、与外部指数比较）。",
+      "limitations": [
+        "数据可得性限制：未能纳入创业态度、能力和抱负等直接测量指标。",
+        "技术创新变量捕捉不足，数字化对EE的影响未充分纳入。",
+        "等权重聚合可能掩盖要素的相对重要性。",
+        "空间权重矩阵的定义未详细说明，可能影响空间相关性结果。",
+        "样本仅限意大利，外部效度有限。"
+      ],
+      "identification_problems": "空间计量模型可能面临内生性问题（如遗漏变量、反向因果），原文未说明内生性处理策略；空间权重矩阵的外生性假设可能不成立。",
+      "alternative_explanations": "EE指数的时空变化可能受宏观经济周期（如金融危机）驱动，而非EE要素本身的动态；空间相关性可能源于共同冲击而非真实溢出。",
+      "unresolved_questions": [
+        "EE要素之间的交互机制和微观基础尚未充分揭示。",
+        "数字化和全球化如何重塑EE的空间边界。",
+        "政策干预的因果效应未评估。"
+      ],
+      "follow_up_topics": [
+        "结合调查数据补充创业态度和能力指标。",
+        "纳入数字技术和大数据变量。",
+        "开展跨国的NUTS-3层面比较研究。",
+        "评估EE政策的效果。"
+      ]
+    },
+    "key_concepts": [
+      "创业生态系统（EE）",
+      "NUTS-3省级层面",
+      "Theil指数",
+      "分布动态（核密度估计、随机核）",
+      "Moran's I",
+      "空间自相关",
+      "MAUP（可变面积单元问题）",
+      "空间溢出"
+    ],
+    "reading_recommendations": [
+      "Stam (2018) 创业生态系统要素框架",
+      "Quah (1993, 1996, 1997) 分布动态方法",
+      "Iacobucci and Perugini (2020a, 2020b) EE指数构建",
+      "Fotheringham & Wong (1991) MAUP效应",
+      "Audretsch et al. (2021) EE测量综述"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:33:27.086379+00:00",
+    "source_chars": 147912,
+    "processed_chars": 32127,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results",
+      "robustness",
+      "theory"
+    ],
+    "missing_sections": [],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 7938,
+    "output_tokens": 1891,
+    "duration_seconds": 13.7
+  }
+}

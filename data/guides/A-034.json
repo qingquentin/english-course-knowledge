@@ -1,0 +1,152 @@
+{
+  "cat": "A-034",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "政策评估",
+      "计量方法"
+    ],
+    "keywords": [
+      "合成控制法",
+      "比较案例研究",
+      "政策评估",
+      "加州控烟计划",
+      "Proposition 99",
+      "处理效应"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "社会科学中许多政策干预和事件发生在总体层面（国家、地区、城市等），且只影响少数总体单位；传统回归方法在这些情境下不适用，因此需要适用于比较案例研究的因果推断方法。",
+      "research_question": "如何用合成控制法在比较案例研究中估计总体层面政策干预的效应，并以加州第99号提案（Proposition 99）为例估计其控烟效果？",
+      "hypotheses": [
+        "原文未说明（正文缺失理论章节，未列出正式假说）"
+      ],
+      "main_findings": [
+        "Proposition 99实施后，加州烟草消费相对一个可比合成控制地区显著下降。",
+        "估计到2000年，加州年人均香烟销量比没有Proposition 99情形下约低26包。",
+        "使用本文提出的新推断方法，估计结果具有统计显著性。"
+      ],
+      "contributions": [
+        "在Abadie and Gardeazabal (2003)思想基础上，系统研究合成控制法在比较案例研究中的应用。",
+        "提出新的推断方法以检验估计的显著性。",
+        "指出合成控制法在传统回归方法不适用的总体层面政策评估中具有很大潜在适用性。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "基于统计匹配文献与因子模型的反事实估计框架：用控制地区加权平均构造合成控制，以近似处理地区在无干预情形下的结果。",
+      "key_assumptions": [
+        "无干扰假设：未处理单位的结果不受处理单位干预的影响。",
+        "干预前处理效应为零：对t∈{1,...,T0}及所有i，有YI_it=YN_it；若存在预期效应，可重新定义T0为结果可能开始反应的第一个时期。",
+        "结果由因子模型决定：YN_it=δt+θtZi+λtμi+εit。",
+        "权重非负且和为1：wj≥0，w2+···+wJ+1=1。",
+        "存在权重使合成控制近似匹配处理单位干预前的结局变量与协变量（式(2)）。"
+      ],
+      "mechanisms": [
+        "通过选择权重使合成控制在处理前时期复制处理地区的结果变量与协变量，从而在干预后以合成控制的结局作为处理地区反事实结果的估计。",
+        "因子模型中未观测混杂因子的效应随时间变化，时间差分不能消除μj；但若合成控制同时近似匹配Z1与μ1，则可得到YN_1t的近似无偏估计。",
+        "在带时变系数的自回归模型下，若权重满足式(6)，即使只有一个预处理期数据，合成控制估计也是无偏的。"
+      ],
+      "variable_relationships": "观测结果Yit=YN_it+αitDit；处理效应αit=YI_it−YN_it；干预后α1t=Y1t−YN_1t，其中Y1t可观测，YN_1t需用合成控制估计。",
+      "flow": [
+        "因子模型设定结果变量 → 选择非负且和为1的权重 → 匹配处理地区干预前结局与协变量 → 构造合成控制 → 以处理地区与合成控制的干预后差异估计处理效应"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "1970–2000年美国州级年度面板数据（香烟销售等）；具体数据来源原文未说明。",
+      "sample_period": "1970–2000年；Proposition 99于1988年11月通过、1989年1月生效，因此有19年干预前数据。",
+      "variables": [
+        "结果变量：人均香烟销量（per-capita cigarette sales），原文未给出更详细的变量定义。",
+        "处理变量：加州是否受Proposition 99影响（Dit指示变量）。",
+        "协变量：原文提到Zi为不受干预影响的观测协变量，但正文节选未列出具体协变量清单。",
+        "合成控制权重：W=(w2,...,wJ+1)′，wj≥0且和为1。"
+      ],
+      "econometric_models": "合成控制法：用控制地区加权平均构造合成控制，权重通过使合成控制最好地复制加州在Proposition 99通过前的香烟消费预测变量值来选择；估计量为α̂1t=Y1t−Σw*_jYjt（t∈{T0+1,...,T}）。理论框架为因子模型YN_it=δt+θtZi+λtμi+εit，并讨论了带时变系数的自回归模型。",
+      "identification_strategy": "利用加州与合成控制地区在干预前的近似匹配构造反事实；干预后两者结果之差即为处理效应估计。推断使用本文提出的新推断方法（正文节选未展开具体做法）。",
+      "endogeneity_treatments": "原文未说明（正文缺失相关章节；仅讨论了无干扰假设及在实证中的语境）。",
+      "robustness_checks": "原文未说明（正文缺失稳健性章节）。",
+      "key_tables_figures": [
+        "原文未说明（正文节选未包含图表清单）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将合成控制法系统化为比较案例研究的反事实估计工具，并在因子模型框架下给出估计量的近似无偏性论证，拓展了传统双重差分（固定效应）模型——后者要求未观测混杂因子效应不随时间变化，而合成控制法允许其随时间变化。",
+      "methodological_strengths": "不依赖单一控制单位，而是用控制单位加权组合构造反事实，透明地展示拟合优度；对总体层面、少数单位受处理的比较案例研究适用性强；权重非负且和为1使合成控制可解释为凸组合。",
+      "limitations": [
+        "正文为节选（partial），缺失摘要、理论、数据、方法、结果、稳健性与结论章节，本导读只能依据已给出文本填写，部分字段无法确认。",
+        "合成控制要求处理单位特征落在控制单位凸包内；若拟合很差，作者明确不推荐使用合成控制。",
+        "插值偏误可能较大，尤其当线性模型在整个地区集合上不成立时。",
+        "无干扰假设在州级政策评估中可能受跨州溢出效应影响（如烟草广告、走私等），原文仅在讨论中提及该假设而未在节选中展开检验。"
+      ],
+      "identification_problems": "识别依赖干预前匹配质量与无干扰假设；若存在预期效应或同期其他冲击，T0的设定与反事实构造可能受影响。正文节选未说明具体的推断方法与敏感性分析，无法评估识别稳健性。",
+      "alternative_explanations": "加州烟草消费下降可能同时受全国性趋势、其他州政策溢出、烟草行业价格与促销反应、1991年Assembly Bill 99资金转移及1992年媒体 campaign 中断等影响；原文在背景部分提及这些事件，但节选未展示如何将其与处理效应分离。",
+      "unresolved_questions": [
+        "合成控制法推断方法的具体统计性质与有限样本表现如何？",
+        "当处理单位落在控制单位凸包之外时，估计结果应如何解释？",
+        "如何处理控制单位之间的溢出效应与共同冲击？"
+      ],
+      "follow_up_topics": [
+        "合成控制法在其他总体层面政策评估中的应用（如最低工资、移民冲击等）。",
+        "合成控制法的推断方法与安慰剂检验设计。",
+        "存在溢出效应或预期效应时合成控制法的扩展。"
+      ]
+    },
+    "key_concepts": [
+      "合成控制法（synthetic control method）",
+      "比较案例研究（comparative case study）",
+      "处理效应（treatment effect）",
+      "反事实（counterfactual）",
+      "供体池（donor pool）",
+      "因子模型（factor model）",
+      "双重差分/固定效应模型",
+      "Proposition 99"
+    ],
+    "reading_recommendations": [
+      "Abadie and Gardeazabal (2003)：合成控制法思想的来源。",
+      "Card (1990)：Mariel Boatlift比较案例研究。",
+      "Card and Krueger (1994)：新泽西与宾夕法尼亚最低工资比较案例研究。",
+      "Fichtenberg and Glantz (2000)：用最小二乘回归估计Proposition 99效应的相关研究。",
+      "Rosenbaum (2007)：无干扰假设的详细讨论。"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:39:43.382341+00:00",
+    "source_chars": 74252,
+    "processed_chars": 20504,
+    "completeness": "partial",
+    "included_sections": [
+      "intro"
+    ],
+    "missing_sections": [
+      "abstract",
+      "theory",
+      "data",
+      "methods",
+      "results",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 5639,
+    "output_tokens": 1738,
+    "duration_seconds": 13.6
+  }
+}

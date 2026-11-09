@@ -1,0 +1,145 @@
+{
+  "cat": "C-015",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "公共经济学",
+      "城市经济学"
+    ],
+    "keywords": [
+      "机会区",
+      "地方导向政策",
+      "税收激励",
+      "资本利得",
+      "贫困地区",
+      "投资"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "美国国会于2017年通过《减税与就业法案》设立了机会区政策，旨在通过税收优惠引导私人投资流向经济困难地区。该政策实施七年后，需要评估其效果并为未来地方导向政策提供借鉴。",
+      "research_question": "机会区政策是否有效促进了经济困难地区的投资和居民福利？",
+      "hypotheses": [
+        "原文未说明"
+      ],
+      "main_findings": [
+        "大量投资流向了机会区指定区域，但除了可能对住宅房地产有重要影响外，尚不清楚这是否是额外投资。",
+        "关于机会区居民受益的证据有限。",
+        "各州在选择机会区时拥有较大灵活性，许多州未充分针对最困难地区，而是选择了部分中等收入普查区。"
+      ],
+      "contributions": [
+        "系统梳理了机会区政策的设计特征与以往地方导向政策的差异。",
+        "综合现有证据评估机会区政策的初步效果。",
+        "为未来地方导向政策的设计提供启示。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "地方导向政策的理论依据包括：集聚外部性、地方冲击保险、非工作外部性等。机会区政策还基于通过私人投资将困难地区从“坏均衡”转移到“好均衡”的潜在机制。",
+      "key_assumptions": [
+        "困难地区存在投资不足，私人投资增加可以带动当地经济发展。",
+        "税收激励能够有效吸引私人资本流向指定区域。",
+        "投资增加可以扩大税基，改善公共基础设施，形成良性循环。"
+      ],
+      "mechanisms": [
+        "通过资本利得税递延、减免和豁免，激励个人投资者将未实现资本利得重新投资于机会区基金。",
+        "机会区基金投资于机会区内的有形财产（如房地产），可能带动当地投资和就业。",
+        "投资增加可能促进当地经济增长，改善居民福利。"
+      ],
+      "variable_relationships": "税收激励 → 机会区基金投资 → 机会区内的私人投资 → 当地经济活动和居民福利。",
+      "flow": [
+        "税收激励 → 机会区基金投资 → 机会区内的私人投资 → 当地经济活动和居民福利"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "原文未说明（本文为综述性文章，综合现有研究）",
+      "sample_period": "原文未说明",
+      "variables": [
+        "原文未说明"
+      ],
+      "econometric_models": "原文未说明",
+      "identification_strategy": "原文未说明",
+      "endogeneity_treatments": "原文未说明",
+      "robustness_checks": "原文未说明",
+      "key_tables_figures": [
+        "表1：主要联邦地方导向政策",
+        "图1：按普查区收入百分位划分的机会区选择比例",
+        "图2：六个州按收入百分位划分的机会区选择比例"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文系统阐述了地方导向政策的理论依据，并分析了机会区政策的设计特点，为理解该类政策提供了理论框架。",
+      "methodological_strengths": "作为综述性文章，本文综合了现有实证研究，并利用描述性统计（如图1和图2）展示了机会区选择的分布特征，直观揭示了各州选择的差异性。",
+      "limitations": [
+        "本文为综述性文章，未提供新的实证估计，因此无法从现有文本确认具体的数据、模型和识别策略。",
+        "原文未说明样本区间、变量定义、计量模型等细节，导读的实证方法部分信息有限。",
+        "关于机会区对居民福利的影响，现有证据有限，难以得出明确结论。"
+      ],
+      "identification_problems": "原文未说明（本文未进行原始实证分析，但指出已有研究在识别额外投资方面存在挑战）。",
+      "alternative_explanations": "投资流向机会区可能并非政策所致，而是其他因素（如当地经济趋势）驱动；机会区选择可能受政治因素影响（如州长党派倾向）。",
+      "unresolved_questions": [
+        "机会区政策吸引的投资在多大程度上是额外的？",
+        "机会区政策对当地居民（而非仅对投资者）的福利影响如何？",
+        "如何优化机会区的选择机制以更好地针对最困难地区？"
+      ],
+      "follow_up_topics": [
+        "机会区政策对就业、收入和不平等的长期影响。",
+        "机会区政策与其他地方导向政策的比较研究。",
+        "机会区政策在不同类型地区（城市、农村）的异质性效果。"
+      ]
+    },
+    "key_concepts": [
+      "机会区",
+      "地方导向政策",
+      "资本利得税",
+      "合格机会基金",
+      "普查区",
+      "贫困率",
+      "家庭收入中位数"
+    ],
+    "reading_recommendations": [
+      "Neumark and Simpson (2015) 关于地方导向政策的综述",
+      "Busso, Gregory, and Kline (2013) 关于联邦授权区的研究",
+      "Freedman (2012) 关于新市场税收抵免的研究",
+      "Frank, Hoopes, and Lester (2022) 关于机会区选择政治因素的研究"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T06:07:19.438456+00:00",
+    "source_chars": 71373,
+    "processed_chars": 30000,
+    "completeness": "partial",
+    "included_sections": [],
+    "missing_sections": [
+      "abstract",
+      "intro",
+      "theory",
+      "data",
+      "methods",
+      "results",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 6512,
+    "output_tokens": 1212,
+    "duration_seconds": 9.3
+  }
+}

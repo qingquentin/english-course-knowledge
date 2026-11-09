@@ -1,0 +1,172 @@
+{
+  "cat": "B-008",
+  "classification": {
+    "fields": [
+      "城市经济学",
+      "区域经济学",
+      "城市规划"
+    ],
+    "keywords": [
+      "鬼城",
+      "城市活力",
+      "多源数据",
+      "可持续城镇化",
+      "全球识别"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "全球快速城镇化导致城市土地快速扩张，鬼城现象可能广泛存在，但现有识别方法多基于局部尺度且阈值缺乏跨区域可比性，难以在全球尺度上识别鬼城，而这对全球可持续城镇化尤其是发展中国家具有重要意义。",
+      "research_question": "如何基于城市活力理论构建一个可量化、全球可比的框架来识别全球新城区中的鬼城？鬼城在全球的分布特征如何？",
+      "hypotheses": [
+        "新城区相对于老城区的活力不足（形态、功能、社会三个维度）可以作为识别鬼城的定量基础。",
+        "基于城市活力差异构建的鬼城指数（GCI）能够克服城市规模差异，在全球尺度上识别鬼城。"
+      ],
+      "main_findings": [
+        "全球新城区活力仅为老城区的7.69%，新城区在道路网络密度、POI密度和人口密度上均低于老城区（分别为42.51%、19.45%、38.60%）。",
+        "以GCI排名前5%（442个自然城市）作为阈值识别鬼城，美国、中国和意大利鬼城数量最多。",
+        "基于GCI识别的鬼城结果与谷歌搜索热度及已有研究在国家和区域层面高度一致。",
+        "人口收缩的自然城市有1825个，人口扩张的自然城市有7016个，人口增长和土地扩张集中在大城市，尤其是北美和亚洲。"
+      ],
+      "contributions": [
+        "首次尝试在全球范围内对鬼城进行排序，并提供不同尺度的整体识别与验证。",
+        "构建了基于城市活力理论（形态、功能、社会三个维度）的鬼城指数（GCI），利用公开可获取的多源数据实现全球可比。",
+        "验证了基于微观数据（道路网络、人口、POI）识别鬼城的合理性，并讨论了夜间灯光数据的适用性。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "城市活力理论（Lynch, 1984; Jacobs, 1961），将城市活力分解为形态维度（城市形态）、功能维度（生活场所）和社会维度（人类活动）。",
+      "key_assumptions": [
+        "鬼城的标志性特征是新城区空间活力低下。",
+        "城市活力可由道路网络密度（形态）、POI密度（功能）和人口密度（社会）三个指标表征。",
+        "新城区与老城区的活力差异可以反映鬼城现象，且该差异在全球尺度上可比。"
+      ],
+      "mechanisms": [
+        "形态维度：道路密度和频繁转角的小街区增强可达性，促进社会互动，提高形态活力。",
+        "功能维度：经济活动多样化带来城市功能多样性，确保不同时段持续的活动和经济可行性，提高功能活力。",
+        "社会维度：人口密度反映人类互动的空间集中程度，人口密度越高，社会活力越强。",
+        "新城区相对老城区在次要功能、小街区和混合年龄建筑等方面的不足导致活力欠缺，从而表现为鬼城。"
+      ],
+      "variable_relationships": "城市活力V = M * F * S，其中M为道路网络密度，F为POI密度，S为人口密度。鬼城指数（GCI）基于新城区与老城区在三个维度上的密度差异计算。",
+      "flow": [
+        "城市活力理论 → 形态/功能/社会三维度 → 道路密度/POI密度/人口密度 → 新老城区活力差异 → 鬼城指数（GCI） → 全球鬼城识别"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "全球城市边界数据（GHUB 2018和GUB 2005，基于GAIA不透水面数据）、OpenStreetMap道路网络数据（2022年2月1日）、OpenStreetMap POI数据（2022年）、WorldPop人口密度数据（2020年，1km分辨率）。",
+      "sample_period": "城市边界2005年和2018年；道路和POI数据为2022年；人口数据为2020年。",
+      "variables": [
+        "城市活力（V）：由道路网络密度（M）、POI密度（F）和人口密度（S）相乘得到。",
+        "道路网络密度：形态维度指标，单位面积道路长度或密度。",
+        "POI密度：功能维度指标，单位面积POI数量。",
+        "人口密度：社会维度指标，单位面积人口数。",
+        "鬼城指数（GCI）：基于新城区与老城区在三个维度上的密度差异计算。",
+        "新城区：2005年后开发的城市区域；老城区：2005年前已开发的城市区域。"
+      ],
+      "econometric_models": "不适用（本文为基于空间分析和指标计算的实证识别研究，未使用计量回归模型）。",
+      "identification_strategy": "通过比较自然城市中新城区与老城区在道路密度、POI密度和人口密度上的差异，计算鬼城指数（GCI），并以GCI排名前5%作为鬼城识别阈值。",
+      "endogeneity_treatments": "原文未说明。",
+      "robustness_checks": "原文未说明（正文缺失robustness章节；但文中提及通过谷歌搜索热度、已有研究、人口变化和夜间灯光数据进行了验证，具体稳健性检验细节无法从现有文本确认）。",
+      "key_tables_figures": [
+        "表1：数据基本信息（分辨率、时间、类型、来源）。",
+        "图1：方法框架流程图。",
+        "图2：城市区域划分过程。",
+        "图3：全球新老城区关键指标比较。",
+        "图4：国家层面鬼城指标。",
+        "图5：全球城市新老城区活力散点图。",
+        "图6：不同GCI阈值下城市和国家数量及鬼城比例。",
+        "图7：鬼城指数（GCI）分布。",
+        "图8：GCI与谷歌搜索热度对比。",
+        "图9：鬼城数量前十国家的GCI及局部放大图。",
+        "图10：人口变化与土地扩张。"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将城市活力理论操作化为形态、功能、社会三个可计算维度，并构建全球可比的鬼城指数（GCI），为鬼城识别提供了理论驱动的定量框架，拓展了城市活力理论在全球尺度的应用。",
+      "methodological_strengths": "利用公开可获取的多源数据（OSM、WorldPop、全球城市边界）构建统一的空间分析单元（1km网格），实现了全球尺度的鬼城识别；通过谷歌搜索热度和人口变化进行外部验证，增强了结果的可信度；方法具有可扩展性和可重复性。",
+      "limitations": [
+        "数据质量存在区域差异，OSM数据在全球覆盖不均衡（尽管文中引用研究说明其可用性），可能影响指标可比性。",
+        "鬼城指数基于新老城区密度比值，阈值设定（前5%）具有一定主观性，可能影响识别结果。",
+        "仅使用道路密度、POI密度和人口密度三个指标表征城市活力，可能遗漏其他重要维度（如环境、社会互动质量等）。",
+        "原文缺失理论模型和稳健性检验章节，无法全面评估模型的稳健性和理论深度。",
+        "夜间灯光数据验证仅作为补充，且DMSP数据存在饱和效应，VIIRS数据虽有所改善但未详细说明验证结果。"
+      ],
+      "identification_problems": "鬼城识别基于新老城区活力差异的横截面比较，难以排除城市发展阶段、经济周期等混杂因素；GCI阈值（前5%）的设定缺乏理论依据；新城区和老城区的划分依赖于2005年和2018年城市边界数据，边界划分误差可能影响结果；无法从现有文本确认是否处理了空间自相关和内生性问题。",
+      "alternative_explanations": "新城区活力较低可能并非鬼城现象，而是城市发展阶段的正常现象（新城区尚在建设中）；也可能反映的是规划理念差异（如欧洲新城区低密度发展模式）；此外，数据覆盖偏差（如OSM在发展中国家覆盖不足）可能导致新城区指标被低估。",
+      "unresolved_questions": [
+        "鬼城指数（GCI）的阈值设定（前5%）是否具有普适性？不同阈值下识别结果如何变化？",
+        "如何区分真正的鬼城与处于正常发展初期的新城区？",
+        "鬼城现象的动态演变过程如何？新城区活力是否会随时间提升？",
+        "数据质量差异（尤其是OSM数据）对全球识别结果的影响程度如何？"
+      ],
+      "follow_up_topics": [
+        "结合时间序列数据追踪新城区活力的动态变化，区分鬼城与正常发展初期城区。",
+        "引入更多维度的城市活力指标（如环境质量、社会互动、经济活力等）改进GCI。",
+        "利用高分辨率遥感数据和机器学习方法提高鬼城识别的精度和时效性。",
+        "开展鬼城形成机制的因果分析，探讨规划政策、经济激励等因素对鬼城形成的影响。",
+        "将鬼城识别框架应用于特定国家或地区的政策评估，检验其政策指导价值。"
+      ]
+    },
+    "key_concepts": [
+      "鬼城（Ghost City）",
+      "城市活力（Urban Vitality）",
+      "鬼城指数（Ghost City Index, GCI）",
+      "自然城市（Natural City）",
+      "新城区（New Urban Areas）",
+      "老城区（Old Urban Areas）",
+      "形态维度（Morphological Dimension）",
+      "功能维度（Functional Dimension）",
+      "社会维度（Social Dimension）",
+      "多源数据（Multi-source Data）"
+    ],
+    "reading_recommendations": [
+      "Jacobs, J. (1961). The Death and Life of Great American Cities. （城市活力理论奠基之作）",
+      "Lynch, K. (1984). Good City Form. （城市形态与活力理论）",
+      "Jin, X., et al. (2017). Evaluating cities' vitality and identifying ghost cities in China with emerging geographical data. Cities, 63, 98-109. （鬼城识别与城市活力评估方法）",
+      "Li, X., et al. (2020a). Global urban boundaries from 1990 to 2018. （全球城市边界数据来源）",
+      "Xu, Z., et al. (2021). Global hierarchical urban boundaries (GHUB). （全球分层城市边界数据）",
+      "Zheng, Q., et al. (2017). Monitoring and assessing 'ghost cities' in Northeast China from the view of nighttime light remote sensing data. Habitat International, 70, 34-42. （夜间灯光数据识别鬼城）",
+      "Shi, L., et al. (2020). Identifying ghost cities in China using nighttime light data. （夜间灯光数据应用）"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:42:24.820565+00:00",
+    "source_chars": 74762,
+    "processed_chars": 28985,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results"
+    ],
+    "missing_sections": [
+      "theory",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 6962,
+    "output_tokens": 2445,
+    "duration_seconds": 17.2
+  }
+}

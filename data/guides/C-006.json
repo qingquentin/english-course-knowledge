@@ -1,0 +1,164 @@
+{
+  "cat": "C-006",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "发展经济学",
+      "公共财政"
+    ],
+    "keywords": [
+      "地方导向政策",
+      "空间断点",
+      "区域发展",
+      "基础设施",
+      "税收优惠",
+      "夜间灯光数据"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "国家内部富裕地区与贫困地区之间的差距可能几乎与国与国之间的差距一样大；已有关于地方导向政策（place-based policies）的研究结论不一，且多数文献集中研究发达国家，对发展中国家研究很少；已有文献多采用双重差分、动态面板或倾向得分匹配，这些方法依赖平行趋势或无混淆性假设。",
+      "research_question": "印度Uttarakhand邦获得的一揽子地方导向政策（新基础设施建设、改善现有基础设施接入、对工业区内企业的商业税收豁免）是否对区域经济产出产生了因果影响？",
+      "hypotheses": [
+        "原文未明确列出正式研究假说；研究设计隐含的识别假设是：在新邦边界处，处理地区与对照地区在政策前具有平行趋势（边界处不存在系统性差异趋势）。"
+      ],
+      "main_findings": [
+        "政策开始前各设定下均无统计显著效应，2001年建邦当年也无效应；政策实施第一年夜间灯光出现大幅上升。",
+        "政策对区域产出及家庭福利代理变量有较大效应。",
+        "只有一小部分效应可由集聚经济解释，大部分效应直接来自税收减免和基础设施改善。",
+        "结果并非由对照地区受损所驱动（原文结论部分提及）。"
+      ],
+      "contributions": [
+        "将地方导向政策文献扩展到发展中国家（据作者称，此前只有两篇论文研究发展中国家之外的地方导向项目）。",
+        "采用空间断点上的difference-in-discontinuities估计，相比双重差分、动态面板、倾向得分匹配所需假设更弱。",
+        "补充关于税收与企业进入/投资以及基础设施对发展中国家经济发展影响的文献，表明减税可能刺激中期（至少10年）经济发展。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "原文未提供正式理论模型；机制讨论基于地方导向政策文献（税收优惠刺激企业进入与正规化、基础设施改善降低企业成本）以及集聚经济假说。",
+      "key_assumptions": [
+        "新邦边界沿既有县界划定，边界划分并非由经济原因内生决定。",
+        "边界两侧在政策前存在平行趋势（任何既有差异固定不随时间变化）。",
+        "边界处人口跨边界分选（迁移）很少，不足以驱动结果。",
+        "政策效应可归因于地方导向财政政策而非建邦本身（分权效应）。"
+      ],
+      "mechanisms": [
+        "税收减免降低企业税负，刺激新企业进入及非正规企业正规化，从而提高产出。",
+        "基础设施（尤其是电力）改善提高企业生产率与家庭福利。",
+        "集聚经济可能放大效应，但作者发现只能解释一小部分。"
+      ],
+      "variable_relationships": "处理变量为新邦（受政策覆盖地区）指示变量；结果变量为夜间灯光强度（经济产出代理）；控制函数为经纬度的三阶多项式；效应通过年份虚拟变量与处理指示变量的交互项逐年估计。",
+      "flow": [
+        "地方导向政策（基础设施+税收豁免） → 企业进入/正规化与基础设施接入改善 → 产出上升（夜间灯光增强）",
+        "政策 → 集聚经济 → 部分产出上升"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "夜间灯光时间序列（Nighttime Lights Time Series，1992–2012，美国国家地球物理数据中心，基于国防气象卫星计划数据）；行政区划边界来自ML Infomap；村庄表变量（用于趋势检验）；数据由Sam Asher与Paul Novosad提供。",
+      "sample_period": "1992–2012年（夜间灯光数据）；政策自2002年起分阶段实施。",
+      "variables": [
+        "结果变量：夜间灯光强度指数（30弧秒网格单元的平均光强，经云层与自然光源校正）。",
+        "处理变量：位于受政策覆盖的新邦（Uttarakhand）内的指示变量。",
+        "控制函数：单元质心经纬度的三阶多项式（参照Dell, 2010）。",
+        "其他：到新边界的距离（作为单变量running variable的第二种设定）；村庄表变量（用于检验1991–2001年差异趋势）。"
+      ],
+      "econometric_models": "difference-in-discontinuities估计：比较边界断点在不同年份间的差异。作者比较三种空间断点设定，其中第一种为：Light_{i,t} = 固定效应_i + Σ_{t=1993}^{2012} κ_t·年份虚拟变量_t + Σ_t 年份虚拟变量_t×P3(Lat_i, Lon_i) + Σ_t β^S_t·年份虚拟变量_t×Targeted_i + 误差_{i,t}；系数β^S_t度量相对1992年各年在新边界处的效应。第二种设定以到新边界的距离作为单变量running variable（原文该段被截断，细节无法从现有文本确认）。",
+      "identification_strategy": "利用2000年印度三个新邦拆分（Uttarakhand自Uttar Pradesh分出，另有Chhattisgarh、Jharkhand）形成的空间断点；新边界沿既有县界划定，边界县在决策至建邦期间未变动；通过比较边界断点在政策前后的变化识别政策效应，并检验政策前无断点效应。",
+      "endogeneity_treatments": "通过空间断点设计处理边界内生性问题（边界沿既有县界划定）；通过检验政策前趋势与断点效应排除预先趋势；通过检验迁移（人口增长约0.7%年均，作者认为过小不足以驱动结果）排除人口分选；通过检验建邦当年（2001年）无效应来区分建邦（分权）效应与政策效应。",
+      "robustness_checks": "原文标注robustness章节缺失；正文中可见的检验包括：安慰剂政策（假定1996年开始）的双重差分估计（100km内0.240***，20km内0.146**，4km内−0.022不显著）；处理地区差异线性趋势（100km内0.045***，20km内0.026**，4km内−0.005不显著）；1991–2001年村庄表变量的差异变化（40km内有强差异趋势，4km内变小且不显著）；三种空间断点设定结果比较；政策前各年无显著效应检验。",
+      "key_tables_figures": [
+        "Fig. 2：Firms Respond to the Policy",
+        "Fig. 3：The New State Border Follows Existing Districts（1991年县界与新边界叠加）",
+        "Fig. 4：Raw Light Emissions",
+        "Fig. 7：三种设定下逐年的difference-in-discontinuities估计（虚线为政策第一年）",
+        "Table 2：Difference-in-Differences Estimates are Biased by Pre-Trends（安慰剂政策与差异趋势，按100/20/4 km距离分列）",
+        "Table 3：1991–2001年各变量的差异变化（正文提及，表未完整给出）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文为实证研究，主要贡献在于将地方导向政策的因果证据扩展到发展中国家，并提供减税可能产生中期发展效应的证据；未构建正式理论模型，因此理论贡献有限。",
+      "methodological_strengths": "空间断点上的difference-in-discontinuities设计利用了边界沿既有县界划定这一制度特征，所需假设弱于双重差分、动态面板与倾向得分匹配；作者用安慰剂政策与差异趋势检验直接展示了双重差分在100km与20km带宽下的偏误，并证明该偏误在4km内消失，论证较为透明；同时报告三种空间断点设定以应对设定选择问题。",
+      "limitations": [
+        "原文标注theory与robustness章节缺失，本文导读无法确认完整的稳健性检验与任何理论模型内容。",
+        "第二种以距离为running variable的设定细节在节选中被截断，无法确认其具体形式。",
+        "结果仅对区域发展有信息量，作者本人承认项目对国家整体是否带来净收益并不清楚。",
+        "夜间灯光作为产出代理变量存在测量局限（原文未讨论其效度）。",
+        "政策是一揽子措施的组合（基础设施+税收豁免），难以分离各组成部分的独立贡献；作者仅通过集聚经济解释比例间接推断直接效应。",
+        "边界县（如Haridwar与Udham Singh Nagar）并非山区，处理地区内部存在异质性，原文未系统分析。"
+      ],
+      "identification_problems": "识别依赖边界处平行趋势假设；虽然4km内预趋势不显著，但4km带宽样本很小（90个观测、26个subdistrict），检验功效有限，无法完全排除微小预趋势。建邦与政策实施在时间上接近，作者以2001年无效应作为区分依据，但分权效应可能存在滞后，无法完全排除。政策覆盖范围是“少数工业区”（a handful of industrial estates），而处理指示变量按整个新邦定义，可能存在处理错配（原文未说明如何处理这一错配）。",
+      "alternative_explanations": "建邦本身带来的分权收益（更贴合地方条件的政策）可能滞后显现；边界两侧不可观测的地方性冲击；人口向新邦迁移（作者估计约0.7%年均，认为过小）；集聚经济（作者称只能解释一小部分）。",
+      "unresolved_questions": [
+        "政策各组成部分（基础设施 vs 税收豁免）各自的贡献是多少？",
+        "项目对国家整体是否带来净收益（而非仅缩小区域差距）？",
+        "效应在更长时期（超过10年）是否持续？",
+        "夜间灯光之外的其他福利指标是否同样改善？",
+        "该结论能否推广到其他发展中国家与不同类型的地区？"
+      ],
+      "follow_up_topics": [
+        "利用企业层面数据分解税收豁免与基础设施的独立效应",
+        "评估地方导向政策的一般均衡效应与全国净福利",
+        "将空间断点设计应用于其他发展中国家的地方导向项目",
+        "研究政策效应的长期持续性与动态",
+        "检验集聚经济在地方导向政策中的作用大小"
+      ]
+    },
+    "key_concepts": [
+      "地方导向政策（place-based policy）",
+      "空间断点（spatial discontinuity）",
+      "difference-in-discontinuities估计",
+      "夜间灯光数据作为经济产出代理",
+      "平行趋势假设",
+      "集聚经济",
+      "税收优惠与企业进入"
+    ],
+    "reading_recommendations": [
+      "Busso, Gregory & Kline (2013) 关于美国Empowerment Zones的研究",
+      "Kline & Moretti (2014a) 关于田纳西流域管理局基础设施项目的研究",
+      "Dell (2010) 关于秘鲁米塔边界空间断点的方法论文献",
+      "Von Ehrlich & Seidel (2015) 关于德国地方导向政策的断点回归研究",
+      "Grembi et al. (2014) 关于difference-in-discontinuities估计量有效性假设的论文",
+      "Jalan & Ravallion (1998) 与 Park et al. (2002) 关于中国地方导向项目的研究"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:47:03.818861+00:00",
+    "source_chars": 97693,
+    "processed_chars": 19758,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results"
+    ],
+    "missing_sections": [
+      "theory",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 5310,
+    "output_tokens": 2281,
+    "duration_seconds": 20.5
+  }
+}

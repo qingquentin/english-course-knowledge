@@ -1,0 +1,170 @@
+{
+  "cat": "A-017",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "创新经济学",
+      "经济史",
+      "社会网络经济学"
+    ],
+    "keywords": [
+      "非正式社会互动",
+      "禁酒令",
+      "发明",
+      "专利",
+      "社会网络",
+      "酒吧",
+      "双重差分",
+      "路径依赖"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "理解非正式社会网络对发明的重要性，利用美国历史上最大规模的非自愿社会网络中断之一——酒精禁酒令——作为自然实验。",
+      "research_question": "非正式社会互动（以酒吧为场所）的减少如何影响发明（专利产出）？社会网络在发明生产函数中扮演什么角色？",
+      "hypotheses": [
+        "州级禁酒令实施后，先前‘湿’县相对于持续‘干’县的专利数量会下降。",
+        "禁酒令对专利的影响在实施后的前三年最大，之后反弹。",
+        "对不太可能频繁出入酒吧的群体（女性和特定族裔），禁酒令的负向效应较小。",
+        "非正式互动与正式互动在发明生产函数中是互补的。",
+        "社会网络表现出路径依赖。"
+      ],
+      "main_findings": [
+        "州级禁酒令实施后，先前湿县相对于持续干县每年专利数量减少8-18%。",
+        "效应在禁酒令实施后的前三年最大，之后反弹。",
+        "对女性和非酒吧常客族裔的专利影响较小。",
+        "非正式互动与正式互动在发明生产函数中是互补的。",
+        "社会网络表现出路径依赖。"
+      ],
+      "contributions": [
+        "提供了非正式社会网络对发明重要性的因果证据。",
+        "利用禁酒令作为社会网络中断的自然实验，识别社会互动对创新的影响。",
+        "区分了社会网络通过暴露于新想法和促进合作两种机制的作用。",
+        "证明了正式与非正式互动在发明生产函数中的互补性。",
+        "揭示了社会网络结构的路径依赖特征。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "社会网络理论与发明生产函数，假设发明产出取决于个体在网络中的位置和距离。",
+      "key_assumptions": [
+        "每个节点对发明产出的贡献是可加的。",
+        "发明产出是节点间距离的函数。",
+        "禁酒令关闭酒吧，增加了非正式社会互动的距离。",
+        "正式联系（如同事）在禁酒令前后保持不变。"
+      ],
+      "mechanisms": [
+        "酒吧作为社会枢纽，促进信息交流和新想法传播。",
+        "禁酒令关闭酒吧，减少非正式互动，增加社会距离，从而降低发明产出。",
+        "个体通过其他场所重建连接，导致专利反弹。",
+        "非正式互动与正式互动互补，共同促进发明。"
+      ],
+      "variable_relationships": "禁酒令（处理）→ 非正式社会互动减少 → 发明产出下降；效应受群体特征（性别、族裔）和正式互动调节。",
+      "flow": [
+        "州级禁酒令实施 → 酒吧关闭 → 非正式社会互动减少 → 新想法暴露减少和合作机会减少 → 专利产出下降 → 个体重建网络 → 专利产出反弹"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "专利数据来自Petralia, Balland, and Rigby (2016b)，补充专利类别数据来自Marco et al. (2015)；县级数据来自National Historical Geographic Information Series (NHGIS)；禁酒令数据来自Sechrist (2012)，补充州级禁酒令法律信息来自Lewis (2008)和Merz (1930)。",
+      "sample_period": "各州禁酒令实施前后五年（基线回归），具体年份因州而异，最早1852年马萨诸塞州，最晚1919年俄亥俄州和肯塔基州。",
+      "variables": [
+        "专利数量：log(Num.Patents+1)、arcsinh(Num.Patents)、专利率（每10万人口专利数）。",
+        "WetCounty：虚拟变量，县在禁酒令前持续湿（至少5年）。",
+        "StatewideProhibition：虚拟变量，州级禁酒令实施后为1。",
+        "控制变量：log(人口)、城市人口比例、州际移民比例。",
+        "性别和族裔：基于发明人名字推断。",
+        "正式互动：基于公司内部专利合作。"
+      ],
+      "econometric_models": "双重差分模型：Patenting_ct = β1 WetCounty_c * StatewideProhibition_ct + β2 StatewideProhibition_ct + X_ct α + County_c + Year_t + ε_ct；动态效应模型：Patenting_ct = β0 + Σ τ β1τ WetCounty_c * Time_τ + β2τ Time_τ + X_ct α + County_c + Year_t + ε_ct；三重差分模型用于‘bone dry’法律。",
+      "identification_strategy": "利用州级禁酒令作为外生冲击，比较先前湿县与持续干县在禁酒令前后的专利变化。限制样本为长期持续湿或干的县，以最小化内生性问题。",
+      "endogeneity_treatments": "限制样本为长期持续湿或干的县；控制县固定效应和年份固定效应；控制时变协变量；排除一战影响；使用三重差分区分‘bone dry’法律。",
+      "robustness_checks": "排除一战年份；排除一战期间通过禁酒令的州；排除1912年后通过禁酒令的州；使用不同时间窗口定义持续湿/干（10年、15年）；控制人口、城市化、移民等变量；使用替代因变量变换；检查其他行业 establishment 数量。",
+      "key_tables_figures": [
+        "Figure 3: 湿县和干县的专利趋势（原始和残差化）",
+        "Table 2: 基线结果",
+        "Figure 4: 动态效应",
+        "Table 3: 稳健性检验（排除一战）",
+        "Table 6: 族裔分组结果",
+        "Table 15: 替代时间窗口的稳健性"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将社会网络理论应用于发明生产，提供了非正式互动与正式互动互补性的理论框架，并强调了网络路径依赖。",
+      "methodological_strengths": "利用历史自然实验，双重差分设计，样本量大，多种稳健性检验，区分性别和族裔群体，使用三重差分排除替代解释。",
+      "limitations": [
+        "专利数据作为发明代理的局限性（未涵盖非专利创新）。",
+        "县级数据十年一次，线性插值可能引入测量误差。",
+        "禁酒令实施并非完全外生，可能存在选择性。",
+        "样本期较早，外部有效性有限。",
+        "原文未提供结论部分，导读基于现有文本。"
+      ],
+      "identification_problems": "禁酒令的通过可能内生于当地创新或社会态度变化；虽然限制样本为持续湿/干县，但仍可能存在未观测的时变混淆因素；专利数据可能受经济条件影响。",
+      "alternative_explanations": "禁酒令可能导致经济衰退或资源重新配置，从而减少专利；但作者通过检查其他行业 establishment 数量排除了经济条件变化。",
+      "unresolved_questions": [
+        "非正式社会网络通过何种具体机制（如信息传播 vs. 合作机会）影响发明？",
+        "长期效应如何？网络重建后是否完全恢复？",
+        "其他类型的非正式互动（如咖啡馆、俱乐部）是否具有类似作用？"
+      ],
+      "follow_up_topics": [
+        "利用现代数据研究非正式社会互动对创新的影响。",
+        "探讨社会网络中断对不同技术领域发明的异质性影响。",
+        "研究政策如何缓解社会网络中断的负面创新效应。"
+      ]
+    },
+    "key_concepts": [
+      "非正式社会网络",
+      "发明生产函数",
+      "社会距离",
+      "路径依赖",
+      "正式与非正式互动互补性",
+      "双重差分",
+      "自然实验"
+    ],
+    "reading_recommendations": [
+      "Hasan & Koning (2019) 关于社会网络与发明暴露于新想法。",
+      "Boudreau et al. (2017) 和 Catalini (2018) 关于合作者寻找。",
+      "Sokoloff & Khan (1990) 和 Khan (2005) 关于发明民主化。",
+      "Petralia, Balland, and Rigby (2016b) 专利数据构建。",
+      "Sechrist (2012) 禁酒令数据。"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:34:34.331631+00:00",
+    "source_chars": 166495,
+    "processed_chars": 32714,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "data",
+      "intro",
+      "methods",
+      "results",
+      "robustness",
+      "theory"
+    ],
+    "missing_sections": [
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 8734,
+    "output_tokens": 1933,
+    "duration_seconds": 14.6
+  }
+}

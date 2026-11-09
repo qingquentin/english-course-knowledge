@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 
 import ai
 import db
+import guides
 import retriever
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -209,6 +210,52 @@ def stats():
         "aiConfigured": bool(os.environ.get("DEEPSEEK_API_KEY", "").strip()),
         "model": ai.MODEL,
     }
+
+
+# ---------- 文献导读 ----------
+
+@app.get("/api/literature")
+def literature():
+    """发现页列表：合并 papers.json 书目与导读概览，筛选排序由前端做。"""
+    gs = guides.list_guides()
+    out = []
+    for p in db.list_papers():
+        g = gs.get(p["id"])
+        out.append({
+            "id": p["id"], "title": p["title"], "cn": p.get("cn"),
+            "authors": p.get("authors"), "year": p.get("year"),
+            "venue": p.get("venue"), "type": p.get("type"),
+            "keywords": p.get("keywords") or [], "sub": p.get("sub"),
+            "m": p.get("m"), "hasPdf": p["id"] in _pdf_index,
+            "hasGuide": bool(g), "overview": guides.guide_overview(g),
+            "fields": guides.guide_fields(g),
+            "reviewStatus": ((g.get("review") or {}).get("status") if g else None),
+            "completeness": ((g.get("generation") or {}).get("completeness") if g else None),
+        })
+    return out
+
+
+@app.get("/api/literature/{cat}")
+def literature_detail(cat: str):
+    """单篇详情：书目 + 导读（没有导读时 guide 为 null）。"""
+    d = db.get_paper(cat)
+    if not d:
+        raise HTTPException(404, "文献不存在")
+    d.pop("body", None)
+    d["hasPdf"] = cat in _pdf_index
+    d["pdfSize"] = _pdf_index.get(cat, 0)
+    d["guide"] = guides.get_guide(cat)
+    return d
+
+
+@app.get("/api/literature/{cat}/guide")
+def literature_guide(cat: str):
+    if not db.get_paper(cat):
+        raise HTTPException(404, "文献不存在")
+    g = guides.get_guide(cat)
+    if not g:
+        raise HTTPException(404, "该文献暂无导读")
+    return g
 
 
 # ---------- 问答 ----------

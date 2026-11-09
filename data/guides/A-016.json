@@ -1,0 +1,162 @@
+{
+  "cat": "A-016",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "城市经济学",
+      "创新经济学"
+    ],
+    "keywords": [
+      "科技集群",
+      "产业集聚",
+      "知识溢出",
+      "劳动力市场池",
+      "客户-供应商互动",
+      "集聚经济"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "硅谷仅占全球不到0.1%的人口，却影响巨大；众多城市（如2017–18年238个美国城市竞标亚马逊第二总部）渴望成为科技集群，因此有必要系统考察科技集群现象。",
+      "research_question": "围绕三个部分回答的问题：如何界定科技集群（需要哪些属性）；科技集群与其他产业集群有何不同；科技集群能否被创造及其前提条件与动态。",
+      "hypotheses": [
+        "原文未说明（本文为综述性文章，未提出正式可检验假说）"
+      ],
+      "main_findings": [
+        "科技集群的界定需从本地活动的规模与密度出发，并延伸到工作的前沿性质及其对多个经济部门的影响能力。",
+        "用风险资本和专利衡量的科技集群在美国城市间图景大体相似，但全球范围内并不一致：按WIPO报告，东京-横滨专利数居首，为第二名深圳-香港的两倍，旧金山湾区第三、首尔第四。",
+        "马歇尔的三力（知识溢出、劳动力市场池、客户-供应商互动）同样适用于科技集群，且常以独特方式发挥作用。",
+        "科技集群很难被预测或有意创造，历史偶然性作用重要（Krugman 1991），地方“成为下一个硅谷”的努力记录不佳。",
+        "城市在功能与产业两条线上的专业化差异，可能解释底特律、洛厄尔、克利夫兰与纽约、波士顿等城市命运的分化。"
+      ],
+      "contributions": [
+        "系统梳理科技集群的定义、度量与全球比较。",
+        "将马歇尔集聚力框架应用于科技集群并讨论其独特表现。",
+        "综述科技集群的前提条件与动态（如nursery city模型、功能与产业专业化），并提出未来研究方向。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "马歇尔（1890）的集聚经济三力（知识溢出、劳动力市场池、客户-供应商互动）；Duranton和Puga（2004）对马歇尔力的重构（共享与匹配）；Krugman（1991）的历史偶然性；Henderson（1974）的nursery city模型；Duranton和Puga（2005）关于城市按功能还是按产业专业化的框架。",
+      "key_assumptions": [
+        "科技集群具有前沿性质，并能够影响多个经济部门。",
+        "知识溢出（包括编码知识与难以书写的隐性知识）在本地更易发生。",
+        "集群内企业互动受距离成本约束，只有最近邻才能获得直接溢出收益（Kerr and Kominers 2015）。",
+        "历史偶然性在集群区位形成中起重要作用。"
+      ],
+      "mechanisms": [
+        "知识溢出：企业通过本地正式与非正式渠道获取编码知识和隐性知识（如专利引用、发明人网络、合作网络）。",
+        "劳动力市场池：高技能移民促进科技中心之间的交流，专利发明人团队日益跨境。",
+        "客户-供应商互动：本地供应邻近性重要（如苹果、Flextronics的案例），同时集群嵌入区域、国家或全球生产网络。",
+        "锚定企业与大小企业多样性：大企业锚定集群并衍生想法，小企业降低进入壁垒并刺激专业化支持服务。",
+        "nursery city动态：城市可能因某一快速增长产业过快主导而丧失功能专业化（如底特律汽车业），从而将产业多样性推向其他地区。"
+      ],
+      "variable_relationships": "本地活动的规模与密度、工作的前沿性质、跨部门影响能力共同界定科技集群；马歇尔三力与自然优势共同解释产业集群，且三力在科技集群中以独特方式表现；城市专业化于功能还是产业影响其长期更新能力。",
+      "flow": [
+        "本地规模与密度 + 前沿性质 + 跨部门影响 → 科技集群界定",
+        "马歇尔三力（知识溢出、劳动力市场池、客户-供应商互动）→ 集聚经济 → 科技集群形成",
+        "历史偶然性 → 集群区位形成",
+        "城市功能专业化 vs 产业专业化 → 城市更新或锁定（如底特律汽车业）"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "原文未说明（本文为综述性文章，引用WIPO报告Bergquist, Fink, and Raffo 2017等二手数据来源，但未开展原创数据收集）",
+      "sample_period": "原文未说明",
+      "variables": [
+        "专利数（patents）",
+        "风险资本融资（venture capital funding）",
+        "研发密集型或数字连接职业的就业",
+        "新兴指标：高增长创业、人工智能研究人员"
+      ],
+      "econometric_models": "不适用（理论论文/综述性文章）",
+      "identification_strategy": "不适用（理论论文/综述性文章）",
+      "endogeneity_treatments": "不适用（理论论文/综述性文章）",
+      "robustness_checks": "不适用（理论论文/综述性文章）",
+      "key_tables_figures": [
+        "原文未说明（正文节选中未包含图表）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将马歇尔集聚经济框架系统应用于科技集群，并整合nursery city模型与城市功能/产业专业化理论，为理解科技集群的形成与演化提供了概念框架。",
+      "methodological_strengths": "作为综述性文章，覆盖面广，兼顾定义、度量、机制与政策含义，并大量引用实证与理论研究，适合作为领域入门导读。",
+      "limitations": [
+        "本文为综述性文章，未提出新的理论模型或原创实证检验。",
+        "正文节选不完整（缺失摘要、引言、方法、结果、稳健性与结论），本导读只能依据已给出文本填写，部分字段无法确认。",
+        "科技集群的界定仍偏概念化，规模、密度、前沿性质与跨部门影响缺乏统一可操作度量。"
+      ],
+      "identification_problems": "不适用（理论论文/综述性文章）；但文中指出专利引用只是知识流动的不完美代理，引用模式可能反映发明人网络、许可协议等常规经济活动，而非纯粹的知识溢出。",
+      "alternative_explanations": "科技集群的形成可能更多由历史偶然性（Krugman 1991）而非地方政策努力驱动；城市命运分化也可能由住房约束、政治压力、超级明星城市与双职工家庭等因素解释（如Gyourko, Mayer, and Sinai 2013; Hsieh and Moretti 2019）。",
+      "unresolved_questions": [
+        "如何在全球范围内一致地度量科技集群（规模、密度、前沿性质、跨部门影响）？",
+        "科技集群能否被有意创造，其必要前提是什么？",
+        "城市为何在功能专业化与产业专业化之间分化，何种机制决定其更新或锁定？",
+        "科技集群对经济增长的贡献（数量与特质如非典型组合）有多大？"
+      ],
+      "follow_up_topics": [
+        "利用新的雇主-雇员数据集（如LEHD、LinkedIn）量化科技集群内企业的创建与扩张。",
+        "研究企业在集群内定位其多项活动的内部选择（邻近外部洞见与内部沟通的权衡）。",
+        "量化科技集群的本地经济溢出与对个人职业生涯、初创企业早期阶段的影响。",
+        "评估将研发活动推向其他地区的政策提案的权衡（区域公平 vs 总产出）。"
+      ]
+    },
+    "key_concepts": [
+      "科技集群（tech cluster）",
+      "集聚经济（agglomeration economies）",
+      "知识溢出（knowledge spillovers）",
+      "劳动力市场池（labor market pooling）",
+      "客户-供应商互动（customer-supplier interactions）",
+      "nursery city模型",
+      "锚定企业（anchor firms）",
+      "历史偶然性（historical accidents）"
+    ],
+    "reading_recommendations": [
+      "Marshall (1890)：集聚经济三力的经典论述",
+      "Duranton and Puga (2004)：马歇尔力的重构（共享与匹配）",
+      "Krugman (1991)：历史偶然性与集群形成",
+      "Henderson (1974)：nursery city模型",
+      "Ellison, Glaeser, and Kerr (2010)：产业集聚的量化研究",
+      "Kerr and Kominers (2015)：科技集群内本地化溢出的模型",
+      "Helsley and Strange (2014)：城市共集聚产业的非最优组合模型",
+      "Moretti (2019)：发明人集中于领先科技中心对创新的影响"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:34:19.679949+00:00",
+    "source_chars": 90499,
+    "processed_chars": 23506,
+    "completeness": "partial",
+    "included_sections": [
+      "data",
+      "theory"
+    ],
+    "missing_sections": [
+      "abstract",
+      "intro",
+      "methods",
+      "results",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 5523,
+    "output_tokens": 1730,
+    "duration_seconds": 15.0
+  }
+}

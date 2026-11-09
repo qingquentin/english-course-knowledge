@@ -1,0 +1,181 @@
+{
+  "cat": "A-033",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "空间计量经济学",
+      "政策评估"
+    ],
+    "keywords": [
+      "空间效应",
+      "空间依赖",
+      "空间异质性",
+      "政策评估",
+      "处理效应",
+      "SUTVA",
+      "双重差分",
+      "倾向得分匹配",
+      "回归断点设计",
+      "空间面板"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "区域科学实证研究对因果推断兴趣日增，但空间效应（空间依赖SD与空间异质性SH）在政策评估中的作用理解不足；这类空间效应违反Rubin框架下的稳定单位处理值假设（SUTVA），因此需要更细致地考察空间效应并扩展既有处理效应评估方法。",
+      "research_question": "空间效应（空间依赖与空间异质性）如何进入政策评估的计量框架并违反SUTVA？如何在双重差分、倾向得分匹配、回归断点等识别策略中纳入空间因素？以及如何构建一个空间显式的反事实框架并用最低饮酒年龄政策对机动车事故死亡率的影响加以说明？",
+      "hypotheses": [
+        "原文未说明（本文为方法性/综述与示例性论文，未以正式假说形式列出可检验命题）"
+      ],
+      "main_findings": [
+        "空间效应（空间依赖与空间异质性）会违反Rubin的处理效应分析基础框架中的SUTVA。",
+        "既有处理效应评估方法（DID、倾向得分匹配、RDD、IV）已有若干纳入空间因素的初步扩展，但均不完整。",
+        "在最低饮酒年龄与MVA死亡率的示例中，作者提出并估计了五种纳入空间效应的设定：空间滞后因变量、空间滞后处理变量（SLX）、时间滞后处理变量、时空滞后处理变量等。",
+        "空间滞后因变量设定下，死亡率结果不仅取决于本州处理，还通过空间乘数效应取决于系统中其他所有州的处理。",
+        "原文未说明（结论章节缺失，无法确认完整的实证结果与最终结论）"
+      ],
+      "contributions": [
+        "系统梳理了DID、倾向得分匹配、RDD、IV等识别策略中纳入空间效应的已有尝试及其假设。",
+        "提出并说明了一个空间显式的反事实框架，用于在政策评估中处理空间依赖与空间异质性。",
+        "以最低饮酒年龄政策为例，展示了将标准多州回归DD扩展为空间面板设定的具体做法。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "Rubin因果模型/潜在结果框架与SUTVA；空间计量经济学（空间依赖、空间异质性、空间乘数、空间权重矩阵）；DID的共同趋势假设。",
+      "key_assumptions": [
+        "SUTVA（稳定单位处理值假设）——空间效应会使其被违反。",
+        "DID的共同趋势假设，作者通过州特定时间趋势项加以放松。",
+        "空间权重矩阵wih为常数（不随时间变化）。",
+        "SLX与时间滞后设定假定不存在其他形式的模型误设，可用标准面板OLS估计。",
+        "空间滞后因变量模型经一阶差分去除州固定效应后，用最大似然或IV获得空间参数与回归系数的一致估计（但不包括州固定效应）。"
+      ],
+      "mechanisms": [
+        "空间依赖：邻州结果通过空间滞后因变量进入本州结果，形成空间乘数效应，使本州结果受系统中所有州处理的影响。",
+        "空间溢出：邻州处理通过SLX中的空间滞后处理变量影响本州结果。",
+        "空间异质性：未被州固定效应捕捉的内在异质性导致空间模式。",
+        "处理采纳的同伴效应：空间依赖可能同时影响结果（死亡率溢出）与处理采纳（同伴效应）。",
+        "时间扩散：处理在时间与空间上的滞后扩散（时空滞后处理变量）。"
+      ],
+      "variable_relationships": "结果变量Yit（18–20岁每10万人MVA死亡率）取决于本州处理LEGALit、州固定效应、年份固定效应、州特定时间趋势（在扩展设定中）以及空间滞后项（邻州结果或邻州处理）；处理效应由系数d度量。",
+      "flow": [
+        "空间效应（SD/SH）→ 违反SUTVA",
+        "邻州处理 → 空间滞后处理变量（SLX）→ 本州结果",
+        "邻州结果 → 空间滞后因变量 → 空间乘数 → 本州结果受所有州处理影响",
+        "处理采纳的同伴效应 → 处理分配非随机",
+        "空间依赖 → logit/probit倾向得分估计有偏 → 匹配结果有偏"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "州饮酒购买年龄政策数据来自Du Mouchel, Williams, and Zador (1987)，分析使用Angrist and Pischke (2015)教材网站补充的数据集；全部死亡、MVA、自杀与内因死亡数据来自美国死亡普查（National Center for Health Statistics提供）。",
+      "sample_period": "1970–1983年，共14个时期；面板含51个“州”（含哥伦比亚特区）；空间扩展仅考虑大陆州，得到49个截面观测。",
+      "variables": [
+        "Yit：18–20岁每10万人MVA死亡率。",
+        "LEGALit：州i在t年中对18–20岁合法的年份比例（年中改政策则为分数）。",
+        "STki：州固定效应（以阿拉巴马为基准）。",
+        "YRjt：年份固定效应（以1970年为基准）。",
+        "STki×t：州特定时间趋势。",
+        "啤酒税：控制变量（仅大陆州与DC，因夏威夷无啤酒税）。",
+        "wih：空间权重（不随时间变化）。",
+        "ρ：空间自回归系数。",
+        "ζ：邻州处理对本州结果的效应系数。",
+        "δ：处理效应系数。"
+      ],
+      "econometric_models": "基准为Angrist and Pischke (2015)的多州回归DD：Yit = a + δLEGALit + ΣbkSTki + ΣgjYRjt + eit；放松共同趋势后加入州特定趋势Σθk(STki×t)。空间扩展五种设定：(4) 空间滞后因变量 Yit = ρΣwihYht + δLEGALit + APit + eit，一阶差分后估计；(5) SLX Yit = δLEGALit + ζΣwihLEGALht + APit + eit，面板OLS；(6) 时间滞后处理 Yit = δLEGALi(t−1) + APit + eit，OLS；(7) 时空滞后处理 Yit = δLEGALit + ζΣwihLEGALh(t−1) + APit + eit。",
+      "identification_strategy": "利用各州最低饮酒年龄在不同时点（部分为年中）变化所形成的政策拼凑自然实验，通过州与年份固定效应及州特定趋势识别处理效应；空间扩展通过空间权重矩阵刻画邻州结果或邻州处理的影响。",
+      "endogeneity_treatments": "原文未说明（正文未系统讨论处理内生性及相应处理策略；仅提及空间依赖可能同时影响结果与处理采纳）。",
+      "robustness_checks": "原文未说明（稳健性章节缺失；仅提及用HC1异方差稳健标准误复现结果，以及因一阶差分需丢弃1970年观测导致复现估计略有差异）。",
+      "key_tables_figures": [
+        "Table 3：Identification Strategies with Spatial Implementations（DID、倾向得分匹配、RDD、IV的空间实现及假设）",
+        "Figure 1：Mortality rate heterogeneity over time（死亡率随时间的异质性）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将空间计量经济学的空间依赖与空间异质性概念系统引入Rubin因果框架，明确指出空间效应构成对SUTVA的违反，并给出空间显式反事实框架的雏形，对区域政策评估的方法论整合具有框架性意义。",
+      "methodological_strengths": "按识别策略（DID、匹配/倾向得分、RDD、IV）逐类梳理空间扩展及其假设，结构清晰；以最低饮酒年龄政策为统一示例，将标准多州DD扩展为多种空间面板设定，示范性强；使用HC1稳健标准误并在R中复现STATA结果，具有一定可重复性。",
+      "limitations": [
+        "正文缺失data、robustness、conclusion章节，无法确认完整的实证结果、稳健性检验与最终结论，本导读对实证发现的覆盖有限。",
+        "示例部分仅报告处理变量估计（脚注2），固定效应估计未在正文呈现。",
+        "对空间权重矩阵的设定与选择缺乏系统讨论，而空间模型的识别高度依赖权重设定。",
+        "对处理内生性缺乏系统处理策略的说明。"
+      ],
+      "identification_problems": "空间滞后因变量模型中的ρ与处理效应δ可能相互混淆；空间权重矩阵的外生性假定若被违反（如权重与遗漏冲击相关），空间参数的因果解释不成立；邻州处理可能并非外生（同伴效应与共同冲击），SLX中ζ的因果解释存疑；一阶差分丢弃1970年观测改变了样本与时间固定效应结构。",
+      "alternative_explanations": "MVA死亡率下降可能由同期安全带法规、酒驾执法、车辆安全技术改进、啤酒税变化或全国性趋势驱动，而非最低饮酒年龄政策；州特定趋势的引入本身可能吸收部分处理效应；空间滞后项可能捕捉的是共同区域冲击而非真实溢出。",
+      "unresolved_questions": [
+        "如何在空间设定下正式检验并恢复SUTVA或界定其违反的边界？",
+        "空间权重矩阵应如何设定与检验，其误设对处理效应估计的偏误有多大？",
+        "空间DID中邻域效应的反馈（双向）如何识别，而非仅单向处理？",
+        "空间倾向得分与空间RDD中空间自相关导致的估计偏误如何一致地校正？",
+        "空间效应下处理效应的标准误与推断如何进行有效校正？"
+      ],
+      "follow_up_topics": [
+        "空间DID估计量的正式性质与反馈效应识别",
+        "空间权重矩阵选择与敏感性分析",
+        "空间倾向得分匹配与空间probit/logit的一致估计",
+        "地理断点设计中的空间自相关与边界效应推断",
+        "空间乘数下处理效应的直接效应与间接效应分解"
+      ]
+    },
+    "key_concepts": [
+      "稳定单位处理值假设（SUTVA）",
+      "空间依赖（SD）",
+      "空间异质性（SH）",
+      "空间乘数效应",
+      "空间权重矩阵",
+      "空间滞后因变量模型",
+      "SLX模型",
+      "多州回归双重差分",
+      "倾向得分匹配",
+      "空间断点设计（spatial regime design）",
+      "空间面板模型"
+    ],
+    "reading_recommendations": [
+      "Angrist and Pischke (2015), Mastering 'Metrics（本文示例的基准模型来源）",
+      "Anselin (1988), Spatial Econometrics: Methods and Models（空间计量基础）",
+      "Anselin (2003b), Spatial Externalities, Spatial Multipliers, and Spatial Econometrics",
+      "Delgado and Florax (2015), Difference-in-differences Techniques for Spatial Data",
+      "Dubé et al. (2014), A Spatial Difference-in-differences Estimator",
+      "Keele and Titiunik (2015)（地理RDD的政治学视角综述）",
+      "Gibbons, Overman, and Eleonora (2015), Spatial Methods",
+      "Conley and Taber (2011), Inference with Difference in Differences with a Small Number of Policy Changes"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T06:00:52.625805+00:00",
+    "source_chars": 70453,
+    "processed_chars": 28949,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "intro",
+      "methods",
+      "results",
+      "theory"
+    ],
+    "missing_sections": [
+      "data",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 7537,
+    "output_tokens": 2368,
+    "duration_seconds": 17.2
+  }
+}

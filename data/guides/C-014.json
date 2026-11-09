@@ -1,0 +1,161 @@
+{
+  "cat": "C-014",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "公共财政",
+      "城市经济学"
+    ],
+    "keywords": [
+      "地方导向政策",
+      "新市场税收抵免",
+      "机会区",
+      "政策瞄准",
+      "税收激励",
+      "低收入社区"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "新市场税收抵免（NMTC）和机会区（OZ）是两种旨在促进 distressed areas 私人投资的地方导向政策，二者共享相同的合格普查区（低收入社区，LICs），但分配机制不同：NMTC 由财政部和社区发展实体（CDEs）决定，OZ 由州长指定并由私人投资者决策。本文旨在比较两种政策在合格普查区内部的投资瞄准差异。",
+      "research_question": "NMTC 和 OZ 投资在合格普查区内部如何瞄准？哪种政策更有效地将投资导向更 distressed 的地区？",
+      "hypotheses": [
+        "原文未说明"
+      ],
+      "main_findings": [
+        "NMTC 和 OZ 投资都流向了中位收入、贫困率、劳动力市场状况和教育程度等关键维度上更 distressed 的普查区。",
+        "NMTC 比 OZ 更瞄准 distressed 地区；但在县级层面，NMTC 的瞄准性减弱但仍保持，而 OZ 的瞄准性基本消失。",
+        "OZ 投资倾向于流向已有更多私人投资、需求更强、位于繁荣县内以及增长更快的地区，这与 OZ 税收激励奖励了在没有该计划时也会发生的投资相一致。",
+        "OZ 投资规模远大于 NMTC：2019-2022 年 OZ 投资总额为 821 亿美元，NMTC 为 132 亿美元；在收入最低的五分之一普查区中，OZ 投资是 NMTC 投资的四倍多。",
+        "OZ 计划大幅扩展了覆盖范围：在合格 LICs 中，NMTC 覆盖 1,259 个普查区，OZ 覆盖 5,669 个普查区，其中 5,149 个未获得 NMTC 投资；至少获得一种政策投资的 LICs 份额从 4% 增加到 21%。"
+      ],
+      "contributions": [
+        "首次使用普查区层面的 NMTC 和 OZ 投资数据，系统比较两种地方导向政策的瞄准表现。",
+        "揭示了 OZ 投资倾向于流向已有投资和需求较强地区，与 OZ 激励结构导致边际投资奖励的预期一致。",
+        "提供了政策覆盖范围扩展的量化证据，表明 OZ 大幅增加了获得投资的低收入社区数量。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "原文未说明（论文未构建正式理论模型，但引用了 Corinth and Feldman (2024) 关于 OZ 投资回报与补贴关系的分析框架）。",
+      "key_assumptions": [
+        "NMTC 和 OZ 共享相同的合格普查区（LICs），确保投资不会流向约一半不合格的普查区。",
+        "NMTC 投资数据为流量，OZ 数据为存量；比较时使用 2019-2022 年 NMTC 流量与 2022 年底 OZ 存量。",
+        "瞄准分析使用截至 2017 年的五年期区域特征，以区分瞄准与投资效应。"
+      ],
+      "mechanisms": [
+        "NMTC 通过竞争性申请过程由 CDFI Fund 分配税收抵免给 CDEs，CDEs 再将资金部署到 LICs，分配决策更集中于财政部和 CDEs。",
+        "OZ 由州长指定约 25% 的合格普查区，私人投资者通过合格机会基金（QOFs）投资，投资决策分散于州长和私人投资者。",
+        "OZ 税收激励仅针对资本利得，且补贴幅度随项目税前回报率提高而增大，对在没有计划时也会发生的投资提供最大激励，导致投资流向已有较强需求和私人投资的地区。"
+      ],
+      "variable_relationships": "政策设计（分配机制、税收激励结构）→ 投资决策主体（财政部/CDEs vs. 州长/私人投资者）→ 投资的地理瞄准（distressed 程度 vs. 已有投资和需求）→ 政策覆盖范围和投资规模。",
+      "flow": [
+        "政策设计差异 → 投资决策分散程度不同 → 投资瞄准模式差异 → OZ 投资更集中于已有需求和投资地区，NMTC 更瞄准 distressed 地区"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "NMTC 投资数据来自美国财政部 CDFI Fund 公开数据；OZ 投资数据来自保密税务数据（QOFs 申报表，见 Coyne and Johnson 2023）；区域特征数据来自美国社区调查（ACS）2013-2017 五年 pooled 样本；商业和多户住宅房地产交易数据来自 Real Capital Analytics（交易额 ≥250 万美元）；死亡率数据来自 CDC WONDER。",
+      "sample_period": "投资数据为 2019-2022 年；区域特征为截至 2017 年的五年期（2013-2017 ACS）；NMTC 投资数据可从 2003 年至 2022 年，但分析聚焦 2019-2022 年以与 OZ 一致比较。",
+      "variables": [
+        "NMTC 投资：2019-2022 年 QLICIs 流量，总额 132 亿美元。",
+        "OZ 投资：截至 2022 年底 QOZ Property 存量，总额 821 亿美元（其中 40 亿美元为 2018 年下半年投资）。",
+        "瞄准变量：中位收入、贫困率、劳动力市场指标（劳动参与率、就业人口比、失业率）、教育程度（高中及以上、大学及以上）、学生人口比例、中位房价增长、人口增长、商业和多户住宅房地产投资交易、都市 vs. 农村。",
+        "辅助变量：种族构成（黑人比例、西班牙裔比例）、向上流动性、自杀率、药物过量死亡率。"
+      ],
+      "econometric_models": "描述性分析：按瞄准变量十分位数报告 NMTC 和 OZ 投资的分布（图 1-5）；州级人均投资（图 6-7）；附录表 A1 报告了 NMTC 和 OZ 投资概率对标准化协变量的 logit 平均边际效应。",
+      "identification_strategy": "不适用（本文为描述性比较分析，非因果识别）。",
+      "endogeneity_treatments": "不适用（描述性分析，未处理内生性）。",
+      "robustness_checks": "原文未说明（正文缺失 robustness 章节；附录表 A1 提供了 logit 平均边际效应作为补充分析）。",
+      "key_tables_figures": [
+        "Figure 1: NMTC 和 OZ 投资按中位收入和贫困十分位数分布（2019-2022）",
+        "Figure 2: NMTC 和 OZ 投资按劳动力市场十分位数分布",
+        "Figure 3: NMTC 和 OZ 投资按教育程度十分位数分布",
+        "Figure 4: NMTC 和 OZ 投资按商业和多户住宅房地产投资十分位数分布",
+        "Figure 5: NMTC 和 OZ 投资按学生人口、中位房价增长和人口增长分布",
+        "Figure 6: 州级人均 NMTC 和 OZ 投资",
+        "Figure 7: 州级 LIC 人口人均 NMTC 和 OZ 投资",
+        "Figure 8: OZ 与非 OZ 投资税后回报率差异（引自 Corinth and Feldman 2024）",
+        "Table A1: NMTC 和 OZ 投资概率对标准化协变量的 logit 平均边际效应"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文未构建正式理论模型，但通过比较两种政策设计下的投资瞄准模式，为理解地方导向政策的激励结构如何影响投资地理分布提供了实证基础。",
+      "methodological_strengths": "使用普查区层面的大规模行政数据，覆盖 NMTC 和 OZ 两种政策，比较维度丰富（收入、贫困、劳动力市场、教育、房地产投资、增长等），并同时在普查区和县层面报告结果，增强了描述的全面性。",
+      "limitations": [
+        "本文为描述性分析，未进行因果识别，无法确定政策对区域结果的因果效应。",
+        "NMTC 数据为流量而 OZ 数据为存量，比较时存在概念差异；OZ 数据包含约 5% 的 2018 年下半年投资。",
+        "OZ 投资数据中约 60 亿美元为债务融资而非递延收益权益投资，可能高估实际税收优惠投资。",
+        "投资数据可能不等于实际区域投资水平：QLICI 或 QOF 权益投资仅为融资来源之一，且资金可能用于购买现有物业。",
+        "正文缺失 theory 和 robustness 章节，无法确认理论框架和稳健性检验的完整性。"
+      ],
+      "identification_problems": "不适用（描述性分析，无因果识别策略）。但需注意，投资瞄准模式可能反映未观测的区域特征，而非政策设计的因果效应。",
+      "alternative_explanations": "OZ 投资流向已有较强需求和私人投资的地区，可能不仅源于税收激励结构，也可能与州长选择 OZ 时的政治或经济考量有关（原文引用 Frank et al. 2022 记录了 OZ 指定中的政治因素）。此外，NMTC 的更强瞄准性可能部分反映其竞争性申请过程筛选了更 distressed 的项目，而非单纯政策设计差异。",
+      "unresolved_questions": [
+        "两种政策的投资对区域经济结果（如就业、收入、贫困）的因果效应如何？",
+        "OZ 投资中多大比例是边际投资（即没有计划时不会发生的投资）？",
+        "如何设计政策以更有效地将投资导向“不成熟”的 distressed 地区？"
+      ],
+      "follow_up_topics": [
+        "对 NMTC 和 OZ 投资进行因果效应评估。",
+        "研究 OZ 指定过程中州长决策的政治和经济决定因素。",
+        "探索替代政策工具以促进未成熟 distressed 地区的生产性投资。"
+      ]
+    },
+    "key_concepts": [
+      "新市场税收抵免（NMTC）",
+      "机会区（OZ）",
+      "低收入社区（LICs）",
+      "社区发展实体（CDEs）",
+      "合格机会基金（QOFs）",
+      "合格低收入社区投资（QLICIs）",
+      "地方导向政策",
+      "政策瞄准"
+    ],
+    "reading_recommendations": [
+      "Corinth, K., & Feldman, N. E. (2024). The Opportunity Zone Tax Incentive: Theory and Evidence. （原文引用，提供 OZ 激励的理论框架）",
+      "Coyne, D., & Johnson, C. (2023). Opportunity Zone Investment Data. （原文引用，OZ 数据来源）",
+      "Frank et al. (2022). Political Factors in Opportunity Zone Designations. （原文引用，OZ 指定中的政治因素）",
+      "Congressional Research Service (2022). New Markets Tax Credit: An Introduction. （原文引用，NMTC 背景）",
+      "Joint Committee on Taxation (2024). Tax Incentives for Opportunity Zones. （原文引用，OZ 和 NMTC 税收细节）"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:48:27.729091+00:00",
+    "source_chars": 82161,
+    "processed_chars": 28300,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results"
+    ],
+    "missing_sections": [
+      "theory",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 6966,
+    "output_tokens": 2529,
+    "duration_seconds": 18.1
+  }
+}

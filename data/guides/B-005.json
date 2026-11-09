@@ -1,0 +1,192 @@
+{
+  "cat": "B-005",
+  "classification": {
+    "fields": [
+      "城市经济学",
+      "数字地理学",
+      "平台城市化",
+      "城市空间分析"
+    ],
+    "keywords": [
+      "第三空间",
+      "数字平台",
+      "可解释AI",
+      "SHAP",
+      "数字地理",
+      "平台城市化",
+      "空间特征",
+      "首尔"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "数字技术深刻改变城市环境与人类行为，但既有研究多停留在理论预测层面，缺乏稳健的实证框架来直接观察数字技术对城市空间形态的影响并将其与其他因素分离（原文指出这是数字地理领域的空白，Audirac, 2005; Dadashpoor & Yousefi, 2018）。",
+      "research_question": "数字空间是否塑造物理空间？具体而言：(1) 数字技术使用程度是否导致第三空间（Third Places）空间属性出现可辨识差异？(2) 基于数字技术使用程度划分的第三空间之间存在哪些空间差异？(3) 这些空间特征的关键决定因素是什么？",
+      "hypotheses": [
+        "原文未明确列出正式研究假说；作者以三个研究子问题替代假说陈述。"
+      ],
+      "main_findings": [
+        "首尔约76%的第三空间依赖数字技术（注册于NAVER Place）。",
+        "ANOVA F检验显示，包括区位与建筑维度在内的多数空间特征在NDTP、DTP、ADTP三类之间存在统计显著差异。",
+        "随机森林（RF）在MNL、NB、SVM、RF四类分类器中表现最佳（准确率、精确率、召回率）。",
+        "SHAP分析显示，距CBD距离、建筑规模（总建筑面积、层数、地下层数）、距地铁站距离、建筑年龄、距道路距离是对数字效用分类影响最大的属性。",
+        "DTP呈现“增强可达性”特征：更靠近低等级道路、道路宽度较小、远离CBD、不在商业区、建筑较小。",
+        "NDTP呈现“已具备充足客流优势可达性”特征：靠近宽阔高等级道路、总建筑面积大（高层综合体）、位于商业区、靠近CBD。",
+        "ADTP呈现“服务竞争辅助”特征：距CBD、地铁站更近，建筑更新（教育类别除外），零售与俱乐部类别中ADTP比例较高。",
+        "距CBD远近顺序为ADTP—NDTP—DTP，DTP最远。"
+      ],
+      "contributions": [
+        "提出将社会活动发生的城市空间按数字平台注册与使用情况分类（NDTP/DTP/ADTP）的方法论框架。",
+        "将可解释AI（SHAP）引入数字地理与平台城市化的实证研究。",
+        "为数字技术与物理城市空间互动正在重塑城市空间提供了定量证据，回应Castells、Zook & Graham等理论预期。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "数字地理（digital geography）与平台城市化（platform urbanism）理论；Castells的“流动空间”、Mitchell的“比特之城”、Batty的“赛博空间”、Zook & Graham的“DigiPlace”概念；Oldenburg式第三空间与城市社会活动理论（Jacobs、Florida等）。",
+      "key_assumptions": [
+        "第三空间是人们聚集并进行社会互动的物理空间，可作为观察数字技术空间效应的载体。",
+        "商家是否在NAVER Place注册及是否使用预约服务，可代理其数字技术使用程度（NDTP/DTP/ADTP分类依据）。",
+        "空间属性（区位、建筑、道路等）可通过GIS与建筑几何数据一致地测量。",
+        "分类器模型可从空间属性中学习并区分不同数字效用等级的第三空间。",
+        "首尔高数字化普及率使其成为研究数字—物理空间互动的合适案例。",
+        "原文未明确列出其他正式假设。"
+      ],
+      "mechanisms": [
+        "数字平台通过提供导航、评价、预约等服务，为物理可达性较低的场所提供“增强可达性”，使其能吸引客流（DTP机制）。",
+        "已具备优越物理可达性与充足客流的场所无需依赖平台（NDTP机制）。",
+        "在CBD、地铁站周边等竞争激烈的区位，商家使用平台预约服务以在服务竞争中获取优先权（ADTP机制）。",
+        "平台注册与使用差异最终在物理空间上表现为区位、建筑规模、建筑年龄与道路邻近性等属性的系统性差异。"
+      ],
+      "variable_relationships": "数字效用等级（NDTP/DTP/ADTP）为被解释/分类变量；空间属性（距CBD距离、距地铁站距离、距道路距离、道路等级、总建筑面积、层数、地下层数、建筑年龄、商业区划等）为解释变量；活动类别（Eating、Retail、Club、Education）为分组维度。",
+      "flow": [
+        "数字平台服务（注册、导航、评价、预约）→ 商家数字效用差异（NDTP/DTP/ADTP）→ 客流获取方式差异（增强可达性/既有可达性/竞争优先权）→ 物理空间属性系统性分异（距CBD、建筑规模、建筑年龄、道路邻近性）"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "通过网页爬取从NAVER（NAVER Place）获取DTP与ADTP数据；建筑信息来自韩国行政安全部（MOIS, 2023b），区划规划来自国土交通部（MOLIT, 2023b）；NDTP由仅有许可数据而未在NAVER可检索的场所界定；使用地理编码将不同来源数据对齐至相同建筑几何。",
+      "sample_period": "原文未说明",
+      "variables": [
+        "数字效用分类：NDTP（未使用数字平台）、DTP（注册于数字平台）、ADTP（使用平台预约等高级服务）",
+        "第三空间活动类别：Eating（餐饮）、Retail（零售与本地服务）、Club（俱乐部与组织）、Education（教育与休闲）",
+        "距CBD距离（Dist. CBD）",
+        "距地铁站距离（Dist. Station）",
+        "距道路距离（Dist. Road）",
+        "道路等级（Road Hierarchy）",
+        "总建筑面积（Total Floor Area）",
+        "层数（Num. Floors）",
+        "地下层数（Num. Underground Floors）",
+        "建筑年龄（Building Age）",
+        "商业区划（Commercial Zone）",
+        "邻近建筑属性（因多重共线性被剔除）"
+      ],
+      "econometric_models": "多项式Logit回归（MNL）作为基准分类模型；比较朴素贝叶斯（NB）、支持向量机（SVM）、随机森林（RF）多分类器；采用SHAP分析解释RF模型的非线性影响；辅以ANOVA F检验与均值比较；数据按8:2划分为训练集与测试集。",
+      "identification_strategy": "原文未说明（研究为分类与空间特征描述性分析，非因果识别设计）。",
+      "endogeneity_treatments": "原文未说明",
+      "robustness_checks": "原文未说明（正文缺失robustness章节）；仅报告了多分类器性能比较（MNL、NB、SVM、RF）作为模型选择依据。",
+      "key_tables_figures": [
+        "Fig. 1 研究流程图",
+        "Fig. 2 第三空间四类别示意",
+        "Fig. 4 地理编码流程",
+        "Table 2 各活动类别与数字效用等级的场所分布",
+        "Table 4 空间变量差异的统计显著性",
+        "Table 5 各活动类别空间变量均值比较",
+        "Table 6 多项式Logit回归结果",
+        "Table 7 MNL混淆矩阵与性能",
+        "Table 8 四类分类器性能比较",
+        "Fig. 5 各活动类别SHAP平均影响",
+        "Figs. 6–7 SHAP值对分类的影响",
+        "Fig. 8 500米网格内NDTP/DTP/ADTP分布与三大CBD",
+        "Fig. 9 距CBD距离条形图与街景案例",
+        "Fig. 10 道路相关案例",
+        "Fig. 11 建筑年龄条形图与案例",
+        "Fig. 12 活动类型与数字效用",
+        "Fig. 13 NDTP案例"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将DigiPlace、平台城市化等理论概念操作化为可测量的NDTP/DTP/ADTP分类，并以可解释AI连接数字平台使用与物理空间属性，为数字地理的实证研究提供了可复用的分析框架。",
+      "methodological_strengths": "多源数据（平台爬取数据+官方建筑与区划数据）经地理编码对齐至统一建筑几何；结合ANOVA、均值比较、多分类器比较与SHAP解释，并辅以地理空间案例验证，形成“统计—模型—空间”三层证据链。",
+      "limitations": [
+        "NDTP/DTP/ADTP分类与活动类别划分存在局限，ADTP样本稀缺导致数据不平衡，泛化性需更全面数据集检验（作者自述）。",
+        "研究结论具有情境依赖性，仅聚焦首尔，国际推广需进一步研究（作者自述）。",
+        "数字整合范围仅限服务提供者的平台使用，未覆盖其他数字技术维度（作者自述）。",
+        "导读所依据文本缺失robustness章节，稳健性检验情况无法确认。",
+        "数字效用以是否注册/使用NAVER Place代理，可能无法完全反映实际数字技术使用强度。"
+      ],
+      "identification_problems": "研究本质为分类与空间特征描述，未构建因果识别策略，无法排除空间属性与平台使用之间的双向因果（如区位本身影响商家是否注册平台）及遗漏变量问题；原文未说明内生性处理。",
+      "alternative_explanations": "NDTP/DTP/ADTP之间的空间差异可能由行业类型构成差异、租金与地价梯度、建筑存量历史、商业区划管制等非数字因素驱动，而非数字平台使用本身；平台注册也可能反映商家营销能力或连锁品牌属性而非数字技术需求。",
+      "unresolved_questions": [
+        "数字平台使用与空间属性之间是否存在因果方向，抑或仅为相关？",
+        "ADTP样本稀缺是否导致其空间特征估计不稳定？",
+        "平台使用强度（如评价数量、预约频率）能否细化数字效用度量？",
+        "结论在数字化普及率较低或平台生态不同的城市是否成立？"
+      ],
+      "follow_up_topics": [
+        "在更多国际城市复制该NDTP/DTP/ADTP分类框架以检验外部效度。",
+        "引入面板或准实验设计识别平台使用对区位与建筑选择的因果效应。",
+        "扩展数字技术维度（如社交媒体、外卖平台、共享经济平台）的测量。",
+        "结合消费者移动数据验证“增强可达性”与“竞争优先权”机制。",
+        "研究平台算法排名（DigiPlace）对物理空间重构的长期动态。"
+      ]
+    },
+    "key_concepts": [
+      "第三空间（Third Places）",
+      "数字地理（Digital Geography）",
+      "平台城市化（Platform Urbanism）",
+      "DigiPlace",
+      "NDTP/DTP/ADTP（数字效用等级）",
+      "可解释AI（Explainable AI）",
+      "SHAP",
+      "增强可达性"
+    ],
+    "reading_recommendations": [
+      "Castells (2000, 2002) 关于“流动空间”与网络社会的论述",
+      "Zook & Graham (2007a,b) 关于DigiPlace的原始文献",
+      "Ash et al. (2018) 关于“数字转向”的讨论",
+      "Caprotti et al. (2022) 关于平台城市化的界定",
+      "Oldenburg & Brissett (1982) 关于第三空间的经典论述",
+      "Guo et al. (2022) 关于城市空间活动三分类的研究",
+      "Dadashpoor & Yousefi (2018)、Yousefi & Dadashpoor (2020) 关于数字技术空间影响的实证框架讨论"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:41:19.732084+00:00",
+    "source_chars": 95251,
+    "processed_chars": 24324,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results",
+      "theory"
+    ],
+    "missing_sections": [
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 5844,
+    "output_tokens": 2399,
+    "duration_seconds": 19.3
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "cat": "A-020",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "创新政策",
+      "政策评估",
+      "治理研究"
+    ],
+    "keywords": [
+      "政策组合",
+      "政策评估",
+      "治理",
+      "智慧专业化战略",
+      "可持续转型",
+      "创业发现过程",
+      "地方导向创新政策"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "政策组合概念在创新政策文献中流行，但智慧专业化战略等新型地方导向创新政策具有方向性、垂直性和实验性等特征，对政策组合评估的治理提出新挑战，现有研究对此缺乏分析。",
+      "research_question": "新型地方导向创新政策（特别是智慧专业化战略）的政策组合具有哪些独特特征？这些特征如何塑造政策组合评估的治理挑战？应如何构建适应这些挑战的评估治理框架？",
+      "hypotheses": [
+        "原文未说明（理论/概念性论文，未提出可检验假说）"
+      ],
+      "main_findings": [
+        "智慧专业化战略的政策组合具有方向性、垂直性（多层级）和实验性（创业发现过程）三个关键特征，这些特征对评估治理构成挑战。",
+        "政策组合评估需要从以问责为导向转向以战略学习为导向，并将利益相关者置于评估过程的核心（赋权评估原则）。",
+        "评估治理存在三种可能模式，对应不同的政策组合复杂性场景；智慧专业化战略对应最复杂的治理模式，但三种模式可在系统评估框架中共存。",
+        "巴斯克地区的案例表明，新的硬治理（跨部门委员会）和软治理（指导小组）安排有助于政策组合治理，但评估仍是薄弱环节，且软硬治理之间的连接对方向性传导至关重要。"
+      ],
+      "contributions": [
+        "将政策组合概念与智慧专业化战略及可持续转型文献相联系，识别出地方导向创新政策组合的方向性、垂直性和实验性特征。",
+        "提出政策组合评估治理的概念框架，区分三种治理模式，并强调评估作为战略学习工具的必要性。",
+        "通过巴斯克地区案例illustrate政策组合评估治理挑战，为后续研究提供概念基础。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "政策组合理论（第三代政策设计理论）、智慧专业化战略理论（创业发现过程）、可持续转型文献、评估治理理论（社会学习、赋权评估、利益相关者评估）。",
+      "key_assumptions": [
+        "智慧专业化战略依赖创业发现过程（EDP），涉及四螺旋主体（政府、企业、研究、公民社会），是一个高度多元主义的治理情境。",
+        "政策组合不仅包括工具，还包括政策制定过程及其特征（一致性、连贯性、可信性、全面性）。",
+        "政策组合的方向性意味着在不同创新活动之间做出选择，可能引发利益冲突。",
+        "多层级治理下，不同政府层级的目标和工具可能不一致，需要协调机制。",
+        "评估可以作为一种社会学习过程，而不仅仅是问责工具。"
+      ],
+      "mechanisms": [
+        "创业发现过程（EDP）作为智慧专业化战略的核心治理过程，通过多元主体互动识别区域优先领域，塑造政策组合的方向性。",
+        "政策组合的垂直性（多层级）和方向性导致利益冲突和协调失败，需要新的治理安排（硬治理和软治理）来整合不同层级和部门的政策。",
+        "评估治理通过社会学习和赋权评估，将利益相关者置于评估核心，促进集体战略智能，从而反馈到政策组合调整和EDP的持续运行。",
+        "硬治理（跨部门委员会）和软治理（指导小组）之间的连接影响方向性从EDP向政策组合的传导。"
+      ],
+      "variable_relationships": "政策组合的特征（方向性、垂直性、实验性）→ 评估治理挑战（利益相关者多元、利益冲突、协调需求）→ 评估范式转变（从问责到战略学习）→ 评估治理模式（三种模式）→ 政策组合调整与EDP改进。",
+      "flow": [
+        "智慧专业化战略特征（方向性、垂直性、实验性）→ 政策组合复杂性",
+        "政策组合复杂性 → 评估治理挑战（多元利益、多层级协调、实验性学习需求）",
+        "评估治理挑战 → 评估范式从问责转向战略学习",
+        "战略学习导向的评估 → 赋权评估/利益相关者评估等治理模式",
+        "评估治理模式 → 政策组合调整与EDP持续改进"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "不适用（理论论文）；案例部分基于二手文献分析和超过15次非正式访谈的灰色数据（与区域政策制定者和利益相关者）。",
+      "sample_period": "原文未说明",
+      "variables": [
+        "不适用（理论论文）"
+      ],
+      "econometric_models": "不适用（理论论文）",
+      "identification_strategy": "不适用（理论论文）",
+      "endogeneity_treatments": "不适用（理论论文）",
+      "robustness_checks": "不适用（理论论文）",
+      "key_tables_figures": [
+        "Fig. 1. Three governance modes for policy-mix evaluation.",
+        "Table 1. A summary of challenges for policy-mix evaluation governance."
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文将政策组合概念置于智慧专业化战略和可持续转型的背景下，识别出方向性、垂直性和实验性三个关键特征，并提出了评估治理的概念框架，连接了政策组合文献与评估治理文献，对理解地方导向创新政策的治理挑战具有理论意义。",
+      "methodological_strengths": "采用概念分析和案例illustration相结合的方式，逻辑清晰地构建了从政策组合特征到评估治理挑战的分析链条，并提出了可操作的治理模式分类。",
+      "limitations": [
+        "本文为概念性论文，缺乏系统的实证检验或大样本数据支持。",
+        "案例部分主要基于二手文献和灰色数据，未说明访谈的具体方法和分析过程。",
+        "未提供评估治理模式的操作化指标或具体评估方法。",
+        "对三种治理模式的边界和适用条件未做深入探讨。"
+      ],
+      "identification_problems": "不适用（理论论文）；但案例illustration的选择性可能影响结论的外部效度。",
+      "alternative_explanations": "政策组合评估治理的挑战也可能源于行政能力不足、政治意愿缺乏或制度路径依赖，而非仅由政策组合的特征决定。",
+      "unresolved_questions": [
+        "如何具体操作化赋权评估和利益相关者评估以适用于智慧专业化战略的政策组合评估？",
+        "三种评估治理模式在什么条件下相互替代或互补？",
+        "如何衡量评估作为战略学习工具的效果？",
+        "硬治理和软治理之间的连接机制如何影响政策组合的方向性传导？"
+      ],
+      "follow_up_topics": [
+        "智慧专业化战略政策组合评估的实证研究",
+        "评估治理模式在不同区域情境下的比较研究",
+        "创业发现过程与政策组合动态演化的关系研究",
+        "可持续转型背景下政策组合评估的治理框架"
+      ]
+    },
+    "key_concepts": [
+      "政策组合（Policy Mix）",
+      "智慧专业化战略（Smart Specialisation Strategies）",
+      "创业发现过程（Entrepreneurial Discovery Process, EDP）",
+      "地方导向创新政策（Place-based Innovation Policy）",
+      "评估治理（Evaluation Governance）",
+      "社会学习（Social Learning）",
+      "赋权评估（Empowerment Evaluation）",
+      "方向性（Directionality）",
+      "垂直性（Verticality）",
+      "实验性（Experimentalism）"
+    ],
+    "reading_recommendations": [
+      "Flanagan, K., Uyarra, E., Laranja, M. (2011). Reconceptualising the 'policy mix' for innovation. Research Policy.",
+      "Borrás, S., Edquist, C. (2013). The choice of innovation policy instruments. Technological Forecasting and Social Change.",
+      "Rogge, K.S., Reichardt, K. (2016). Policy mixes for sustainability transitions: An extended concept and framework for analysis. Research Policy.",
+      "Foray, D. (2015). Smart Specialisation: Opportunities and Challenges for Regional Innovation Policy. Routledge.",
+      "Aranguren, M.J., et al. (2016). Smart specialisation strategies: An analysis of the Basque Country. (原文引用)"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:35:29.896293+00:00",
+    "source_chars": 73120,
+    "processed_chars": 27325,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "intro",
+      "theory"
+    ],
+    "missing_sections": [
+      "data",
+      "methods",
+      "results",
+      "robustness"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 5948,
+    "output_tokens": 1838,
+    "duration_seconds": 13.9
+  }
+}

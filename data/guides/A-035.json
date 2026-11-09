@@ -1,0 +1,158 @@
+{
+  "cat": "A-035",
+  "classification": {
+    "fields": [
+      "空间计量经济学",
+      "区域经济学",
+      "计量经济学"
+    ],
+    "keywords": [
+      "空间计量经济学",
+      "空间自相关",
+      "空间滞后",
+      "空间误差",
+      "RSUE",
+      "学科发展史"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "作者旨在回顾空间计量经济学自20世纪70年代初创立以来的发展阶段，特别是以RSUE（Regional Science and Urban Economics）期刊发表成果为代表，并对未来发展方向进行展望。",
+      "research_question": "空间计量经济学作为一个学科领域经历了哪些发展阶段？各阶段的关注焦点、学者学科构成和发表渠道有何变化？未来可能的发展方向是什么？",
+      "hypotheses": [
+        "原文未说明（本文为回顾与展望性文章，未提出可检验的研究假说）"
+      ],
+      "main_findings": [
+        "空间计量经济学的发展可划分为三个时期：成长期前提条件（20世纪70年代初至80年代末）、起飞期（20世纪90年代）和稳态期（2000年以后）。",
+        "每个时期都以关注焦点的变化、参与学者学科构成的演变和发表渠道的多样化为特征。",
+        "1971–1990年间RSUE发表了七篇明确涉及空间计量经济学主题的文章（见表1），与Geographical Analysis和Environment and Planning A并列为该领域主要发表渠道。",
+        "1990年代RSUE在1992年出版了首个完全 devoted to 空间计量经济学的期刊专刊，但此后到1990年代末该领域在RSUE中的呈现较为稀疏，仅再发表两篇文章（见表2）。",
+        "2000年以后出现重大转折，空间计量经济学的理论和应用论文数量大幅增加，RSUE在21世纪前五卷中发表了四篇方法论文章和九篇应用论文（见表3）。",
+        "空间计量经济学现已被广泛应用于房地产经济学、环境经济学、公共经济学和区域经济学的实证研究中。",
+        "RSUE中最明显缺席的主题是经济增长收敛的空间计量分析，而这是区域经济学中实证空间计量经济学的主要线索之一。"
+      ],
+      "contributions": [
+        "提供了空间计量经济学学科发展史的三阶段划分框架。",
+        "系统梳理了RSUE期刊在空间计量经济学发展中的角色演变。",
+        "基于理论、数据、方法和计算四个驱动力展望了空间计量经济学的未来方向。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "空间计量经济学的学科演进理论，以关注焦点变化、学者学科构成演变和发表渠道多样化三个维度刻画学科发展阶段。",
+      "key_assumptions": [
+        "空间计量经济学的发展可划分为三个可识别的阶段：成长期前提条件、起飞期和稳态期。",
+        "每个阶段以关注焦点、学者学科构成和发表渠道的变化为特征。",
+        "理论、数据、方法和计算是驱动空间计量经济学发展的四个力量。"
+      ],
+      "mechanisms": [
+        "理论进步（社会与空间互动）和技术进步（地理信息系统）刺激了经济学及其他社会科学对空间分析的兴趣增长。",
+        "主流理论计量经济学家的关注和顶级计量经济学期刊的发表推动了领域的成熟和合法化。",
+        "计算能力的提升和可及软件的出现降低了空间计量方法的应用门槛。",
+        "数据可得性的变化（传感器、实时位置记录等）将驱动对更复杂空间计量方法的需求。"
+      ],
+      "variable_relationships": "原文未说明（本文为学科回顾与展望，未建立变量间的因果或统计关系模型）。",
+      "flow": [
+        "理论进步（社会与空间互动）→ 空间分析兴趣增长",
+        "技术进步（GIS）→ 空间分析兴趣增长",
+        "主流计量经济学家的关注 → 领域成熟与合法化",
+        "计算能力提升与软件可及 → 应用门槛降低",
+        "数据可得性变化 → 对更复杂空间计量方法的需求"
+      ]
+    },
+    "methods": {
+      "paper_type": "theoretical",
+      "data_sources": "原文未说明（本文为学科回顾与展望性文章，非实证研究；分析对象为RSUE期刊发表文献的编目与分类）",
+      "sample_period": "1971年至2007年（回顾覆盖1971–2000年及2000年后至发表时的文献）",
+      "variables": [
+        "原文未说明（非实证研究，无变量定义）"
+      ],
+      "econometric_models": "不适用（理论论文）",
+      "identification_strategy": "不适用（理论论文）",
+      "endogeneity_treatments": "不适用（理论论文）",
+      "robustness_checks": "不适用（理论论文）",
+      "key_tables_figures": [
+        "Table 1：Spatial econometrics in RSUE — 1971 to 1990（列出七篇文献）",
+        "Table 2：Spatial econometrics in RSUE — the 1990s（列出1992年专刊及后续文献）",
+        "Table 3：Spatial econometrics in RSUE — Post 2000（列出四篇方法论文章和九篇应用论文）"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "本文作为学科发展史的回顾性文章，提出了空间计量经济学三阶段划分框架（成长期前提条件、起飞期、稳态期），并以关注焦点、学者学科构成和发表渠道三个维度刻画各阶段特征，为理解该学科的演进提供了组织性框架。",
+      "methodological_strengths": "以RSUE期刊为窗口，通过文献编目（表1–3）系统呈现了空间计量经济学在该期刊中的发表轨迹，将学科发展与具体文献对应，具有较强的史料价值。",
+      "limitations": [
+        "本文为回顾与展望性文章，非系统性文献计量研究，文献选取和阶段划分带有作者主观判断。",
+        "正文为部分节选，缺失intro、theory、data、results、robustness、conclusion等章节，导读仅能依据已给出文本填写，部分信息无法确认。",
+        "对未来的展望部分基于推测，缺乏可检验的预测框架。",
+        "以单一期刊（RSUE）为分析窗口，可能无法全面反映空间计量经济学在整个学科中的发展全貌。"
+      ],
+      "identification_problems": "不适用（本文为回顾与展望性文章，非实证研究，不存在因果识别问题）。",
+      "alternative_explanations": "原文未说明（本文为学科史回顾，未讨论替代性解释）。",
+      "unresolved_questions": [
+        "空间计量经济学未来在理论、数据、方法和计算四个驱动力下将如何具体演变？",
+        "为何经济增长收敛的空间计量分析在RSUE中明显缺席？",
+        "RSUE期刊未来在空间计量经济学发表版图中的地位将如何变化？"
+      ],
+      "follow_up_topics": [
+        "空间计量经济学在经济增长收敛分析中的应用。",
+        "社会与空间网络、agent based models对空间计量方法的需求。",
+        "计算算法与并行化在空间计量中的应用。",
+        "传感器和实时位置数据对空间计量方法的挑战与机遇。"
+      ]
+    },
+    "key_concepts": [
+      "空间计量经济学",
+      "空间自相关",
+      "空间滞后模型",
+      "空间误差模型",
+      "空间依赖",
+      "地理信息系统",
+      "空间计量经济学协会"
+    ],
+    "reading_recommendations": [
+      "Anselin (1988)：空间计量经济学的正式定义与框架",
+      "Anselin et al. (2004)：空间计量经济学在经济学期刊中的传播概览",
+      "Cliff and Ord (1981)：空间自相关分析的经典著作（爱尔兰县数据）",
+      "Fisher (1971)：RSUE首篇涉及空间依赖的计量估计文章",
+      "Kelejian and Prucha (2002)：空间自回归模型中的2SLS与OLS"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:39:55.572985+00:00",
+    "source_chars": 25209,
+    "processed_chars": 14504,
+    "completeness": "partial",
+    "included_sections": [
+      "abstract",
+      "methods"
+    ],
+    "missing_sections": [
+      "intro",
+      "theory",
+      "data",
+      "results",
+      "robustness",
+      "conclusion"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 3789,
+    "output_tokens": 1519,
+    "duration_seconds": 12.2
+  }
+}

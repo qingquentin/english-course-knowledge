@@ -1,0 +1,177 @@
+{
+  "cat": "A-009",
+  "classification": {
+    "fields": [
+      "区域经济学",
+      "城市经济学",
+      "创新经济学",
+      "组织经济学"
+    ],
+    "keywords": [
+      "邻近性",
+      "知识溢出",
+      "社会互动",
+      "联合办公空间",
+      "技术采纳",
+      "初创企业",
+      "面对面互动"
+    ]
+  },
+  "guide": {
+    "overview": {
+      "research_motivation": "知识扩散具有高度本地化特征，理论上认为知识（尤其是隐性知识）通过面对面互动传播；但办公室作为默认工作组织形式正受到质疑，在高度数字化和全球化的劳动力背景下如何组织工作空间成为企业关注的核心问题。现有研究对物理邻近性在数字化工作环境中如何影响知识交换仍探讨不足，尤其是对初创企业这一情境。",
+      "research_question": "在联合办公空间中，物理邻近性是否以及如何影响初创企业之间的知识溢出（以同伴技术采纳为代理）？物理邻近性与非地理相似性（性别构成、产品市场、知识空间）如何交互？社会互动是否是邻近性影响知识溢出的机制？",
+      "hypotheses": [
+        "物理邻近性（距离更近）增加初创企业从同伴企业采纳技术的概率和数量。",
+        "物理邻近性与非地理相似性（性别、产品市场、知识空间）在促进知识溢出上互为替代：物理邻近对 dissimilar 的初创企业 dyad 益处更大。",
+        "物理邻近性通过促进社会互动（如共同参加午餐活动）这一机制影响技术采纳。",
+        "同伴影响会延伸到企业绩效。"
+      ],
+      "main_findings": [
+        "距离翻倍使同伴技术采纳数量减少约3.5%、采纳概率减少约1.7%，均在1%水平显著。",
+        "位于20米以内（距离分布第一四分位数）的初创企业 dyad 采纳同伴技术的概率高约2.5个百分点，采纳数量（对数）高约0.048。",
+        "20米以外的同层初创企业 dyad 表现得如同位于不同楼层，即邻近效应在极短距离内最强。",
+        "两个均为女性主导的初创企业 dyad 克服了距离折扣；物理邻近与产品市场相似性互为替代（交互项为负，抵消约60%的邻近效应）。",
+        "社会互动（共同参加午餐活动）与邻近性和技术采纳相关，支持社会互动作为机制。",
+        "同伴影响延伸到企业绩效。"
+      ],
+      "contributions": [
+        "在微观地理层面（房间级别）识别物理邻近性对知识工作者的知识溢出效应。",
+        "将物理邻近性与多种非地理相似性维度结合，揭示替代关系。",
+        "利用外生办公室分配和细粒度技术采纳数据，缓解内生地理聚集问题。",
+        "为后疫情时代办公室与远程工作的组织设计提供实证依据。"
+      ]
+    },
+    "mechanism": {
+      "theoretical_foundations": "知识扩散本地化理论（Jacobs 1969; Gaspar and Glaeser 1998）、面对面互动传播隐性知识、Festinger et al. (1950) 的邻近性与友谊形成研究、启动成本（initiation costs）摩擦理论（Sandvik et al. 2020; Catalini et al. 2020）、吸收能力理论（Cohen and Levinthal 1990; Todorova and Durisin 2007）、社会互动与信任（Granovetter 1973; Rogers 2010）。",
+      "key_assumptions": [
+        "办公室分配是外生的（基于等待名单，技术初创企业优先于服务提供商、本地优先于非本地），与 dyad 特征不相关。",
+        "同伴技术采纳可作为知识溢出的代理变量。",
+        "同一楼层内的步行距离能反映实际互动机会。",
+        "控制 start-up × room 固定效应后，距离系数仅来自 dyad 层面的距离变异。"
+      ],
+      "mechanisms": [
+        "物理邻近降低启动成本（initiation costs），增加社会互动发生的概率。",
+        "社会互动帮助理解他人背景、挑战、语言和技能，提升吸收能力，促进外部知识处理。",
+        "频繁互动建立情感亲近、亲密和信任，使来自可信来源的信息更易被接受。",
+        "面对面互动更高效地传递复杂、新颖的隐性知识，而这类知识难以通过网页搜索获得。"
+      ],
+      "variable_relationships": "物理距离（越近）→ 社会互动概率上升 → 信任与吸收能力提升 → 同伴技术采纳概率与数量上升；非地理相似性（性别、产品市场、知识空间）与物理邻近性互为替代，即相似性高时邻近性的边际作用下降。",
+      "flow": [
+        "物理邻近性（≤20m）→ 降低启动成本/增加偶遇 → 社会互动（共同午餐等）→ 信任与吸收能力 → 同伴技术采纳 → 企业绩效"
+      ]
+    },
+    "methods": {
+      "paper_type": "empirical",
+      "data_sources": "美国五大科技联合办公空间之一（2016年）的行政数据；BuiltWith.com 网络技术使用数据（覆盖超过25,000种网络技术，按周追踪）；AngelList 行业分类；对初创企业的广泛网络搜索；美国人口普查姓名性别列表。",
+      "sample_period": "2014年8月至2017年1月，共30个月。",
+      "variables": [
+        "因变量 ln(AdoptCountij+1)：startupi 从 startupj 采纳的新技术数量（对数）。",
+        "因变量 1(AdoptTechij)：startupi 是否从 startupj 采纳至少一种新技术。",
+        "核心自变量 ln(distanceij)：同层两房间之间最短步行距离（米）的自然对数，用 space syntax 软件计算。",
+        "核心自变量 Close：距离在20米以内（距离分布第25百分位）取1。",
+        "Common Area：两房间最短路径是否直接经过公共区域（厨房、电梯前区域、二楼开放休息区）。",
+        "Preperiod Technology Overlap：两家企业同时入驻前 startupi 已从 startupj 采纳的技术比例。",
+        "Same Industry、Both B2B Companies、Both B2C Companies、Both Majority Female、|tenurei-tenurej|、Both Successful、Nongeographically distant。"
+      ],
+      "econometric_models": "OLS 与线性概率模型：Yij = γ ln(distanceij) + Xij + θi + φj + η（式1）；Yij = β Closeij + Xij + θi + φj + η（式2），其中 θi、φj 为 Roomi×Startupi 和 Roomj×Startupj 固定效应；并将 Close 与相似性变量交互。",
+      "identification_strategy": "利用联合办公空间基于等待名单的外生办公室分配；Table 1 显示 dyad 特征不预测物理距离，验证外生分配假设；使用 start-up×room 固定效应吸收时间不变的企业特征，使 γ 仅来自 dyad 层面距离变异；聚焦 startupi 采纳 startupj 已使用的投入要素以处理情境污染。",
+      "endogeneity_treatments": "通过外生办公室分配处理内生地理聚集；通过 start-up×room 固定效应处理个体异质性；通过聚焦同伴已使用技术处理情境效应；采用 dyad 稳健标准误（按楼层-邻域聚类，15个聚类）处理 dyad 数据相关性和邻近结果相关。",
+      "robustness_checks": "排除控制变量的模型（附录表A5、A6）；不同聚类变量（附录表A7）；排除“搬迁者”后结果类似；按楼层、Roomi/Roomj、Firmi/Firmj、Firmi×Room/Firmj×Room 等不同层级聚类；Huber–White 异方差稳健标准误；计算房间 remoteness 度量并与 Close 交互（交互项不显著）；构建企业层面“退出”虚拟变量检验房间条件担忧；随机化检验（均值相关接近零，5%结果在5%水平显著）。",
+      "key_tables_figures": [
+        "Table 1：dyad 特征不预测地理邻近性（OLS）",
+        "Table 2：企业与 dyad 层面描述统计",
+        "Table 3：物理邻近性正向影响同伴技术采纳（基准回归）",
+        "Figure 1：联合办公空间楼层平面图",
+        "Figure 2：距离四分位数对技术采纳影响的图形结果",
+        "Table 5：物理邻近性与相似性的交互",
+        "Table 6：社会互动（共同午餐）结果"
+      ]
+    },
+    "critique": {
+      "theoretical_contributions": "将邻近性文献从区域/城市尺度推进到房间级微观地理尺度，并把物理邻近性与多种非地理相似性（性别、产品市场、知识空间）整合进同一分析框架，提出替代关系而非单纯互补关系的视角；同时把社会互动（共同午餐）作为可观测机制引入知识溢出研究。",
+      "methodological_strengths": "外生办公室分配提供了较强的识别基础；房间级步行距离（space syntax）比欧氏距离更贴近实际互动；BuiltWith 周度技术采纳数据提供了细粒度、时间精确的结果变量；start-up×room 固定效应与 dyad 稳健标准误处理了主要相关性问题；随机化检验与多种聚类稳健性增强了可信度。",
+      "limitations": [
+        "原文标注缺失 theory 章节，理论模型框架无法从现有文本确认，导读对理论机制的归纳基于背景与讨论部分的引述。",
+        "单一联合办公空间、单一国家、特定行业（数字技术、金融科技、软件开发、营销科技）样本，外部效度有限。",
+        "技术采纳作为知识溢出的代理可能遗漏其他形式的知识流动（如管理经验、商业模式）。",
+        "社会互动仅以共同午餐作为代理，无法完整刻画互动强度与内容。",
+        "原文未说明绩效结果的具体变量定义与完整回归结果（正文节选不完整）。"
+      ],
+      "identification_problems": "外生分配假设依赖等待名单机制，但作者承认存在初创企业为等待“更好”房间而留在等待名单上的潜在威胁（作者称未在数据中检测到）；企业可能因房间条件差而退出；同一楼层内的房间位置仍可能与未观测的 dyad 特征相关；技术采纳可能存在共同冲击（如行业趋势）而非同伴影响。",
+      "alternative_explanations": "邻近企业可能因相似的未观测需求而采纳相同技术（共同冲击）；企业可能因观察到同伴的网站表现而非互动而模仿；联合办公空间的筛选机制可能使邻近企业本身更相似；午餐共同出席可能反映既有友谊而非邻近性导致。",
+      "unresolved_questions": [
+        "社会互动的具体内容与质量如何影响知识溢出？",
+        "邻近效应是否随时间衰减或累积？",
+        "在远程/混合办公情境下，微观邻近性的作用如何变化？",
+        "技术采纳之外，邻近性是否影响创新产出与生存率？",
+        "性别少数群体克服距离折扣的具体机制是什么？"
+      ],
+      "follow_up_topics": [
+        "混合办公与远程办公下微观地理邻近性的作用",
+        "联合办公空间中社会网络形成与知识溢出的动态过程",
+        "不同知识类型（隐性 vs 显性）对邻近性敏感度的差异",
+        "邻近性对初创企业长期绩效与生存的影响",
+        "政策或空间设计干预（如公共区域布局）的因果效应"
+      ]
+    },
+    "key_concepts": [
+      "物理邻近性",
+      "知识溢出",
+      "社会互动",
+      "启动成本（initiation costs）",
+      "吸收能力",
+      "技术栈（tech stack）",
+      "非地理相似性",
+      "dyad 分析",
+      "外生办公室分配"
+    ],
+    "reading_recommendations": [
+      "Festinger, Schachter, and Back (1950) 关于邻近性与友谊形成的研究",
+      "Catalini et al. (2020) 关于启动成本与协作摩擦的研究",
+      "Atkin et al. (2022) 关于面对面互动与知识转移的研究",
+      "Roche (2023) 关于邻近性与知识溢出的研究",
+      "Manski (1993) 关于同伴效应识别的经典讨论",
+      "Kabo et al. (2014, 2015) 关于 space syntax 测量办公空间距离的方法"
+    ]
+  },
+  "review": {
+    "status": "draft",
+    "last_updated": null,
+    "note": "AI 生成初稿，未经人工复核"
+  },
+  "generation": {
+    "model": "deepseek-chat",
+    "prompt_version": "guide-v2",
+    "generated_at": "2026-11-09T05:32:25.754594+00:00",
+    "source_chars": 101928,
+    "processed_chars": 39173,
+    "completeness": "full",
+    "included_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "intro",
+      "methods",
+      "results",
+      "robustness"
+    ],
+    "missing_sections": [
+      "theory"
+    ],
+    "generated_sections": [
+      "overview",
+      "mechanism",
+      "methods",
+      "critique",
+      "key_concepts",
+      "reading_recommendations"
+    ],
+    "analytical_sections": [
+      "critique"
+    ],
+    "input_tokens": 10372,
+    "output_tokens": 2436,
+    "duration_seconds": 21.2
+  }
+}

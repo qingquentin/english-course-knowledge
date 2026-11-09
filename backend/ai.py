@@ -6,6 +6,8 @@
 """
 import json
 import os
+import re
+import time
 from pathlib import Path
 
 import httpx
@@ -116,3 +118,123 @@ async def stream_answer(question: str, sources: list[dict]):
         yield "done", {}
     except httpx.HTTPError as e:
         yield "error", {"message": f"调用 DeepSeek 失败：{type(e).__name__} {e}"}
+
+
+# ---------- 非流式 JSON 补全（导读生成用） ----------
+
+class GenerationError(Exception):
+    """导读生成失败。携带可读信息，供 CLI 记日志。"""
+
+
+def _parse_json_content(content):
+    """把模型返回文本解析成 JSON 对象，容忍 ```json 围栏与前后杂质。"""
+    text = (content or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    start = text.find("{")
+    end = text.rfind("}")
+    if start != -1 and end > start:
+        try:
+            return json.loads(text[start:end + 1])
+        except json.JSONDecodeError:
+            pass
+    raise GenerationError("模型输出不是合法 JSON")
+
+
+def _backoff_seconds(attempt, retry_after):
+    """指数退避；API 给了 Retry-After 则尊重（上限 30 秒）。"""
+    if retry_after:
+        try:
+            return max(1, min(int(retry_after), 30))
+        except (TypeError, ValueError):
+            pass
+    return min(2 ** attempt, 30)
+
+
+def complete_json(system, user, *, temperature=0.2, max_tokens=4000,
+                  retries=3, timeout=120.0):
+    """非流式 JSON 补全。
+
+    返回 (parsed_dict, usage)，usage 为 {"input_tokens", "output_tokens"}，
+    两项在 API 未返回时为 None，不伪造。失败抛 GenerationError。
+    """
+    key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
+    if not key:
+        raise GenerationError("未配置 DEEPSEEK_API_KEY")
+
+    payload = {
+        "model": MODEL,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+        "response_format": {"type": "json_object"},
+    }
+    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+
+    last_err = "生成失败"
+    for attempt in range(retries + 1):
+        try:
+            with httpx.Client(timeout=timeout) as client:
+                resp = client.post(f"{BASE_URL}/chat/completions", json=payload, headers=headers)
+        except httpx.HTTPError as e:
+            last_err = f"网络错误：{type(e).__name__} {e}"
+            if attempt < retries:
+                time.sleep(_backoff_seconds(attempt, None))
+                continue
+            raise GenerationError(last_err)
+
+        if resp.status_code == 429 or 500 <= resp.status_code < 600:
+            last_err = f"DeepSeek 返回 {resp.status_code}：{resp.text[:200]}"
+            if attempt < retries:
+                time.sleep(_backoff_seconds(attempt, resp.headers.get("retry-after")))
+                continue
+            raise GenerationError(last_err)
+
+        if resp.status_code != 200:
+            raise GenerationError(f"DeepSeek 返回 {resp.status_code}：{resp.text[:300]}")
+
+        try:
+            data = resp.json()
+            choice = data["choices"][0]
+            content = choice["message"]["content"]
+            finish = choice.get("finish_reason")
+            usage = data.get("usage") or {}
+        except (ValueError, KeyError, IndexError) as e:
+            last_err = f"响应解析失败：{type(e).__name__} {e}"
+            if attempt < retries:
+                time.sleep(_backoff_seconds(attempt, None))
+                continue
+            raise GenerationError(last_err)
+
+        # 被 max_tokens 截断时输出必然不完整，加大额度重试
+        if finish == "length":
+            last_err = "模型输出被 max_tokens 截断"
+            if attempt < retries:
+                payload["max_tokens"] = min(payload["max_tokens"] * 2, 16000)
+                time.sleep(_backoff_seconds(attempt, None))
+                continue
+            raise GenerationError(last_err)
+
+        try:
+            parsed = _parse_json_content(content)
+        except GenerationError as e:
+            last_err = str(e)
+            if attempt < retries:
+                time.sleep(_backoff_seconds(attempt, None))
+                continue
+            raise GenerationError(last_err)
+
+        return parsed, {
+            "input_tokens": usage.get("prompt_tokens"),
+            "output_tokens": usage.get("completion_tokens"),
+        }
+
+    raise GenerationError(last_err)
